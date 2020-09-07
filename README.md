@@ -1,5 +1,22 @@
 # kdc_frontend
 
+## Before started
+
+### Install yarn
+```
+npm install -g yarn
+```
+
+### Check
+```
+yarn --version
+```
+
+### Change source
+```
+yarn config set registry https://registry.npm.taobao.org -g
+```
+
 ## Project setup
 ```
 yarn install
