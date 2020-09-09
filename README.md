@@ -22,6 +22,11 @@ yarn config set registry https://registry.npm.taobao.org -g
 yarn install
 ```
 
+## Add new dependence
+```
+yarn add <package_name>
+```
+
 ### Compiles and hot-reloads for development
 ```
 yarn serve
