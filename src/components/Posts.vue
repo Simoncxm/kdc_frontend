@@ -1,6 +1,6 @@
 <template>
-    <div id="posts" v-if="posts.length">
-      <div v-for="post in posts" :key="post.id">
+    <div v-if="posts.length">
+      <div class="posts" v-for="post in posts" :key="post.id">
         <el-card>
           <el-avatar size="small" style="float: left"
                      :src="post.user.avatar">
@@ -12,13 +12,20 @@
 <!--          v-for-->
         </el-card>
       </div>
-      <el-pagination :current-page="page" background layout="prev, pager, next"
+      <el-pagination class="pagination" :current-page="page" background layout="prev, pager, next"
       :total="total"></el-pagination>
 <!--      @current-change="changePage"-->
     </div>
 </template>
 
-<style></style>
+<style>
+  .posts{
+    margin-top: 5px;
+  }
+  .pagination{
+    margin-top: 30px;
+  }
+</style>
 
 <script>
 export default {

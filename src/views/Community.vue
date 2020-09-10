@@ -2,9 +2,15 @@
     <div>
       <el-container class="mainbody">
         <el-container>
-          <el-header>
-            <span style="float: left">Community name</span>
-            <CreatePost style="float: right"></CreatePost>
+          <el-header class="theme-top">
+            <el-row>
+              <el-col :span="18">
+                <span style="float: left">Community name</span>
+              </el-col>
+              <el-col :span="6">
+                <CreatePost style="float: right"></CreatePost>
+              </el-col>
+            </el-row>
           </el-header>
           <el-main>
             <el-row>
@@ -48,14 +54,16 @@
 </template>
 <style>
   .mainbody{
-    background: aliceblue;
-    max-width: 1000px;
+    /*background: aliceblue;*/
+    max-width: 1300px;
   }
   .side-card{
     min-height: 100px;
+    max-width: 200px;
     margin-top: 10px;
   }
-
+  .theme-top{
+  }
 </style>
 <script>
 import CreatePost from '../components/CreatePost.vue';
