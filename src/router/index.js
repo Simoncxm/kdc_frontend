@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import PlayVideo from '@/views/PlayVideo.vue';
 import Home from '@/views/Home.vue';
+import PlayVideo from '@/views/PlayVideo.vue';
+import UploadVideo from '@/views/UploadVideo.vue';
 
 Vue.use(VueRouter);
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/play',
     name: 'PlayVideo',
     component: PlayVideo,
+  },
+  {
+    path: '/upload',
+    name: 'UploadVideo',
+    component: UploadVideo,
   },
 ];
 
