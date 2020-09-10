@@ -16,6 +16,7 @@
     "node-sass": "^4.14.1",
     "popper.js": "^1.16.1",
     "sass-loader": "^10.0.2",
+    "video.js": "^7.8.4",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
   },
