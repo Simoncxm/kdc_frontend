@@ -1,15 +1,15 @@
-import 'bootstrap';
 import Vue from 'vue';
+import VueCookies from 'vue-cookies';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App.vue';
 import router from './router';
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/js/bootstrap.min.js'
-
 Vue.config.productionTip = false;
 
+Vue.use(VueCookies);
 Vue.use(ElementUI);
 
 new Vue({

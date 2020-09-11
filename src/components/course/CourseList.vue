@@ -1,8 +1,7 @@
 <template>
   <el-row :gutter="20">
-    <el-col v-for="course in courses.filter(item =>
-        item.courseName.toLowerCase().indexOf(filter.toLowerCase()) !== -1 || filter === ''
-      )" :key="course.courseId" :xs="24" :sm="8" :md="6" class="mb-3">
+    <el-col v-for="course in courses" :key="course.courseId"
+      :xs="24" :sm="8" :md="6" class="mb-3">
       <a class="course-card img-hover pointer" @click="bindClazz(course)" >
         <el-row>
           <el-col :xs="9" class="course-pic">
@@ -31,20 +30,16 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-
 export default {
   name: 'CourseCard',
-  props: ['courses', 'filter'],
+  props: ['courses'],
   data: () => ({
     thisUserId: 123,
   }),
   computed: {
-    // ...mapGetters(['getUserId'])
   },
   methods: {
-    bindClazz(course) { // 跳转绑定班级
-      // console.log(course)
+    bindClazz(course) {
       this.$router.push(`/clazz/${course.courseId}`);
     },
   },

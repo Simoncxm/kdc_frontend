@@ -1,8 +1,7 @@
 <template>
   <el-row :gutter="20">
-    <el-col v-for="teacher in teachers.filter(item =>
-        item.teacherName.toLowerCase().indexOf(filter.toLowerCase()) !== -1 || filter === ''
-      )" :key="teacher.teacherId" :xs="24" :sm="8" :md="6" class="mb-3">
+    <el-col v-for="teacher in teachers" :key="teacher.teacherId"
+      :xs="24" :sm="8" :md="6" class="mb-3">
       <a class="teacher-card img-hover pointer" @click="bindTeac(teacher)" >
         <el-row>
           <el-col :xs="9" class="teacher-pic">
@@ -20,20 +19,16 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-
 export default {
   name: 'TeacherCard',
-  props: ['teachers', 'filter'],
+  props: ['teachers'],
   data: () => ({
     thisUserId: 123,
   }),
   computed: {
-    // ...mapGetters(['getUserId'])
   },
   methods: {
-    bindTeac(teacher) { // 跳转绑定老师
-      // console.log(teacher)
+    bindTeac(teacher) {
       this.$router.push(`/teacher/${teacher.teacherId}`);
     },
   },
