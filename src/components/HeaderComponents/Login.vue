@@ -10,8 +10,9 @@
         </el-input>
       </el-form-item>
       <div class="form-group-btn">
-        <el-button type="primary" @click="submitForm('loginForm')"
-          style="widht:200px;">登录
+        <el-button type="primary" class="btn-block" @click="submitForm('loginForm')"
+          style="widht:200px;">
+          登录
         </el-button>
       </div>
     </el-form>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'Login',
@@ -42,8 +44,26 @@ export default {
     submitForm() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          console.log(this.loginForm.account);
-          console.log(this.loginForm.password);
+          axios.post('/api/login', {
+            name: this.loginForm.account,
+            password: this.loginForm.password,
+          }).then((res) => {
+            if (res.data.code === 0) {
+              this.$notify({
+                title: '登录成功',
+                type: 'success',
+              });
+              this.$cookies.set('userID', res.data.id);
+              this.$cookies.set('userType', res.data.identity);
+              this.$router.go(0);
+            } else {
+              this.$notify({
+                title: '登录失败',
+                message: res.data.msg,
+                type: 'warning',
+              });
+            }
+          });
         }
       });
     },
