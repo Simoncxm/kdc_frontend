@@ -3,8 +3,8 @@
       <div  v-for="post in posts" :key="post.id">
         <div class="posts">
           <el-tag class="post-tags">讨论</el-tag>
-          <router-link :to="{name: 'Comments'}">
-            <span class="post-title">{{post.title}}</span>
+          <router-link class="post-title" :to="{name: 'Comments'}">
+            <span >{{post.title}}</span>
           </router-link>
           <span class="post-name">{{post.user.name}}</span>
           <div class="posts-avatar">
