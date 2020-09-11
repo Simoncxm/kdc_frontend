@@ -1,68 +1,95 @@
 <template>
-    <div>
-      <el-container class="mainbody">
+    <div class="mainBody">
+      <el-container class="container">
+        <el-header class="theme-top">
+          <el-row>
+            <el-col :span="18">
+              <span class="name">知识社区</span>
+            </el-col>
+          </el-row>
+        </el-header>
         <el-container>
-          <el-header class="theme-top">
-            <el-row>
-              <el-col :span="18">
-                <span style="float: left">Community name</span>
-              </el-col>
-              <el-col :span="6">
-                <CreatePost style="float: right"></CreatePost>
-              </el-col>
-            </el-row>
-          </el-header>
           <el-main>
             <el-row>
-              <el-col :span="24">
-                <router-view></router-view>
-              </el-col>
+              <el-tabs type="border-card" shadow="never"
+                       v-model="activeName" @tab-click="handleClick">
+                <el-tab-pane label="看帖" name="first">
+                  <router-view></router-view>
+                </el-tab-pane>
+                <el-tab-pane label="精华" name="second">精华</el-tab-pane>
+                <el-tab-pane label="学习讨论" name="third">学习讨论</el-tab-pane>
+                <el-tab-pane label="问题提问" name="fourth">问题提问</el-tab-pane>
+              </el-tabs>
             </el-row>
           </el-main>
+          <el-aside class="side">
+            <el-row>
+              <el-col :span="24">
+                <el-card shadow="hover" class="side-card">
+                  <div>
+                    <span>个人信息（积分活跃度）</span>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-card shadow="hover" class="side-card">
+                  <div>
+                    <span>教师简介，课程内容</span>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-card shadow="hover" class="side-card">
+                  <div>
+                    <span>直播录播入口</span>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col>
+                <CreatePost style="margin-top: 4px"></CreatePost>
+              </el-col>
+            </el-row>
+          </el-aside>
         </el-container>
-        <el-aside>
-          <el-row>
-            <el-col :span="24">
-              <el-card class="side-card">
-                <div>
-                  <span>个人信息（积分活跃度）</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-card class="side-card">
-                <div>
-                  <span>教师简介，课程内容</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="24">
-              <el-card class="side-card">
-                <div>
-                  <span>直播录播入口</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-        </el-aside>
       </el-container>
     </div>
 </template>
 <style>
-  .mainbody{
+  .el-main{
+    padding: 5px;
+  }
+  .mainBody{
     /*background: aliceblue;*/
-    max-width: 1300px;
+    display: flex;
+    justify-content: center;
+  }
+  .container{
+    max-width: 1000px;
+    min-width: 1000px;
+  }
+  .side{
+    max-width: 150px;
   }
   .side-card{
-    min-height: 100px;
-    max-width: 200px;
-    margin-top: 10px;
+    margin-top: 4px;
   }
   .theme-top{
+    margin-top: 10px;
+  }
+  .name{
+    font-weight: bold;
+    font-size: x-large;
+    font-size: x-large;
+    float: left;
+  }
+  .el-tabs__item{
+    font-size: large;
   }
 </style>
 <script>
@@ -73,7 +100,9 @@ export default {
     CreatePost,
   },
   data() {
-    return {};
+    return {
+      activeName: 'first',
+    };
   },
 };
 </script>

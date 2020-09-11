@@ -1,16 +1,17 @@
 <template>
-    <div v-if="posts.length">
-      <div class="posts" v-for="post in posts" :key="post.id">
-        <el-card>
-          <el-avatar size="small" style="float: left"
-                     :src="post.user.avatar">
-          </el-avatar>
-          <span style="float: left">{{post.title}}</span>
-          <el-button style="float: right" type="danger">删除</el-button>
-<!--          v-if管理员权限-->
-          <el-tag style="float: right">学习讨论</el-tag>
-<!--          v-for-->
-        </el-card>
+    <div id="posts" v-if="posts.length">
+      <div  v-for="post in posts" :key="post.id">
+        <div class="posts">
+          <el-tag class="post-tags">讨论</el-tag>
+          <router-link :to="{name: 'Comments'}">
+            <span class="post-title">{{post.title}}</span>
+          </router-link>
+          <span class="post-name">{{post.user.name}}</span>
+          <div class="posts-avatar">
+            <el-avatar size="small"  :src="post.user.avatar"></el-avatar>
+          </div>
+          <el-button class="delete_btn" type="text" icon="el-icon-delete" circle></el-button>
+        </div>
       </div>
       <el-pagination class="pagination" :current-page="page" background layout="prev, pager, next"
       :total="total"></el-pagination>
@@ -19,11 +20,36 @@
 </template>
 
 <style>
+  #posts .el-card__body{
+    padding: 5px;
+    width: auto;
+  }
   .posts{
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, .12);
+    padding: 5px;
     margin-top: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .post-name{
+    font-size: small;
+    font-weight: bold;
+  }
+  .post-tags{
+  }
+  .post-title{
+    margin-left: 3px;
+    margin-right: auto;
+  }
+  .posts-avatar{
   }
   .pagination{
-    margin-top: 30px;
+    margin-top: 20px;
+    float: left;
+  }
+  .delete_btn{
   }
 </style>
 
