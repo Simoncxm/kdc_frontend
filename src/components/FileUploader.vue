@@ -28,7 +28,7 @@
       </el-table-column>
       <el-table-column label="进度" align="center">
         <template v-slot="{ row }">
-          <el-progress :percentage="row.percentage" color="#909399"></el-progress>
+          <el-progress :percentage="row.uploadPercentage" color="#909399"></el-progress>
         </template>
       </el-table-column>
     </el-table>
@@ -212,7 +212,7 @@ export default {
           };
         })
         .map(async ({ formData, index }) => this.request({
-          url: 'http://localhost:3000',
+          url: '/api/video/uploadChunks',
           data: formData,
           onProgress: this.createProgressHandler(this.data[index]),
           requestList: this.requestList,
@@ -227,7 +227,7 @@ export default {
     // 通知服务端合并切片
     async mergeRequest() {
       await this.request({
-        url: 'http://localhost:3000/merge',
+        url: '/api/upload/merge',
         headers: {
           'content-type': 'application/json',
         },
@@ -244,7 +244,7 @@ export default {
     // 没有才进行上传
     async verifyUpload(filename, fileHash) {
       const { data } = await this.request({
-        url: 'http://localhost:3000/verify',
+        url: '/api/upload/verify',
         headers: {
           'content-type': 'application/json',
         },

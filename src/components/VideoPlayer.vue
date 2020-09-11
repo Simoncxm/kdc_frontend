@@ -28,7 +28,8 @@ export default {
       });
     // test code
     this.title = '测试';
-    this.source = '//vjs.zencdn.net/v/oceans.mp4';
+    /* eslint-disable */
+    this.source = 'http://10.135.17.248:8090/video/playVideo?fileName=1.mp4';
   },
   methods: {},
 };
