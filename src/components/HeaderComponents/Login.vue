@@ -40,8 +40,12 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log(this.loginForm.account);
-      console.log(this.loginForm.password);
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          console.log(this.loginForm.account);
+          console.log(this.loginForm.password);
+        }
+      });
     },
     clear() {
       this.$refs.loginForm.resetFields();

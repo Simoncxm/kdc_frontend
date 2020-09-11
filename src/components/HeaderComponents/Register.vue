@@ -18,7 +18,7 @@
             v-if="displayed == true">{{verifyHint}}</el-button>
         </el-input>
       </el-form-item>
-      <div class="ml-4">
+      <div style="padding-top: 20px" >
         <el-button type="primary" class="btn-block"
           @click="submitForm('registerForm')">注册
         </el-button>
@@ -42,7 +42,7 @@ export default {
         verifyCode: '',
       },
       rules: {
-        userName: [
+        username: [
           {
             required: true, message: '请输入用户名', trigger: 'change',
           },
@@ -68,10 +68,14 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log(this.registerForm.username);
-      console.log(this.registerForm.email);
-      console.log(this.registerForm.password);
-      console.log(this.registerForm.verifyCode);
+      this.$refs.registerForm.validate((valid) => {
+        if (valid) {
+          console.log(this.registerForm.username);
+          console.log(this.registerForm.email);
+          console.log(this.registerForm.password);
+          console.log(this.registerForm.verifyCode);
+        }
+      });
     },
     clear() {
       this.$refs.registerForm.resetFields();
