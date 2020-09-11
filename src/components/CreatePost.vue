@@ -8,13 +8,6 @@
         <el-form-item label="标题" prop="title">
           <el-input v-model="postForm.title"></el-input>
         </el-form-item>
-        <!--<el-form-item label="标签" prop="tags">
-          <el-tag>学习讨论</el-tag>
-          <el-tag type="success">问题提问</el-tag>
-          <el-tag type="info">标签三</el-tag>
-          <el-tag type="warning">精华</el-tag>
-          <el-tag type="danger">标签五</el-tag>
-        </el-form-item>-->
         <el-form-item label="帖子内容" prop="content">
           <el-input v-model="postForm.content" type="textarea" :rows="3" placeholder="请输入内容">
           </el-input>
@@ -51,11 +44,6 @@ export default {
           { required: true, message: '请填写帖子详细内容', trigger: 'blur' },
         ],
       },
-      methods: {
-        // submitForm(form) {
-        //
-        // },
-      },
     };
   },
   methods: {
@@ -63,7 +51,7 @@ export default {
       const finalform = form;
       finalform.time = (new Date()).toISOString();
       const xhttp = new XMLHttpRequest();
-      xhttp.open('POST', 'http://localhost:8083', true);// 目前暂时设定接收请求的url为http://localhost:8083
+      xhttp.open('POST', '/posts/createPost', true);
       xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhttp.send(JSON.stringify(finalform));
       alert('帖子已发出');

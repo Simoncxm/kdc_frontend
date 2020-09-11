@@ -31,47 +31,14 @@
 export default {
   data() {
     const xhttp = new XMLHttpRequest();
-    xhttp.open('GET', 'https://localhost:8083', false);// 暂定向https://localhost:8083发送请求
+    xhttp.open('GET', '/posts/all', false);// 暂定向https://localhost:8083发送请求
     xhttp.send();
     return JSON.parse(xhttp.responseText);
-    /* return {
-      posts: [
-        {
-          id: 1,
-          user: {
-            name: '张三',
-            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-            id: 17373,
-          },
-          title: '道德的沦丧，还是人性的扭曲',
-        },
-        {
-          id: 2,
-          user: {
-            name: '张三',
-            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-            id: 17373,
-          },
-          title: '道德的沦丧，还是人性的扭曲',
-        },
-        {
-          id: 1,
-          user: {
-            name: '张三',
-            avatar: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
-            id: 17373,
-          },
-          title: '道德的沦丧，还是人性的扭曲',
-        },
-      ],
-      total: 0,
-      page: 1,
-    }; */
   },
   methods: {
     removePost(postId) {
       const xhttp = new XMLHttpRequest();
-      xhttp.open('POST', 'http://localhost:8083', true);
+      xhttp.open('POST', '/posts/removePost', true);
       xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhttp.send(JSON.stringify({ postId }));
       let index;

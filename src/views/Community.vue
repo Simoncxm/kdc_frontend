@@ -96,9 +96,9 @@ export default {
     function getVideoLinks(xhttp){
       res.videoLinks = JSON.parse(xhttp.responseText).videoLinks;
     }
-    ajaxFunction('http://localhost:8083', getUserInformation);
-    ajaxFunction('http://localhost:8083', getRules);
-    ajaxFunction('http://localhost:8083', getVideoLinks);
+    ajaxFunction('/user/getUserInformation', getUserInformation);
+    ajaxFunction('/community/getCommunityInformation', getRules);
+    ajaxFunction('/community/getVideoLinks', getVideoLinks);
     return res;
     /* return {
       userInformation: '个人信息（积分活跃度）',
