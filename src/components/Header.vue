@@ -24,31 +24,27 @@
     </el-header>
     <el-dialog
       :visible.sync="showLogin"
-      width="30%">
+      width="30%" @close="closeDialog">
       <el-tabs v-model="activeName">
         <el-tab-pane label="登录" name="first">
-          <el-row style="margin-bottom: 15px">
-            用户名：
-            <el-input v-model="username" placeholder="请输入内容" style="width: 70%"></el-input>
-          </el-row>
-          <el-row>
-            密  码：
-            <el-input v-model="username" placeholder="请输入内容" style="width: 70%"></el-input>
-          </el-row>
+          <Login ref="login"/>
         </el-tab-pane>
-        <el-tab-pane label="注册" name="second">注册</el-tab-pane>
+        <el-tab-pane label="注册" name="second">
+          <Register ref="register"/>
+        </el-tab-pane>
       </el-tabs>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="showLogin = false">取 消</el-button>
-        <el-button type="primary" @click="showLogin = false">确 定</el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
+
+import Login from './HeaderComponents/Login.vue';
+import Register from './HeaderComponents/Register.vue';
+
 export default {
   name: 'Header',
+  components: { Register, Login },
   data() {
     return {
       curUsername: null,
@@ -58,6 +54,10 @@ export default {
     };
   },
   methods: {
+    closeDialog() {
+      this.$refs.login.clear();
+      this.$refs.register.clear();
+    },
   },
 };
 </script>
