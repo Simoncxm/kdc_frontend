@@ -13,14 +13,13 @@
       <el-form-item label="验证码" prop="verifyCode" class="mb-2">
         <el-input v-model.trim="registerForm.verifyCode">
           <el-button slot="append" @click="getVerifyCode"
-            :loading="false" v-if="displayed == false">{{verifyHint}}</el-button>
-          <el-button slot="append" :loading="true"
-            v-if="displayed == true">{{verifyHint}}</el-button>
+            :disabled="displayed" :loading="displayed">{{verifyHint}}</el-button>
         </el-input>
       </el-form-item>
       <div style="padding-top: 20px" >
         <el-button type="primary" class="btn-block"
-          @click="submitForm('registerForm')">注册
+          @click="submitForm('registerForm')">
+          注册
         </el-button>
       </div>
     </el-form>
@@ -28,6 +27,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Register',
   data() {
@@ -70,10 +71,26 @@ export default {
     submitForm() {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
-          console.log(this.registerForm.username);
-          console.log(this.registerForm.email);
-          console.log(this.registerForm.password);
-          console.log(this.registerForm.verifyCode);
+          axios.post('/register', {
+            name: this.registerForm.username,
+            password: this.registerForm.password,
+            captcha: this.registerForm.verifyCode,
+            email: this.registerForm.email,
+          }).then((res) => {
+            if (res.data.code === 0) {
+              this.$notify({
+                title: '注册成功',
+                type: 'success',
+              });
+              this.$router.go(0);
+            } else {
+              this.$notify({
+                title: '注册失败',
+                message: res.data.msg,
+                type: 'warning',
+              });
+            }
+          });
         }
       });
     },
@@ -81,7 +98,22 @@ export default {
       this.$refs.registerForm.resetFields();
     },
     getVerifyCode() {
-      console.log('your verifycode is cxmsgdd');
+      axios.post('/api/sendEmail', {
+        email: this.registerForm.email,
+      }).then((res) => {
+        if (res.data.code === 0) {
+          this.$notify({
+            title: '发送成功',
+            type: 'success',
+          });
+        } else {
+          this.$notify({
+            title: '登录失败',
+            message: res.data.msg,
+            type: 'warning',
+          });
+        }
+      });
       this.time = 60;
       this.displayed = true;
       this.timer();
