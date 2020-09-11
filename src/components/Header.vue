@@ -23,6 +23,10 @@
         <el-col :span="2" :offset="1" v-if="curUserID !== null">
           <el-button type="text">我的课程</el-button>
         </el-col>
+        <el-col :span="2" :offset="1" v-if="curUserID !== null"
+          @click.native="showDialogCourse = !showDialogCourse">
+          <el-button type="text">新增课程</el-button>
+        </el-col>
         <el-col :span="2" v-if="curUserID !== null">
           <el-button type="text">个人中心</el-button>
         </el-col>
@@ -43,6 +47,11 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
+    <el-dialog
+      :visible.sync="showDialogCourse"
+      width="30%" @close="closeDialogCourse">
+          <AddCourse ref="addCourse"/>
+    </el-dialog>
   </div>
 </template>
 
@@ -50,15 +59,17 @@
 
 import Login from './HeaderComponents/Login.vue';
 import Register from './HeaderComponents/Register.vue';
+import AddCourse from './HeaderComponents/AddCourse.vue';
 
 export default {
   name: 'Header',
-  components: { Register, Login },
+  components: { Register, Login, AddCourse },
   data() {
     return {
-      curUserID: null,
+      curUserID: 111,
       searchText: null,
       showDialog: false,
+      showDialogCourse: false,
       activeName: 'first',
       searchType: 1,
     };
@@ -72,6 +83,9 @@ export default {
     closeDialog() {
       this.$refs.login.clear();
       this.$refs.register.clear();
+    },
+    closeDialogCourse() {
+      this.$refs.addCourse.clear();
     },
     quit() {
       this.curUserID = null;
