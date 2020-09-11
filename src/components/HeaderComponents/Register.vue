@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-form :model="registerForm" :rules="rules" resetFields ref="registerForm" label-width="70px">
+    <el-form :model="registerForm" :rules="rules"  ref="registerForm" label-width="70px">
       <el-form-item label="用户名" prop="username">
-        <el-input v-model.trim="registerForm.userName"></el-input>
+        <el-input v-model.trim="registerForm.username"></el-input>
       </el-form-item>
       <el-form-item label="邮 箱" prop="email">
         <el-input v-model.trim="registerForm.email"></el-input>
