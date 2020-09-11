@@ -53,6 +53,11 @@
         </el-card>
       </div>
     </div>
+    <el-pagination class="pagination"
+                   :current-page="page" background layout="prev, pager, next"
+                   :total="total"></el-pagination>
+    <el-input v-model="send.content" type="textarea" :rows="3" placeholder="请输入内容">
+    </el-input>
   </div>
 </template>
 <style>
@@ -85,11 +90,17 @@
   }
   .delete_btn{
   }
+  .pagination{
+    margin-top: 20px;
+    float: left;
+  }
 </style>
 <script>
 export default {
   data() {
     return {
+      page: 1,
+      total: 1,
       post:
         {
           id: 1,
@@ -100,6 +111,11 @@ export default {
           },
           title: '道德的沦丧，还是人性的扭曲',
           content: '如题',
+        },
+      send:
+        {
+          user: '',
+          content: '',
         },
       comments:
         [
