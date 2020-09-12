@@ -88,7 +88,7 @@ export default {
     if (this.$cookies.isKey('userID')) {
       this.curUserID = this.$cookies.get('userID');
       this.curUserType = this.$cookies.get('userType');
-      this.$axios.get(`/api/getCoursesByUserId?id=${this.curUserID}`).then((res) => {
+      this.$axios.get(`/api/getCoursesByUserId/?id=${this.curUserID}`).then((res) => {
         if (res.data.code === 0) {
           this.myCourses = res.data.list;
           this.myCourses.forEach((e) => {

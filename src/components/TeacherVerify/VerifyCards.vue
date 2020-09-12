@@ -9,7 +9,7 @@
           <el-row>
             <el-col :span="17">
               <div class="item text">姓名：{{application.name}}</div>
-              <div class="item text">ID：{{application.id}}</div>
+              <div class="item text">教工ID：{{application.id}}</div>
               <div class="item text">申请描述：{{application.describe}}</div>
             </el-col>
           </el-row>

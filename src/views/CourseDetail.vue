@@ -4,10 +4,10 @@
       <div class="main-box">
         <div class="main">
           <el-row :gutter="20"  class="el-row" type="flex" >
-            <el-col :span="10"  class="el-col" >
+            <el-col :span="14"  class="el-col" >
               <img class="avatar" :src="course.coursePic"  alt="..." />
             </el-col>
-            <el-col :span="14"  class="el-col" >
+            <el-col :span="10"  class="el-col" >
               <div class="info">
                 <div class="box-content">
                   <span v-if="!isEmpty(course.name)">{{course.name}}</span>
@@ -23,13 +23,12 @@
                 <span v-if="isEmpty(course.teacherName)">暂无</span>
               </div>
               <div class="content">介绍：
-                <span v-if="!isEmpty(course.intro)">{{course.intro}}</span>
-                <span v-if="isEmpty(course.intro)">暂无</span>
+                <span v-if="!isEmpty(course.synopsis)">{{course.synopsis}}</span>
+                <span v-if="isEmpty(course.synopsis)">暂无</span>
               </div>
               <div class="buttons">
                 <el-button v-if="userType === 0" type="success" @click="apply">申请加入</el-button>
-                <el-button v-if="userType === 2" type="success" @click="addClass">创建课堂</el-button>
-                <el-button v-if="userType === 2" type="primary" @click="editCourse">编辑课程</el-button>
+                <el-button v-if="userType === 2" type="success" @click="addClass">上传视频</el-button>
               </div>
             </el-col>
           </el-row>
@@ -38,7 +37,7 @@
           </div>
           <div class="box-bd" v-if="userType !== 0">
             <el-table
-              :data="classList"
+              :data="course.videoList"
               style="width: 100%">
               <el-table-column
                 prop="title"
@@ -75,40 +74,70 @@ export default {
   data() {
     return {
       userType: 1,
+      userId: null,
+      courseId: null,
       serachName: '',
-      course: {
-        name: '测试课程',
-        coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
-        term: '',
-        tearcherName: '测试老师',
-        intro: '北京航空航天大学创建于1952年，时名北京航空学院，由当时的清华大学、北洋大学、厦门大学、四川大学等八所院校的航空系合并组建，1988年4月改名为北京航空航天大学。',
-      },
-      classList: [
-        {
-          title: 'hhha',
-          date: '2016-05-02',
-          time: '2小时',
-        },
-      ],
+      course: null,
     };
   },
   components: {
     Header,
+  },
+  mounted() {
+    this.courseId = this.$route.query.courseId;
+    let url = `/api/clazz/?courseId=${this.courseId}`;
+    if (this.$cookies.isKey('userID')) {
+      this.userId = this.$cookies.get('userID');
+      url += `&userId=${this.userId}`;
+    }
+    this.$axios.get(url).then((res) => {
+      if (res.data.code === -1) {
+        this.$notify({
+          title: '获取课程失败',
+          message: res.data.msg,
+          type: 'warning',
+        });
+      } else {
+        this.userType = res.data.code;
+        this.course = res.data.course;
+        this.course.coursePic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
+      }
+    });
   },
   methods: {
     isEmpty(obj) {
       return typeof obj === 'undefined' || obj === null || obj === '';
     },
     apply() {
-      return null;
+      if (this.userId) {
+        this.$axios.post('/api/joinCourse', {
+          id: this.userId,
+          courseId: this.courseId,
+        }).then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '申请加入课程失败',
+              message: res.data.msg,
+              type: 'warning',
+            });
+          } else {
+            this.$notify({
+              title: '申请加入课程成功，请等待审核。',
+              type: 'success',
+            });
+          }
+        });
+      } else {
+        this.$notify({
+          title: '请先登录',
+          type: 'warning',
+        });
+      }
     },
     handleClick(row) {
       return row;
     },
     addClass() {
-      return null;
-    },
-    editCourse() {
       return null;
     },
   },
