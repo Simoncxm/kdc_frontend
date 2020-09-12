@@ -99,6 +99,7 @@ export default {
       url += '0';
     }
     this.$axios.get(url).then((res) => {
+      console.log(res);
       if (res.data.code === -1) {
         this.$notify({
           title: '获取课程失败',

@@ -57,7 +57,7 @@ export default {
       this.uploading = true;
       const formData = new window.FormData();
       formData.append('file', this.$refs.fileinput.files[0]);
-      formData.append('courseid', this.courseid);
+      formData.append('courseid', this.$route.query.courseId);
       formData.append('title', this.title);
       formData.append('hash', this.hash);
       formData.forEach((value, key) => {
@@ -70,16 +70,17 @@ export default {
       };
       this.$axios.post('/api/video/uploadVideo', formData, config)
         .then((res) => {
-          if (res.data === 'success') {
-            this.$message({
-              message: '上传成功',
-              type: 'success',
-              showClose: true,
-            });
-          } else {
+          if (res.data === 'fail') {
             this.$message({
               message: '上传失败',
               type: 'error',
+              showClose: true,
+            });
+          } else {
+            this.$axios.get(`/api/video/addVideoToCourse?courseId=${this.$route.query.courseId}&videoId=${res.data}`);
+            this.$message({
+              message: '上传成功',
+              type: 'success',
               showClose: true,
             });
           }
