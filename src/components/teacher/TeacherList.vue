@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     bindTeac(teacher) {
-      this.$router.push(`/teacher/${teacher.teacherId}`);
+      this.$router.push(`/teacher/?id=${teacher.id}`);
     },
   },
 };

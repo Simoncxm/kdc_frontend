@@ -5,7 +5,7 @@
       <div class="main">
         <el-row :gutter="20"  class="el-row" type="flex" >
           <el-col :span="14"  class="el-col" >
-            <img class="avatar" :src="course.coursePic"  alt="..." />
+            <img class="avatar" :src="course.pic"  alt="..." />
           </el-col>
           <el-col :span="10"  class="el-col" >
             <div class="info">
@@ -109,7 +109,7 @@ export default {
       } else {
         this.userType = res.data.code;
         this.course = res.data.course;
-        this.course.coursePic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
+        this.course.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
       }
     });
   },
