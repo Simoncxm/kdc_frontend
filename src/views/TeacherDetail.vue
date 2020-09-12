@@ -49,7 +49,7 @@ import Header from '@/components/Header.vue';
 import CourseList from '@/components/course/CourseList.vue';
 
 export default {
-  name: 'Home',
+  name: 'TeacherDetail',
   data() {
     return {
       serachName: '',
