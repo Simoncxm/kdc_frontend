@@ -26,10 +26,6 @@ export default {
         this.title = res.data.title;
         this.source = res.data.source;
       });
-    // test code
-    this.title = '测试';
-    /* eslint-disable */
-    this.source = 'http://10.135.17.248:8090/video/playVideo?fileName=1.mp4';
   },
   methods: {},
 };
