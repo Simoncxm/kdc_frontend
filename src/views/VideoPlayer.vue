@@ -21,13 +21,12 @@ export default {
     if (!vid) {
       this.$router.push('/');
     }
-    this.$axios.get(`/api/getvideo?id=${vid}`)
+    this.source = `/api/video/playVideo?id=${vid}`;
+    this.$axios.get(`/api/video/getTitleByVideoId?id=${vid}`)
       .then((res) => {
-        this.title = res.data.title;
-        this.source = res.data.source;
+        this.title = res.data;
       });
   },
-  methods: {},
 };
 
 </script>
