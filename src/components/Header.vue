@@ -3,9 +3,7 @@
     <el-header>
       <el-row>
         <el-col :span="3" :offset="4">
-          <el-button type="text" icon="el-icon-video-camera-solid">
-            <router-link to="/">知识传播社区</router-link>
-          </el-button>
+          <el-button type="text" icon="el-icon-video-camera-solid">知识传播社区</el-button>
         </el-col>
         <el-col :span="7" :offset="1">
           <el-input placeholder="请输入内容" v-model="searchText">
