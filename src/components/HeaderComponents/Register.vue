@@ -75,18 +75,18 @@ export default {
             captcha: this.registerForm.verifyCode,
             email: this.registerForm.email,
           }).then((res) => {
-            if (res.data.code === 0) {
-              this.$notify({
-                title: '注册成功',
-                type: 'success',
-              });
-              this.$router.go(0);
-            } else {
+            if (res.data.code === -1) {
               this.$notify({
                 title: '注册失败',
                 message: res.data.msg,
                 type: 'warning',
               });
+            } else {
+              this.$notify({
+                title: '注册成功',
+                type: 'success',
+              });
+              this.$router.go(0);
             }
           });
         }
@@ -99,16 +99,16 @@ export default {
       this.$axios.post('/api/sendEmail', {
         email: this.registerForm.email,
       }).then((res) => {
-        if (res.data.code === 0) {
-          this.$notify({
-            title: '发送成功',
-            type: 'success',
-          });
-        } else {
+        if (res.data.code === -1) {
           this.$notify({
             title: '登录失败',
             message: res.data.msg,
             type: 'warning',
+          });
+        } else {
+          this.$notify({
+            title: '发送成功',
+            type: 'success',
           });
         }
       });

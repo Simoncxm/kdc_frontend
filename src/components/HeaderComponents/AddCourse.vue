@@ -87,18 +87,18 @@ export default {
             synopsis: this.addCourseForm.synopsis,
             id: this.curUserID,
           }).then((res) => {
-            if (res.data.code === 0) {
-              this.$notify({
-                title: '新建成功',
-                type: 'success',
-              });
-              this.$router.go(0);
-            } else {
+            if (res.data.code === -1) {
               this.$notify({
                 title: '新建失败',
                 message: res.data.msg,
                 type: 'warning',
               });
+            } else {
+              this.$notify({
+                title: '新建成功',
+                type: 'success',
+              });
+              this.$router.go(0);
             }
           });
         }

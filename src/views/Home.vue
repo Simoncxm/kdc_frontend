@@ -58,38 +58,44 @@ export default {
   },
   mounted() {
     this.$axios.get('/api/getHotCourse').then((res) => {
-      if (res.data.code === 0) {
-        this.hotCourses = res.data.list;
-        this.hotCourses.forEach((e) => {
-          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
-        });
-      } else {
+      if (res.data.code === -1) {
         this.$notify({
           title: '获取热门课程失败',
           message: res.data.msg,
           type: 'warning',
         });
+      } else {
+        this.hotCourses = res.data.list;
+        this.hotCourses.forEach((e) => {
+          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
+        });
       }
     });
     this.$axios.get('/api/getHotTeacher').then((res) => {
-      if (res.data.code === 0) {
-        this.hotTeachers = res.data.list;
-        this.hotTeachers.forEach((e) => {
-          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/instructor_image/link/0253d4da52e643c98076e7e06110b0c4.png';
-        });
-      } else {
+      if (res.data.code === -1) {
         this.$notify({
           title: '获取热门老师失败',
           message: res.data.msg,
           type: 'warning',
+        });
+      } else {
+        this.hotTeachers = res.data.list;
+        this.hotTeachers.forEach((e) => {
+          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/instructor_image/link/0253d4da52e643c98076e7e06110b0c4.png';
         });
       }
     });
     if (this.$cookies.isKey('userID')) {
       this.curUserID = this.$cookies.get('userID');
       this.curUserType = this.$cookies.get('userType');
-      this.$axios.get(`/api/getCoursesByUserId/?id=${this.curUserID}`).then((res) => {
-        if (res.data.code === 0) {
+      this.$axios.get(`/api/getCourseByUserId/?id=${this.curUserID}`).then((res) => {
+        if (res.data.code === -1) {
+          this.$notify({
+            title: '获取我的课程失败',
+            message: res.data.msg,
+            type: 'warning',
+          });
+        } else {
           this.myCourses = res.data.list;
           this.myCourses.forEach((e) => {
             e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
@@ -97,12 +103,6 @@ export default {
           if (this.myCourses.length > 8) {
             this.myCourses = this.myCourses.slice(0, 8);
           }
-        } else {
-          this.$notify({
-            title: '获取我的课程失败',
-            message: res.data.msg,
-            type: 'warning',
-          });
         }
       });
     }

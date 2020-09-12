@@ -87,18 +87,18 @@ export default {
             institute: this.applicationForm.institute,
             id: this.curUserID,
           }).then((res) => {
-            if (res.data.code === 0) {
-              this.$notify({
-                title: '申请成功，请等待审核。',
-                type: 'success',
-              });
-              this.$router.go(0);
-            } else {
+            if (res.data.code === -1) {
               this.$notify({
                 title: '申请失败',
                 message: res.data.msg,
                 type: 'warning',
               });
+            } else {
+              this.$notify({
+                title: '申请成功，请等待审核。',
+                type: 'success',
+              });
+              this.$router.go(0);
             }
           });
         }

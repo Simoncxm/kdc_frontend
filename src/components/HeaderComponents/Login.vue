@@ -46,7 +46,13 @@ export default {
             name: this.loginForm.account,
             password: this.loginForm.password,
           }).then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.code === -1) {
+              this.$notify({
+                title: '登录失败',
+                message: res.data.msg,
+                type: 'warning',
+              });
+            } else {
               this.$notify({
                 title: '登录成功',
                 type: 'success',
@@ -54,12 +60,6 @@ export default {
               this.$cookies.set('userID', res.data.id);
               this.$cookies.set('userType', res.data.identity);
               this.$router.go(0);
-            } else {
-              this.$notify({
-                title: '登录失败',
-                message: res.data.msg,
-                type: 'warning',
-              });
             }
           });
         }
