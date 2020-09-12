@@ -2,7 +2,7 @@
   <div>
     <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="100px">
       <el-form-item label="账 号" prop="account" label-width="60px">
-        <el-input v-model="loginForm.account" placeholder="邮箱 / 手机号"></el-input>
+        <el-input v-model="loginForm.account" placeholder="用户名"></el-input>
       </el-form-item>
       <el-form-item label="密 码" prop="password" label-width="60px">
         <el-input type="password" v-model.trim="loginForm.password" maxlength="16"

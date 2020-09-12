@@ -79,10 +79,10 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$refs.applicationForm.validate((valid) => {
+      this.$refs.addCourseForm.validate((valid) => {
         if (valid) {
           this.$axios.post('/api/createCourse', {
-            name: this.addCourseForm.account,
+            name: this.addCourseForm.name,
             term: this.addCourseForm.term,
             synopsis: this.addCourseForm.synopsis,
             id: this.curUserID,

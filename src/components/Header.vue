@@ -2,7 +2,7 @@
   <div>
     <el-header>
       <el-row>
-        <el-col :span="3" :offset="4">
+        <el-col :span="3" :offset="3">
           <el-button type="text" icon="el-icon-video-camera-solid">
             <router-link to="/">知识传播社区</router-link>
           </el-button>
@@ -19,29 +19,29 @@
         <el-col :span="6" v-if="curUserID === null">
           <el-button type="text" @click.native="showDialog = !showDialog">登录/注册</el-button>
         </el-col>
-        <el-col :span="1" :offset="1" v-if="curUserID !== null">
+        <el-col :span="2" v-if="curUserID !== null">
           <el-button type="text">我的课程</el-button>
         </el-col>
-        <el-col :span="1" v-if="curUserID !== null">
+        <el-col :span="2" v-if="curUserID !== null">
           <el-button type="text">个人中心</el-button>
         </el-col>
-        <el-col :span="1" v-if="curUserID !== null && curUserType === 'teacher'">
+        <el-col :span="2" v-if="curUserID !== null && curUserType === 'teacher'">
           <el-button type="text" @click.native="showDialogCourse = !showDialogCourse">
             新增课程
           </el-button>
         </el-col>
-        <el-col :span="1" v-if="curUserID !== null && curUserType === 'student'">
+        <el-col :span="2" v-if="curUserID !== null && curUserType === 'student'">
           <el-button @click.native="showApplication = !showApplication"
             type="text" >教师认证</el-button>
         </el-col>
-        <el-col :span="1" v-if="curUserID !== null">
+        <el-col :span="2" v-if="curUserID !== null">
           <el-button type="text" @click="quit">退出登录</el-button>
         </el-col>
       </el-row>
     </el-header>
     <el-dialog
       :visible.sync="showDialog"
-      width="30%" @close="closeDialog">
+      width="40%" @close="closeDialog">
       <el-tabs v-model="activeName">
         <el-tab-pane label="登录" name="first">
           <Login ref="login"/>
@@ -53,12 +53,12 @@
     </el-dialog>
     <el-dialog
       :visible.sync="showDialogCourse"
-      width="30%" @close="closeDialogCourse">
+      width="40%" @close="closeDialogCourse">
           <AddCourse ref="addCourse"/>
     </el-dialog>
     <el-dialog
       :visible.sync="showApplication"
-      width="30%" @close="closeApplication">
+      width="40%" @close="closeApplication">
       <el-tabs v-model="applicationName">
         <el-tab-pane label="教师认证" name="first">
           <TeacherApplication ref="teacherApplication"/>

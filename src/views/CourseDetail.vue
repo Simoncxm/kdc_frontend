@@ -63,9 +63,7 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      :visible.sync="showUpload"
-      width="30%" @close="closeUpload">
+    <el-dialog :visible.sync="showUpload" width="30%">
       <FileUploader />
     </el-dialog>
   </div>
@@ -83,7 +81,6 @@ export default {
       userType: 1,
       userId: null,
       courseId: null,
-      serachName: '',
       course: null,
       showUpload: false,
     };
@@ -94,10 +91,12 @@ export default {
   },
   mounted() {
     this.courseId = this.$route.query.courseId;
-    let url = `/api/clazz/?courseId=${this.courseId}`;
+    let url = `/api/clazz/?courseId=${this.courseId}&userId=`;
     if (this.$cookies.isKey('userID')) {
       this.userId = this.$cookies.get('userID');
-      url += `&userId=${this.userId}`;
+      url += `${this.userId}`;
+    } else {
+      url += '0';
     }
     this.$axios.get(url).then((res) => {
       if (res.data.code === -1) {
