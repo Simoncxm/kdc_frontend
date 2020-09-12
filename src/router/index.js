@@ -40,6 +40,33 @@ const routes = [
     name: 'VideoPlayer',
     component: VideoPlayer,
   },
+  {
+    path: '/createPost',
+    name: 'createPost',
+    component: () => import('../components/CreatePost.vue'),
+  },
+  {
+    path: '/posts',
+    name: 'posts',
+    component: () => import('../components/Posts.vue'),
+  },
+  {
+    path: '/community',
+    name: 'community',
+    component: () => import('../views/Community.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Posts',
+        component: () => import('../components/Posts.vue'),
+      },
+      {
+        path: 'comments',
+        name: 'Comments',
+        component: () => import('../components/Comments.vue'),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
