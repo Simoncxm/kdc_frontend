@@ -5,7 +5,7 @@
         <div class="main">
           <el-row :gutter="20"  class="el-row" type="flex" >
             <el-col :span="10"  class="el-col" >
-              <img class="avatar" :src="teacher.pic"  alt="..." />
+              <img class="avatar" :src="teacher.teacherPic"  alt="..." />
             </el-col>
             <el-col :span="14"  class="el-col" >
               <div class="info">
@@ -15,20 +15,20 @@
                 </div>
               </div>
               <div class="content">国籍：
-                <span v-if="!isEmpty(teacher.nation)">{{teacher.nation}}</span>
-                <span v-if="isEmpty(teacher.nation)">暂无</span>
+                <span v-if="!isEmpty(teacher.country)">{{teacher.country}}</span>
+                <span v-if="isEmpty(teacher.country)">暂无</span>
               </div>
               <div class="content">机构：
-                <span v-if="!isEmpty(teacher.institute)">{{teacher.institute}}</span>
-                <span v-if="isEmpty(teacher.institute)">暂无</span>
+                <span v-if="!isEmpty(teacher.affiliation)">{{teacher.affiliation}}</span>
+                <span v-if="isEmpty(teacher.affiliation)">暂无</span>
               </div>
               <div class="content">联系方式：
-                <span v-if="!isEmpty(teacher.contact)">{{teacher.contact}}</span>
-                <span v-if="isEmpty(teacher.contact)">暂无</span>
+                <span v-if="!isEmpty(teacher.email)">{{teacher.email}}</span>
+                <span v-if="isEmpty(teacher.email)">暂无</span>
               </div>
               <div class="content">介绍：
-                <span v-if="!isEmpty(teacher.synopsis)">{{teacher.synopsis}}</span>
-                <span v-if="isEmpty(teacher.synopsis)">暂无</span>
+                <span v-if="!isEmpty(teacher.intro)">{{teacher.intro}}</span>
+                <span v-if="isEmpty(teacher.intro)">暂无</span>
               </div>
             </el-col>
           </el-row>
@@ -36,7 +36,7 @@
             <div class="title">ta的课程</div>
           </div>
           <div class="box-bd">
-            <course-list :courses="courses" />
+            <course-list :courses="hotCourses" :filter="serachName" />
           </div>
         </div>
       </div>
@@ -52,43 +52,112 @@ export default {
   name: 'TeacherDetail',
   data() {
     return {
-      teacherId: null,
-      courses: null,
-      teacher: null,
+      serachName: '',
+      hotCourses: [
+        {
+          appraise: false,
+          arrivesNum: null,
+          clazzName: 'sd',
+          courseId: 'sjlWsdTdsC4auMRfKG27',
+          courseName: 'sdfsd',
+          courseNum: '371947',
+          coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
+          experiencesNum: null,
+          gmtCreate: 1599574910000,
+          gmtModified: 1599575501000,
+          id: 16,
+          resourcesNum: null,
+          synopsis: 'sdfds',
+          teacherId: 'R411PCsfE8bFzJvJ',
+          teacherName: '游客',
+          term: '2019-2020',
+        },
+        {
+          appraise: false,
+          arrivesNum: null,
+          clazzName: 'sd',
+          courseId: 'sjlWsdTdsC4auMRfKG27',
+          courseName: 'sdfsd',
+          courseNum: '371947',
+          coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
+          experiencesNum: null,
+          gmtCreate: 1599574910000,
+          gmtModified: 1599575501000,
+          id: 17,
+          resourcesNum: null,
+          synopsis: 'sdfds',
+          teacherId: 'R411PCsfE8bFzJvJ',
+          teacherName: '游客',
+          term: '2019-2020',
+        },
+        {
+          appraise: false,
+          arrivesNum: null,
+          clazzName: 'sd',
+          courseId: 'sjlWsdTdsC4auMRfKG27',
+          courseName: 'sdfsd',
+          courseNum: '371947',
+          coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
+          experiencesNum: null,
+          gmtCreate: 1599574910000,
+          gmtModified: 1599575501000,
+          id: 18,
+          resourcesNum: null,
+          synopsis: 'sdfds',
+          teacherId: 'R411PCsfE8bFzJvJ',
+          teacherName: '游客',
+          term: '2019-2020',
+        },
+        {
+          appraise: false,
+          arrivesNum: null,
+          clazzName: 'sd',
+          courseId: 'sjlWsdTdsC4auMRfKG27',
+          courseName: 'sdfsd',
+          courseNum: '371947',
+          coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
+          experiencesNum: null,
+          gmtCreate: 1599574910000,
+          gmtModified: 1599575501000,
+          id: 19,
+          resourcesNum: null,
+          synopsis: 'sdfds',
+          teacherId: 'R411PCsfE8bFzJvJ',
+          teacherName: '游客',
+          term: '2019-2020',
+        },
+        {
+          appraise: false,
+          arrivesNum: null,
+          clazzName: 'sd',
+          courseId: 'sjlWsdTdsC4auMRfKG27',
+          courseName: 'sdfsd',
+          courseNum: '371947',
+          coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
+          experiencesNum: null,
+          gmtCreate: 1599574910000,
+          gmtModified: 1599575501000,
+          id: 20,
+          resourcesNum: null,
+          synopsis: 'sdfds',
+          teacherId: 'R411PCsfE8bFzJvJ',
+          teacherName: '游客',
+          term: '2019-2020',
+        },
+      ],
+      teacher: {
+        teacherPic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
+        country: '',
+        affiliation: '',
+        email: '',
+        name: '测试老师',
+        intro: '北京航空航天大学创建于1952年，时名北京航空学院，由当时的清华大学、北洋大学、厦门大学、四川大学等八所院校的航空系合并组建，1988年4月改名为北京航空航天大学。',
+      },
     };
   },
   components: {
     Header,
     CourseList,
-  },
-  mounted() {
-    this.teacherId = this.$route.query.id;
-    this.$axios.get(`/api/teacher/?id=${this.teacherId}`).then((res) => {
-      if (res.data.code === -1) {
-        this.$notify({
-          title: '获取老师失败',
-          message: res.data.msg,
-          type: 'warning',
-        });
-      } else {
-        this.teacher = res.data.teacher;
-        this.teacher.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/instructor_image/link/0253d4da52e643c98076e7e06110b0c4.png';
-      }
-    });
-    this.$axios.get(`/api/getCourseByTeacherId/?id=${this.teacherId}`).then((res) => {
-      if (res.data.code === -1) {
-        this.$notify({
-          title: '获取课程失败',
-          message: res.data.msg,
-          type: 'warning',
-        });
-      } else {
-        this.courses = res.data.list;
-        this.courses.forEach((e) => {
-          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
-        });
-      }
-    });
   },
   methods: {
     isEmpty(obj) {
