@@ -14,9 +14,8 @@
             <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="6" :offset="1" v-if="curUserID === null"
-          @click.native="showDialog = !showDialog">
-          <el-button type="text">登录/注册</el-button>
+        <el-col :span="6" :offset="1" v-if="curUserID === null">
+          <el-button type="text" @click.native="showDialog = !showDialog">登录/注册</el-button>
         </el-col>
         <el-col :span="1" :offset="1" v-if="curUserID !== null">
           <el-button type="text">我的课程</el-button>
