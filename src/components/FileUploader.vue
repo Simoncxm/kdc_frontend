@@ -35,8 +35,8 @@ export default {
   methods: {
     handleFileChange() {
       const self = this;
-      let fileReader = new FileReader();
-      let spark = new SparkMD5.ArrayBuffer;
+      const fileReader = new FileReader();
+      const spark = new SparkMD5.ArrayBuffer();
       fileReader.readAsArrayBuffer(this.$refs.fileinput.files[0]);
       fileReader.onload = function (e) {
         spark.append(e.target.result);
@@ -55,7 +55,7 @@ export default {
         return;
       }
       this.uploading = true;
-      let formData = new window.FormData();
+      const formData = new window.FormData();
       formData.append('file', this.$refs.fileinput.files[0]);
       formData.append('courseid', this.courseid);
       formData.append('title', this.title);
@@ -63,10 +63,10 @@ export default {
       formData.forEach((value, key) => {
         console.log(`key: ${key}, value: ${value}`);
       });
-      let config = {
+      const config = {
         onUploadProgress: (progressEvent) => {
           this.progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-        }
+        },
       };
       this.$axios.post('/api/video/uploadVideo', formData, config)
         .then((res) => {
@@ -84,8 +84,8 @@ export default {
             });
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
