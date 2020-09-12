@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueCookies from 'vue-cookies';
+import axios from 'axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'bootstrap';
@@ -11,6 +12,8 @@ Vue.config.productionTip = false;
 
 Vue.use(VueCookies);
 Vue.use(ElementUI);
+
+Vue.prototype.$axios = axios;
 
 new Vue({
   router,
