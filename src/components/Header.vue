@@ -68,7 +68,7 @@ export default {
   components: { TeacherApplication, Register, Login },
   data() {
     return {
-      curUserID: '111',
+      curUserID: null,
       searchText: null,
       showDialog: false,
       showApplication: false,
