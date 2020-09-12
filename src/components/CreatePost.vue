@@ -51,8 +51,9 @@ export default {
       const finalform = form;
       finalform.time = (new Date()).toISOString();
       const xhttp = new XMLHttpRequest();
-      xhttp.open('POST', '/posts/createPost', true);
+      xhttp.open('POST', '/api/posts/createPost', true);
       xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      finalform.userId = 'loginuser';// 当前登录用户
       xhttp.send(JSON.stringify(finalform));
       alert('帖子已发出');
       this.resetForm();

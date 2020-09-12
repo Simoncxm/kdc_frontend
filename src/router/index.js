@@ -25,6 +25,18 @@ const routes = [
     path: '/community',
     name: 'community',
     component: () => import('../views/Community.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Posts',
+        component: () => import('../components/Posts.vue'),
+      },
+      {
+        path: 'comments',
+        name: 'Comments',
+        component: () => import('../components/Comments.vue'),
+      },
+    ],
   },
 ];
 
