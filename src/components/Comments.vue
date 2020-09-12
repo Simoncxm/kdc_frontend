@@ -53,11 +53,18 @@
         </el-card>
       </div>
     </div>
-    <el-pagination class="pagination"
-                   :current-page="page" background layout="prev, pager, next"
-                   :total="total"></el-pagination>
-    <el-input v-model="send.content" type="textarea" :rows="3" placeholder="请输入内容">
+    <div>
+      <el-pagination class="pagination"
+                     :current-page="page" background layout="prev, pager, next"
+                     :total="total"></el-pagination>
+    </div>
+
+    <el-input class="textarea"
+              v-model="send.content" type="textarea" :rows="3" placeholder="请输入内容">
     </el-input>
+    <el-divider style="margin-top: 40px">发送回复</el-divider>
+    <el-button class="send-btn"
+               size="small" type="primary" icon="el-icon-chat-line-square">发送</el-button>
   </div>
 </template>
 <style>
@@ -93,6 +100,12 @@
   .pagination{
     margin-top: 20px;
     float: left;
+  }
+  .textarea{
+    margin-top: 20px;
+  }
+  .send-btn{
+    float: right;
   }
 </style>
 <script>
