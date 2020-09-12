@@ -1,20 +1,22 @@
 <template>
   <div>
-    <el-col :span="8" :offset="8" style="margin-top: 5px">
+    <el-col :span="9" :offset="8" style="margin-top: 5px">
       <el-row v-for="application in applications" :key="application.id" style="margin-bottom: 8px">
         <el-card>
           <div slot="header" class="clearfix">
             <span style="float: left;font-size: large" >教师申请</span>
           </div>
-          <div class="item text">姓名：{{application.name}}</div>
-          <div class="item text">ID：{{application.id}}</div>
-          <div class="item text">申请描述：{{application.describe}}</div>
-          <div style="float: right; padding: 3px 0">
-            <el-button  type="text">同意</el-button>
-            <el-button  type="text" style="margin-left: 30px">拒绝</el-button>
+          <el-row>
+            <el-col :span="17">
+              <div class="item text">姓名：{{application.name}}</div>
+              <div class="item text">ID：{{application.id}}</div>
+              <div class="item text">申请描述：{{application.describe}}</div>
+            </el-col>
+          </el-row>
+          <div style="float: right; padding: 3px 0;margin-bottom: 5px">
+            <el-button  type="primary" size="small">同意</el-button>
+            <el-button  type="danger" size="small">拒绝</el-button>
           </div>
-          <el-button-group style="float: right; padding: 3px 0">
-          </el-button-group>
         </el-card>
       </el-row>
     </el-col>
@@ -35,7 +37,7 @@ export default {
         {
           name: '谭火彬',
           id: '7654321',
-          describe: '北京航空航天软件学院软件系统设计与分析课老师',
+          describe: '北京航空航天软件学sssssssssssssssss院软件系统设计与分析课老师',
         },
         {
           name: '贾经冬',
