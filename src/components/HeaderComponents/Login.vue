@@ -2,7 +2,7 @@
   <div>
     <el-form :model="loginForm" :rules="rules" ref="loginForm" label-width="100px">
       <el-form-item label="账 号" prop="account" label-width="60px">
-        <el-input v-model="loginForm.account" placeholder="邮箱 / 手机号"></el-input>
+        <el-input v-model="loginForm.account" placeholder="用户名"></el-input>
       </el-form-item>
       <el-form-item label="密 码" prop="password" label-width="60px">
         <el-input type="password" v-model.trim="loginForm.password" maxlength="16"
@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'Login',
   data() {
@@ -44,11 +42,17 @@ export default {
     submitForm() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          axios.post('/api/login', {
+          this.$axios.post('/api/login', {
             name: this.loginForm.account,
             password: this.loginForm.password,
           }).then((res) => {
-            if (res.data.code === 0) {
+            if (res.data.code === -1) {
+              this.$notify({
+                title: '登录失败',
+                message: res.data.msg,
+                type: 'warning',
+              });
+            } else {
               this.$notify({
                 title: '登录成功',
                 type: 'success',
@@ -56,12 +60,6 @@ export default {
               this.$cookies.set('userID', res.data.id);
               this.$cookies.set('userType', res.data.identity);
               this.$router.go(0);
-            } else {
-              this.$notify({
-                title: '登录失败',
-                message: res.data.msg,
-                type: 'warning',
-              });
             }
           });
         }
