@@ -28,6 +28,7 @@ export default {
   name: 'TeacherApplication',
   data() {
     return {
+      curUserID: null,
       labelPosition: 'left',
       applicationForm: {
         name: '',
@@ -47,13 +48,35 @@ export default {
       },
     };
   },
+  mounted() {
+    if (this.$cookies.isKey('userID')) {
+      this.curUserID = this.$cookies.get('userID');
+    }
+  },
   methods: {
     submitForm() {
       this.$refs.applicationForm.validate((valid) => {
         if (valid) {
-          console.log(this.applicationForm.name);
-          console.log(this.applicationForm.id);
-          console.log(this.applicationForm.description);
+          this.$axios.post('/api/applyTeacher', {
+            name: this.applicationForm.name,
+            teacherId: this.applicationForm.id,
+            desc: this.applicationForm.description,
+            id: this.curUserID,
+          }).then((res) => {
+            if (res.data.code === 0) {
+              this.$notify({
+                title: '申请成功，请等待审核。',
+                type: 'success',
+              });
+              this.$router.go(0);
+            } else {
+              this.$notify({
+                title: '申请失败',
+                message: res.data.msg,
+                type: 'warning',
+              });
+            }
+          });
         }
       });
     },

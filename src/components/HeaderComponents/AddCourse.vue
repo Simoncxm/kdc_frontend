@@ -34,6 +34,7 @@ export default {
   name: 'AddCourse',
   data() {
     return {
+      curUserID: null,
       addCourseForm: {
         name: '',
         term: '',
@@ -71,12 +72,37 @@ export default {
       }],
     };
   },
+  mounted() {
+    if (this.$cookies.isKey('userID')) {
+      this.curUserID = this.$cookies.get('userID');
+    }
+  },
   methods: {
     submitForm() {
-      console.log(this.addCourseForm.name);
-      console.log(this.addCourseForm.term);
-      console.log(this.addCourseForm.synopsis);
-      return null;
+      this.$refs.applicationForm.validate((valid) => {
+        if (valid) {
+          this.$axios.post('/api/createCourse', {
+            name: this.addCourseForm.account,
+            term: this.addCourseForm.term,
+            synopsis: this.addCourseForm.synopsis,
+            id: this.curUserID,
+          }).then((res) => {
+            if (res.data.code === 0) {
+              this.$notify({
+                title: '新建成功',
+                type: 'success',
+              });
+              this.$router.go(0);
+            } else {
+              this.$notify({
+                title: '新建失败',
+                message: res.data.msg,
+                type: 'warning',
+              });
+            }
+          });
+        }
+      });
     },
     clear() {
       this.$refs.addCourseForm.resetFields();
