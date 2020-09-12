@@ -8,6 +8,15 @@
       <el-form-item label="教 师 ID" prop="id" label-width="90px">
         <el-input v-model="applicationForm.id" placeholder="教师ID"></el-input>
       </el-form-item>
+      <el-form-item label="国 籍" prop="nation" label-width="90px">
+        <el-input v-model="applicationForm.nation" placeholder="国籍"></el-input>
+      </el-form-item>
+      <el-form-item label="联系方式" prop="contact" label-width="90px">
+        <el-input v-model="applicationForm.contact" placeholder="邮箱或手机号"></el-input>
+      </el-form-item>
+      <el-form-item label="机 构" prop="institute" label-width="90px">
+        <el-input v-model="applicationForm.institute" placeholder="所在院校"></el-input>
+      </el-form-item>
       <el-form-item label="申 请 描 述" prop="description" label-width="90px">
         <el-input type="textarea" v-model.trim="applicationForm.description"
           @keyup.enter.native="submitForm('applicationForm')" placeholder="申请描述">
@@ -34,6 +43,9 @@ export default {
         name: '',
         id: '',
         description: '',
+        nation: '',
+        contact: '',
+        institute: '',
       },
       rules: {
         name: [
@@ -44,6 +56,15 @@ export default {
         ],
         description: [
           { required: true, message: '请输入申请描述', trigger: 'blur' },
+        ],
+        nation: [
+          { required: true, message: '请输入国籍', trigger: 'blur' },
+        ],
+        contact: [
+          { required: true, message: '请输入联系方式', trigger: 'blur' },
+        ],
+        institute: [
+          { required: true, message: '请输入所在机构', trigger: 'blur' },
         ],
       },
     };
@@ -61,6 +82,9 @@ export default {
             name: this.applicationForm.name,
             teacherId: this.applicationForm.id,
             desc: this.applicationForm.description,
+            nation: this.applicationForm.nation,
+            contact: this.applicationForm.contact,
+            institute: this.applicationForm.institute,
             id: this.curUserID,
           }).then((res) => {
             if (res.data.code === 0) {
