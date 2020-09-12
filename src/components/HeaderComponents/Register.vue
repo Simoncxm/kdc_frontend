@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'Register',
   data() {
@@ -71,7 +69,7 @@ export default {
     submitForm() {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
-          axios.post('/register', {
+          this.$axios.post('/api/register', {
             name: this.registerForm.username,
             password: this.registerForm.password,
             captcha: this.registerForm.verifyCode,
@@ -98,7 +96,7 @@ export default {
       this.$refs.registerForm.resetFields();
     },
     getVerifyCode() {
-      axios.post('/api/sendEmail', {
+      this.$axios.post('/api/sendEmail', {
         email: this.registerForm.email,
       }).then((res) => {
         if (res.data.code === 0) {

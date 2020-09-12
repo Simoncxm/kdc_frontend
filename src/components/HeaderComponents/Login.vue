@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'Login',
   data() {
@@ -44,7 +42,7 @@ export default {
     submitForm() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          axios.post('/api/login', {
+          this.$axios.post('/api/login', {
             name: this.loginForm.account,
             password: this.loginForm.password,
           }).then((res) => {
