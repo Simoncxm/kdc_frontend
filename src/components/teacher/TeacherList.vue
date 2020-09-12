@@ -1,15 +1,15 @@
 <template>
   <el-row :gutter="20">
-    <el-col v-for="teacher in teachers" :key="teacher.teacherId"
+    <el-col v-for="teacher in teachers" :key="teacher.id"
       :xs="24" :sm="8" :md="6" class="mb-3">
       <a class="teacher-card img-hover pointer" @click="bindTeac(teacher)" >
         <el-row>
           <el-col :xs="9" class="teacher-pic">
-            <img :src="teacher.teacherPic"  alt="..." />
+            <img :src="teacher.pic"  alt="..." />
           </el-col>
           <el-col :xs="15">
             <div class="text-dark teacher-info">
-              <p class="teacher-name">{{teacher.teacherName}}</p>
+              <p class="teacher-name">{{teacher.name}}</p>
             </div>
           </el-col>
         </el-row>
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     bindTeac(teacher) {
-      this.$router.push(`/teacher/${teacher.teacherId}`);
+      this.$router.push(`/teacher/?id=${teacher.id}`);
     },
   },
 };
