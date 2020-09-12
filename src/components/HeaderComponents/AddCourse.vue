@@ -51,22 +51,31 @@ export default {
         ],
       },
       options: [{
-        value: '选项1',
+        value: '2018秋季',
         label: '2018秋季',
       }, {
-        value: '选项2',
+        value: '2019春季',
         label: '2019春季',
       }, {
-        value: '选项3',
+        value: '2019秋季',
+        label: '2019秋季',
+      }, {
+        value: '2020春季',
+        label: '2020春季',
+      }, {
+        value: '2020秋季',
         label: '2020秋季',
       }, {
-        value: '选项4',
-        label: '2020春季',
+        value: '2021春季',
+        label: '2021春季',
       }],
     };
   },
   methods: {
     submitForm() {
+      console.log(this.addCourseForm.name);
+      console.log(this.addCourseForm.term);
+      console.log(this.addCourseForm.synopsis);
       return null;
     },
     clear() {
