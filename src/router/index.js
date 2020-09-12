@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import Home from '../views/Home.vue';
 import TeacherDetail from '../views/TeacherDetail.vue';
+import TeacherVerify from '../views/TeacherVerify.vue';
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
@@ -21,6 +22,11 @@ const routes = [
     path: '/teacherdetail',
     name: 'TeacherDetail',
     component: TeacherDetail,
+  },
+  {
+    path: '/teacherverify',
+    name: 'TeacherVerify',
+    component: TeacherVerify,
   },
 ];
 

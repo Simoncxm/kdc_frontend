@@ -18,13 +18,17 @@
           @click.native="showDialog = !showDialog">
           <el-button type="text">登录/注册</el-button>
         </el-col>
-        <el-col :span="2" :offset="1" v-if="curUserID !== null">
+        <el-col :span="1" :offset="1" v-if="curUserID !== null">
           <el-button type="text">我的课程</el-button>
         </el-col>
-        <el-col :span="2" v-if="curUserID !== null">
+        <el-col :span="1" v-if="curUserID !== null">
           <el-button type="text">个人中心</el-button>
         </el-col>
-        <el-col :span="2" v-if="curUserID !== null">
+        <el-col :span="1" v-if="curUserID !== null"
+          @click.native="showApplication = !showApplication">
+          <el-button type="text" >教师认证</el-button>
+        </el-col>
+        <el-col :span="1" v-if="curUserID !== null">
           <el-button type="text" @click="quit">退出登录</el-button>
         </el-col>
       </el-row>
@@ -41,6 +45,15 @@
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
+    <el-dialog
+      :visible.sync="showApplication"
+      width="30%" @close="closeApplication">
+      <el-tabs v-model="applicationName">
+        <el-tab-pane label="教师认证" name="first">
+          <TeacherApplication ref="teacherApplication"/>
+        </el-tab-pane>
+      </el-tabs>
+    </el-dialog>
   </div>
 </template>
 
@@ -48,16 +61,19 @@
 
 import Login from './HeaderComponents/Login.vue';
 import Register from './HeaderComponents/Register.vue';
+import TeacherApplication from './HeaderComponents/TeacherApplication.vue';
 
 export default {
   name: 'Header',
-  components: { Register, Login },
+  components: { TeacherApplication, Register, Login },
   data() {
     return {
-      curUserID: null,
+      curUserID: '111',
       searchText: null,
       showDialog: false,
+      showApplication: false,
       activeName: 'first',
+      applicationName: 'first',
       searchType: 1,
     };
   },
@@ -67,6 +83,9 @@ export default {
     }
   },
   methods: {
+    closeApplication() {
+      this.$refs.teacherApplication.clear();
+    },
     closeDialog() {
       this.$refs.login.clear();
       this.$refs.register.clear();
