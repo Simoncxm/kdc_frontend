@@ -1,16 +1,19 @@
 <template>
   <el-row :gutter="20">
-    <el-col v-for="course in courses" :key="course.id"
+    <el-col v-for="course in courses" :key="course.courseId"
       :xs="24" :sm="8" :md="6" class="mb-3">
       <a class="course-card img-hover pointer" @click="bindClazz(course)" >
         <el-row>
           <el-col :xs="9" class="course-pic">
-            <img :src="course.pic"  alt="..." />
+            <img :src="course.coursePic"  alt="..." />
           </el-col>
           <el-col :xs="15">
             <div class="text-dark course-info">
-              <p class="course-name">{{course.name}}</p>
-              <p class="course-num">指导老师：{{course.teacherName}}</p>
+              <p class="course-name">{{course.courseName}}</p>
+              <p v-if="thisUserId === course.teacherId" class="course-num">
+                班课号：{{course.courseNum}}
+              </p>
+              <p v-else class="course-num">指导老师：{{course.teacherName}}</p>
               <p class="clazz-term pr-2">
                 <span>{{course.term}}</span>
                 <span class="float-right">
@@ -37,7 +40,7 @@ export default {
   },
   methods: {
     bindClazz(course) {
-      this.$router.push(`/course/?courseId=${course.id}`);
+      this.$router.push(`/clazz/${course.courseId}`);
     },
   },
 };
