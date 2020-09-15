@@ -80,7 +80,7 @@ export default {
         if (valid) {
           this.$axios.post('/api/applyTeacher', {
             name: this.applicationForm.name,
-            teacherId: this.applicationForm.id,
+            teacherApprove: this.applicationForm.id,
             desc: this.applicationForm.description,
             nation: this.applicationForm.nation,
             contact: this.applicationForm.contact,
