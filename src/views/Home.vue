@@ -88,6 +88,20 @@ export default {
     if (this.$cookies.isKey('userID')) {
       this.curUserID = this.$cookies.get('userID');
       this.curUserType = this.$cookies.get('userType');
+      if (this.$cookies.isKey('username')) {
+        if (this.curUserType === 'teacher') {
+          this.$notify({
+            title: `欢迎${this.$cookies.get('username')}老师使用本系统`,
+            type: 'success',
+          });
+        } else {
+          this.$notify({
+            title: `欢迎${this.$cookies.get('username')}同学使用本系统`,
+            type: 'success',
+          });
+        }
+        this.$cookies.remove('username');
+      }
       this.$axios.get(`/api/getCourseByUserId/?id=${this.curUserID}`).then((res) => {
         if (res.data.code === -1) {
           this.$notify({

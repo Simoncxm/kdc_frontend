@@ -53,12 +53,9 @@ export default {
                 type: 'warning',
               });
             } else {
-              this.$notify({
-                title: '登录成功',
-                type: 'success',
-              });
               this.$cookies.set('userID', res.data.id);
               this.$cookies.set('userType', res.data.identity);
+              this.$cookies.set('username', this.loginForm.account);
               this.$router.go(0);
             }
           });
