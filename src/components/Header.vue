@@ -116,6 +116,8 @@ export default {
     quit() {
       this.curUserID = null;
       this.$cookies.remove('userID');
+      this.$cookies.remove('userType');
+      this.$cookies.remove('username');
       this.$router.go(0);
     },
     search() {
