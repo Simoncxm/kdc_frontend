@@ -25,75 +25,7 @@
 <script>
 export default {
   name: 'TeacherCards',
-  data() {
-    return {
-      teachers: [
-        {
-          id: '123231',
-          name: '程旭元',
-          courseList: [
-            {
-              id: '1111111111',
-              name: 'C语言程序基础',
-              videoList: [],
-              tercherId: '123231',
-              teacherName: '程旭元',
-              term: '2019-2020',
-              synopsis: '这个课非常好。',
-              studentList: [],
-            },
-          ],
-          userId: '123231233313',
-          nation: '中国',
-          institute: '北京航空航天大学',
-          contact: '123123@123.com',
-          synopsis: '这个老师非常好。',
-        },
-        {
-          id: '123231',
-          name: '程旭元',
-          courseList: [
-            {
-              id: '1111111111',
-              name: 'C语言程序基础',
-              videoList: [],
-              tercherId: '123231',
-              teacherName: '程旭元',
-              term: '2019-2020',
-              synopsis: '这个课非常好。',
-              studentList: [],
-            },
-          ],
-          userId: '123231233313',
-          nation: '中国',
-          institute: '北京航空航天大学',
-          contact: '123123@123.com',
-          synopsis: '这个老师非常好。',
-        },
-        {
-          id: '123231',
-          name: '程旭元',
-          courseList: [
-            {
-              id: '1111111111',
-              name: 'C语言程序基础',
-              videoList: [],
-              tercherId: '123231',
-              teacherName: '程旭元',
-              term: '2019-2020',
-              synopsis: '这个课非常好。',
-              studentList: [],
-            },
-          ],
-          userId: '123231233313',
-          nation: '中国',
-          institute: '北京航空航天大学',
-          contact: '123123@123.com',
-          synopsis: '这个老师非常好。',
-        },
-      ],
-    };
-  },
+  props: ['teachers'],
   methods: {
     bindTeac(teacher) {
       this.$router.push(`/teacher/?id=${teacher.id}`);

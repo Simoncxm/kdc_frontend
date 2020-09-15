@@ -8,12 +8,12 @@
           </el-button>
         </el-col>
         <el-col :span="7">
-          <el-input placeholder="请输入内容" v-model="searchText">
+          <el-input placeholder="请输入内容" v-model="searchText" @keyup.enter.native="search">
             <el-select v-model="searchType" slot="prepend">
               <el-option label="搜课程" :value="1"></el-option>
               <el-option label="搜老师" :value="2"></el-option>
             </el-select>
-            <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="search" ></el-button>
           </el-input>
         </el-col>
         <el-col :span="6" v-if="curUserID === null">
@@ -119,12 +119,16 @@ export default {
       this.$router.go(0);
     },
     search() {
-      console.log(this.searchType);
-      console.log(this.searchText);
+      if (this.searchType === 2) {
+        this.$router.push(`/teacherSearchResult/?text=${this.searchText}`);
+      }
     },
   },
 };
 </script>
 
-<style scoped>
+<style>
+  .el-select {
+    width: 90px;
+  }
 </style>
