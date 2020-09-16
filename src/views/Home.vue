@@ -1,36 +1,36 @@
 <template>
   <div class="home">
-    <Header/>
+    <Header />
+    <div class="main-box" v-if="curUserID !== null">
+      <div class="main">
+        <div class="box-hd">
+          <div class="title">我的课程</div>
+        </div>
+        <div class="box-bd">
+          <course-list :courses="myCourses" />
+        </div>
+      </div>
+    </div>
     <div class="main-box">
-        <div class="main" v-if="curUserID !== null">
-          <div class="box-hd">
-              <div class="title">我的课程</div>
-          </div>
-          <div class="box-bd">
-            <course-list :courses="myCourses" />
-          </div>
+      <div class="main">
+        <div class="box-hd">
+          <div class="title">热门课程</div>
+        </div>
+        <div class="box-bd">
+          <course-list :courses="hotCourses" />
         </div>
       </div>
-      <div class="main-box">
-        <div class="main">
-          <div class="box-hd">
-              <div class="title">热门课程</div>
-          </div>
-          <div class="box-bd">
-            <course-list :courses="hotCourses" />
-          </div>
+    </div>
+    <div class="main-box">
+      <div class="main">
+        <div class="box-hd">
+          <div class="title">热门老师</div>
+        </div>
+        <div class="box-bd">
+          <teacher-list :teachers="hotTeachers" />
         </div>
       </div>
-      <div class="main-box">
-        <div class="main">
-          <div class="box-hd">
-              <div class="title">热门老师</div>
-          </div>
-          <div class="box-bd">
-            <teacher-list :teachers="hotTeachers" />
-          </div>
-        </div>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -125,16 +125,16 @@ export default {
 </script>
 
 <style scoped>
-  .main-box {
-    padding-bottom: 20px;
-  }
+.main-box {
+  padding-bottom: 20px;
+}
 
-  .main {
-    margin: 0 auto;
-    max-width: 1225px;
-  }
+.main {
+  margin: 0 auto;
+  max-width: 1225px;
+}
 
-  .title {
+.title {
   float: left;
   font-size: 22px;
   font-weight: 200;
@@ -142,7 +142,7 @@ export default {
   color: #333;
 }
 
-  .box-hd {
+.box-hd {
   height: 58px;
   margin: 20px 0 0 0;
 }
