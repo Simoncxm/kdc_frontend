@@ -1,8 +1,10 @@
 <template>
   <div id="video">
-    <div id="videotitle"><p v-html="title">{{ title }}</p></div>
+    <div id="videotitle">
+      <p v-html="title">{{ title }}</p>
+    </div>
     <video id="videoplayer" class="video-js" controls preload="auto">
-      <source :src="source" type="video/mp4">
+      <source :src="source" type="video/mp4" />
     </video>
   </div>
 </template>
@@ -22,13 +24,11 @@ export default {
       this.$router.push('/');
     }
     this.source = `/api/video/playVideo?id=${vid}`;
-    this.$axios.get(`/api/video/getTitleByVideoId?id=${vid}`)
-      .then((res) => {
-        this.title = res.data;
-      });
+    this.$axios.get(`/api/video/getTitleByVideoId?id=${vid}`).then((res) => {
+      this.title = res.data;
+    });
   },
 };
-
 </script>
 
 <style scoped>

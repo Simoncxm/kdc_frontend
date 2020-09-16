@@ -1,11 +1,11 @@
 <template>
   <div>
-    <Header/>
+    <Header />
     <el-col :span="10" :offset="7" style="margin-top: 5px">
       <el-row v-for="application in applications" :key="application.id" style="margin-bottom: 8px">
         <el-card>
           <div slot="header" class="clearfix">
-            <span style="float: left;font-size: large" >教师申请</span>
+            <span style="float: left;font-size: large">教师申请</span>
           </div>
           <el-row>
             <el-col>
@@ -18,8 +18,8 @@
             </el-col>
           </el-row>
           <div style="float: right; padding: 3px 0;margin-bottom: 5px">
-            <el-button  type="primary" size="small" @click="agree(application)">同意</el-button>
-            <el-button  type="danger" size="small" @click="disagree(application)">拒绝</el-button>
+            <el-button type="primary" size="small" @click="agree(application)">同意</el-button>
+            <el-button type="danger" size="small" @click="disagree(application)">拒绝</el-button>
           </div>
         </el-card>
       </el-row>
@@ -53,31 +53,35 @@ export default {
   },
   methods: {
     agree(app) {
-      this.$axios.post('/api/agreeTeacherApply', {
-        id: app.id,
-      }).then((res) => {
-        if (res.data.code === -1) {
-          this.$notify({
-            title: '有问题',
-            message: res.data.msg,
-            type: 'warning',
-          });
-        }
-      });
+      this.$axios
+        .post('/api/agreeTeacherApply', {
+          id: app.id,
+        })
+        .then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '有问题',
+              message: res.data.msg,
+              type: 'warning',
+            });
+          }
+        });
       this.applications = this.applications.filter((e) => e.id !== app.id);
     },
     disagree(app) {
-      this.$axios.post('/api/disagreeTeacherApply', {
-        id: app.id,
-      }).then((res) => {
-        if (res.data.code === -1) {
-          this.$notify({
-            title: '有问题',
-            message: res.data.msg,
-            type: 'warning',
-          });
-        }
-      });
+      this.$axios
+        .post('/api/disagreeTeacherApply', {
+          id: app.id,
+        })
+        .then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '有问题',
+              message: res.data.msg,
+              type: 'warning',
+            });
+          }
+        });
       this.applications = this.applications.filter((e) => e.id !== app.id);
     },
   },
@@ -85,21 +89,21 @@ export default {
 </script>
 
 <style>
-  .text {
-    font-size: 14px;
-  }
+.text {
+  font-size: 14px;
+}
 
-  .item {
-    margin-bottom: 18px;
-    text-align: left;
-  }
+.item {
+  margin-bottom: 18px;
+  text-align: left;
+}
 
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both
-  }
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: '';
+}
+.clearfix:after {
+  clear: both;
+}
 </style>

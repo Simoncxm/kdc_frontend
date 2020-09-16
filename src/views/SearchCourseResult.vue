@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header/>
-    <CourseCards :courses="this.courses"/>
+    <Header />
+    <CourseCards :courses="this.courses" />
   </div>
 </template>
 
@@ -19,20 +19,18 @@ export default {
   },
   mounted() {
     this.searchText = this.$route.query.text;
-    this.$axios.get(`/api/searchCourse/?key=${this.searchText}`)
-      .then((res) => {
-        if (res.data.code === -1) {
-          this.$notify({
-            title: '查询失败',
-            message: res.data.msg,
-            type: 'warning',
-          });
-        } else {
-          this.courses = res.data.list;
-        }
-      });
+    this.$axios.get(`/api/searchCourse/?key=${this.searchText}`).then((res) => {
+      if (res.data.code === -1) {
+        this.$notify({
+          title: '查询失败',
+          message: res.data.msg,
+          type: 'warning',
+        });
+      } else {
+        this.courses = res.data.list;
+      }
+    });
   },
   components: { CourseCards, Header },
 };
-
 </script>
