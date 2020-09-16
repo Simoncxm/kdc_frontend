@@ -7837,6 +7837,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rtmp-streamer@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/rtmp-streamer/download/rtmp-streamer-1.0.2.tgz#4056fa962b0f27b971b65e66e7cc4f27346af08b"
+  integrity sha1-QFb6lisPJ7lxtl5m58xPJzRq8Is=
+
 run-async@^2.4.0:
   version "2.4.1"
   resolved "https://registry.npm.taobao.org/run-async/download/run-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"

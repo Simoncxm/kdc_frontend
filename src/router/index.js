@@ -63,6 +63,11 @@ const routes = [
     component: () => import('../components/Posts.vue'),
   },
   {
+    path: '/teacherlive',
+    name: 'teacherlive',
+    component: () => import('../views/TeacherLive.vue'),
+  },
+  {
     path: '/community',
     name: 'community',
     component: () => import('../views/Community.vue'),
