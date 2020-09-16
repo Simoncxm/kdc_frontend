@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header />
-    <TeacherCards :teachers="this.teachers" />
+    <el-col :span="12" :offset="6">
+      <TeacherCards :teachers="teachers" />
+    </el-col>
   </div>
 </template>
 

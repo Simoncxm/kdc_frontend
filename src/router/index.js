@@ -8,6 +8,7 @@ import TeacherVerify from '../views/TeacherVerify.vue';
 import VideoPlayer from '../views/VideoPlayer.vue';
 import SearchTeacherResult from '../views/SearchTeacherResult.vue';
 import SearchCourseResult from '../views/SearchCourseResult.vue';
+import PersonalCenter from '../views/PersonalCenter.vue';
 
 const originalPush = VueRouter.prototype.push;
 VueRouter.prototype.push = function push(location) {
@@ -46,6 +47,11 @@ const routes = [
     path: '/teacherSearchResult/*',
     name: 'SearchTeacherResult',
     component: SearchTeacherResult,
+  },
+  {
+    path: '/personalCenter',
+    name: 'PersonalCenter',
+    component: PersonalCenter,
   },
   {
     path: '/videoPlayer/*',
