@@ -123,6 +123,8 @@ export default {
     search() {
       if (this.searchType === 2) {
         this.$router.push(`/teacherSearchResult/?text=${this.searchText}`);
+      } else {
+        this.$router.push(`/courseSearchResult/?text=${this.searchText}`);
       }
     },
   },

@@ -25,52 +25,7 @@
 <script>
 export default {
   name: 'CourseCards',
-  data() {
-    return {
-      courses: [
-        {
-          appraise: false,
-          arrivesNum: null,
-          clazzName: 'sd',
-          courseId: 'sjlWsdTdsC4auMRfKG27',
-          courseName: 'C语言基础训练',
-          courseNum: '371947',
-          coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
-          experiencesNum: null,
-          gmtCreate: 1599574910000,
-          gmtModified: 1599575501000,
-          id: 16,
-          resourcesNum: null,
-          synopsis: '这个课确实好',
-          teacherId: 'R411PCsfE8bFzJvJ',
-          teacherName: '程旭元',
-          term: '2019-2020',
-          List: [
-          ],
-        },
-        {
-          appraise: false,
-          arrivesNum: null,
-          clazzName: 'sd',
-          courseId: 'sjlWsdTdsC4auMRfKG27',
-          courseName: 'sdfsd',
-          courseNum: '371947',
-          coursePic: 'http://www.course.ankoye.com/public/pic_default.jpeg',
-          experiencesNum: null,
-          gmtCreate: 1599574910000,
-          gmtModified: 1599575501000,
-          id: 17,
-          resourcesNum: null,
-          synopsis: 'sdfds',
-          teacherId: 'R411PCsfE8bFzJvJ',
-          teacherName: '游客',
-          term: '2019-2020',
-          List: [
-          ],
-        },
-      ],
-    };
-  },
+  props: ['courses'],
   methods: {
     bindClazz(course) {
       this.$router.push(`/course/?courseId=${course.id}`);
