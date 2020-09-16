@@ -1,14 +1,12 @@
 <template>
   <div class="import-demo">
-    <excel-import :on-success="onSuccess">
-      <div class="import-btn">点击导入</div>
-    </excel-import>
-    <div class="code" v-if="json">
-      {{json}}
-    </div>
-    <el-dialog :visible.sync="showImport" width="30%">
-      <UploadXls />
-    </el-dialog>
+    <el-col :span="10">
+      <excel-import :on-success="onSuccess">
+        <el-button type="primary">点击导入</el-button>
+      </excel-import>
+      <el-button type="primary" @click="importStudent" v-if="json" style="margin-top: 20px">上传名单</el-button>
+    </el-col>
+    <div class="code" v-if="json">{{list}}</div>
   </div>
 </template>
 
@@ -21,8 +19,10 @@ export default {
   data() {
     return {
       json: '',
+      list: [],
     };
   },
+  props: ['courseId'],
   methods: {
     /**
      * @name: 导入成功
@@ -31,8 +31,33 @@ export default {
      * @return:
      */
     onSuccess(response, file) {
-      this.json = JSON.stringify(response);
+      this.json = JSON.parse(JSON.stringify(response));
+      this.list = [];
+      this.json[0].data.forEach((e) => {
+        this.list.push(e.studentId);
+      });
       return file;
+    },
+    importStudent() {
+      this.$axios
+        .post('/api/importStudent', {
+          courseId: this.courseId,
+          list: this.list,
+        })
+        .then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '导入名单失败',
+              message: res.data.msg,
+              type: 'warning',
+            });
+          } else {
+            this.$notify({
+              title: '导入成功',
+              type: 'success',
+            });
+          }
+        });
     },
   },
 };
@@ -43,21 +68,9 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.import-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 30px;
-  background: #ff7e00;
-  border-radius: 5px;
-  color: #ffffff;
-  cursor: pointer;
-}
 .code {
   padding: 20px 0;
-  margin-left: 100px;
-  width: calc(100% - 100px);
+  margin-left: 20px;
   background: #eee;
 }
 </style>

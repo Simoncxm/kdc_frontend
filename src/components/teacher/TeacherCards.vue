@@ -5,9 +5,14 @@
         <div @click="bindTeac(teacher)">
           <el-card :body-style="{ padding: '0px' }">
             <el-col :span="8">
-              <img src="https://wx4.sinaimg.cn/mw690/c5a9a113gy1gidakzh7rsj21s02dcqv5.jpg" alt="..." width="80%"  style="float: left">
+              <img
+                src="https://wx4.sinaimg.cn/mw690/c5a9a113gy1gidakzh7rsj21s02dcqv5.jpg"
+                alt="..."
+                width="80%"
+                style="float: left"
+              />
             </el-col>
-            <el-col :span="16" class="teacher-info" style="margin-top: 10px;margin-bottom: 10px" >
+            <el-col :span="16" class="teacher-info" style="margin-top: 10px;margin-bottom: 10px">
               <p style="font-size: large">{{teacher.name}}</p>
               <p>国籍：{{teacher.nation}}</p>
               <p>所在机构：{{teacher.institute}}</p>
@@ -35,10 +40,10 @@ export default {
 </script>
 
 <style>
-  .teacher-info {
-    text-align: left;
-    font-size: small;
-    color: #333;
-    padding-left: 0.6rem;
-  }
+.teacher-info {
+  text-align: left;
+  font-size: small;
+  color: #333;
+  padding-left: 0.6rem;
+}
 </style>
