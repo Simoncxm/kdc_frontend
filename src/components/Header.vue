@@ -19,11 +19,10 @@
         <el-col :span="1" :offset="3" v-if="curUserID === null">
           <el-button type="text" @click.native="showDialog = !showDialog">登录/注册</el-button>
         </el-col>
-        <el-col :span="1" v-if="curUserID !== null">
-          <el-button type="text">我的课程</el-button>
-        </el-col>
-        <el-col :span="1" v-if="curUserID !== null">
-          <el-button type="text">个人中心</el-button>
+        <el-col :span="1" :offset="1" v-if="curUserID !== null">
+          <el-button type="text">
+            <router-link to="/personalCenter">个人中心</router-link>
+          </el-button>
         </el-col>
         <el-col :span="1" v-if="curUserID !== null && curUserType === 'teacher'">
           <el-button type="text" @click.native="showDialogCourse = !showDialogCourse">新增课程</el-button>
