@@ -1,70 +1,94 @@
 <template>
   <div class="home">
-    <Header/>
+    <Header />
     <div class="main-box">
       <div class="main">
-        <el-row :gutter="20"  class="el-row" type="flex" >
-          <el-col :span="14"  class="el-col" >
-            <img class="avatar" :src="course.pic"  alt="..." />
+        <el-row :gutter="20" class="el-row" type="flex">
+          <el-col :span="14" class="el-col">
+            <img class="avatar" :src="course.pic" alt="..." />
           </el-col>
-          <el-col :span="10"  class="el-col" >
+          <el-col :span="10" class="el-col">
             <div class="info">
               <div class="box-content">
                 <span v-if="!isEmpty(course.name)">{{course.name}}</span>
-                <span  v-if="isEmpty(course.name)">暂无</span>
+                <span v-if="isEmpty(course.name)">暂无</span>
               </div>
             </div>
-            <div class="content">学期：
+            <div class="content">
+              学期：
               <span v-if="!isEmpty(course.term)">{{course.term}}</span>
               <span v-if="isEmpty(course.term)">暂无</span>
             </div>
-            <div class="content">开课老师：
+            <div class="content">
+              开课老师：
               <span v-if="!isEmpty(course.teacherName)">{{course.teacherName}}</span>
               <span v-if="isEmpty(course.teacherName)">暂无</span>
             </div>
-            <div class="content">介绍：
+            <div class="content">
+              介绍：
               <span v-if="!isEmpty(course.synopsis)">{{course.synopsis}}</span>
               <span v-if="isEmpty(course.synopsis)">暂无</span>
             </div>
             <div class="buttons">
               <el-button v-if="userType === 0" type="success" @click="apply">申请加入</el-button>
-              <el-button v-if="userType === 2" type="success"
-                @click="showUpload = true">上传视频</el-button>
+              <el-button v-if="userType === 2" type="success" @click="showUpload = true">上传视频</el-button>
+              <el-button v-if="userType === 2" type="success" @click="showImport = true">导入成员</el-button>
             </div>
           </el-col>
         </el-row>
-        <div class="box-hd" v-if="userType !== 0">
-          <div class="title">开课列表</div>
-        </div>
-        <div class="box-bd" v-if="userType !== 0">
-          <el-table
-            :data="course.videoList"
-            style="width: 100%">
-            <el-table-column
-              prop="title"
-              label="标题">
-            </el-table-column>
-            <el-table-column
-              prop="date"
-              label="开课日期">
-            </el-table-column>
-            <el-table-column
-              prop="time"
-              label="时长">
-            </el-table-column>
-            <el-table-column>
-              <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">
-                  进入课程
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+        <div class="box-bd" v-if="userType !== 0" style="padding-top: 35px">
+          <el-tabs type="card" style="width: 70%">
+            <el-tab-pane label="开课列表">
+              <el-table
+                :data="course.videoList">
+                <el-table-column
+                  prop="title"
+                  label="标题">
+                </el-table-column>
+                <el-table-column
+                  prop="date"
+                  label="开课日期">
+                </el-table-column>
+                <el-table-column
+                  prop="time"
+                  label="时长">
+                </el-table-column>
+                <el-table-column>
+                  <template slot-scope="scope">
+                    <el-button @click="handleClick(scope.row)" type="text" size="small">
+                      进入课程
+                    </el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="学生名单" v-if="userType === 2">
+              <el-table
+                :data="course.studentList">
+                <el-table-column
+                  prop="studentID"
+                  label="学号">
+                </el-table-column>
+                <el-table-column
+                  prop="studentName"
+                  label="用户名">
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
         </div>
       </div>
     </div>
-    <el-dialog :visible.sync="showUpload" width="30%">
+    <el-dialog title="上传视频" :visible.sync="showUpload" width="40%">
       <FileUploader />
+    </el-dialog>
+    <el-dialog title="导入成员" :visible.sync="showImport" width="40%">
+      <el-row>
+        <span>请将学生学号置于Excel文件第一列并将第一列表头改为studentId</span>
+      </el-row>
+      <el-row>
+        <UploadXls :courseId="courseId" />
+      </el-row>
     </el-dialog>
   </div>
 </template>
@@ -73,6 +97,7 @@
 // @ is an alias to /src
 import Header from '@/components/Header.vue';
 import FileUploader from '@/components/FileUploader.vue';
+import UploadXls from '@/components/uploadxls.vue';
 
 export default {
   name: 'Home',
@@ -83,11 +108,13 @@ export default {
       courseId: null,
       course: null,
       showUpload: false,
+      showImport: false,
     };
   },
   components: {
     Header,
     FileUploader,
+    UploadXls,
   },
   mounted() {
     this.courseId = this.$route.query.courseId;
@@ -99,7 +126,6 @@ export default {
       url += '0';
     }
     this.$axios.get(url).then((res) => {
-      console.log(res);
       if (res.data.code === -1) {
         this.$notify({
           title: '获取课程失败',
@@ -119,23 +145,25 @@ export default {
     },
     apply() {
       if (this.userId) {
-        this.$axios.post('/api/joinCourse', {
-          id: this.userId,
-          courseId: this.courseId,
-        }).then((res) => {
-          if (res.data.code === -1) {
-            this.$notify({
-              title: '申请加入课程失败',
-              message: res.data.msg,
-              type: 'warning',
-            });
-          } else {
-            this.$notify({
-              title: '申请加入课程成功，请等待审核。',
-              type: 'success',
-            });
-          }
-        });
+        this.$axios
+          .post('/api/joinCourse', {
+            id: this.userId,
+            courseId: this.courseId,
+          })
+          .then((res) => {
+            if (res.data.code === -1) {
+              this.$notify({
+                title: '申请加入课程失败',
+                message: res.data.msg,
+                type: 'warning',
+              });
+            } else {
+              this.$notify({
+                title: '申请加入课程成功，请等待审核。',
+                type: 'success',
+              });
+            }
+          });
       } else {
         this.$notify({
           title: '请先登录',
@@ -152,16 +180,16 @@ export default {
 </script>
 
 <style scoped>
-  .main-box {
-    padding-bottom: 20px;
-  }
+.main-box {
+  padding-bottom: 20px;
+}
 
-  .main {
-    margin: 0 auto;
-    max-width: 1225px;
-  }
+.main {
+  margin: 0 auto;
+  max-width: 1225px;
+}
 
-  .title {
+.title {
   float: left;
   font-size: 22px;
   font-weight: 200;
@@ -169,26 +197,26 @@ export default {
   color: #333;
 }
 
-  .box-hd {
+.box-hd {
   height: 58px;
   margin: 20px 0 0 0;
-  }
+}
 
-  .info {
+.info {
   font-size: 30px;
   font-weight: 1000;
   line-height: 58px;
-  }
+}
 
-  .content{
-    text-align: left;
-    color: #333;
-    font-size: 20px;
-  }
+.content {
+  text-align: left;
+  color: #333;
+  font-size: 20px;
+}
 
-  .buttons{
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-  }
+.buttons {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
 </style>

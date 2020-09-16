@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="registerForm" :rules="rules"  ref="registerForm" label-width="70px">
+    <el-form :model="registerForm" :rules="rules" ref="registerForm" label-width="70px">
       <el-form-item label="用户名" prop="username">
         <el-input v-model.trim="registerForm.username"></el-input>
       </el-form-item>
@@ -12,15 +12,16 @@
       </el-form-item>
       <el-form-item label="验证码" prop="verifyCode" class="mb-2">
         <el-input v-model.trim="registerForm.verifyCode">
-          <el-button slot="append" @click="getVerifyCode"
-            :disabled="displayed" :loading="displayed">{{verifyHint}}</el-button>
+          <el-button
+            slot="append"
+            @click="getVerifyCode"
+            :disabled="displayed"
+            :loading="displayed"
+          >{{verifyHint}}</el-button>
         </el-input>
       </el-form-item>
-      <div style="padding-top: 20px" >
-        <el-button type="primary" class="btn-block"
-          @click="submitForm('registerForm')">
-          注册
-        </el-button>
+      <div style="padding-top: 20px">
+        <el-button type="primary" class="btn-block" @click="submitForm('registerForm')">注册</el-button>
       </div>
     </el-form>
   </div>
@@ -43,25 +44,31 @@ export default {
       rules: {
         username: [
           {
-            required: true, message: '请输入用户名', trigger: 'change',
+            required: true,
+            message: '请输入用户名',
+            trigger: 'change',
           },
           {
-            min: 2, max: 10, message: '长度在2到10位', trigger: ['blur', 'change'],
+            min: 2,
+            max: 10,
+            message: '长度在2到10位',
+            trigger: ['blur', 'change'],
           },
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'change' },
           {
-            min: 6, max: 15, message: '长度在6到15位', trigger: ['blur', 'change'],
+            min: 6,
+            max: 15,
+            message: '长度在6到15位',
+            trigger: ['blur', 'change'],
           },
         ],
         email: [
           { required: true, message: '请输入邮箱地址', trigger: 'change' },
           { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
         ],
-        verifyCode: [
-          { required: true, message: '请输入验证码', trigger: ['blur', 'change'] },
-        ],
+        verifyCode: [{ required: true, message: '请输入验证码', trigger: ['blur', 'change'] }],
       },
     };
   },
@@ -69,26 +76,28 @@ export default {
     submitForm() {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
-          this.$axios.post('/api/register', {
-            name: this.registerForm.username,
-            password: this.registerForm.password,
-            captcha: this.registerForm.verifyCode,
-            email: this.registerForm.email,
-          }).then((res) => {
-            if (res.data.code === -1) {
-              this.$notify({
-                title: '注册失败',
-                message: res.data.msg,
-                type: 'warning',
-              });
-            } else {
-              this.$notify({
-                title: '注册成功',
-                type: 'success',
-              });
-              this.$router.go(0);
-            }
-          });
+          this.$axios
+            .post('/api/register', {
+              name: this.registerForm.username,
+              password: this.registerForm.password,
+              captcha: this.registerForm.verifyCode,
+              email: this.registerForm.email,
+            })
+            .then((res) => {
+              if (res.data.code === -1) {
+                this.$notify({
+                  title: '注册失败',
+                  message: res.data.msg,
+                  type: 'warning',
+                });
+              } else {
+                this.$notify({
+                  title: '注册成功',
+                  type: 'success',
+                });
+                this.$router.go(0);
+              }
+            });
         }
       });
     },
@@ -96,22 +105,24 @@ export default {
       this.$refs.registerForm.resetFields();
     },
     getVerifyCode() {
-      this.$axios.post('/api/sendEmail', {
-        email: this.registerForm.email,
-      }).then((res) => {
-        if (res.data.code === -1) {
-          this.$notify({
-            title: '登录失败',
-            message: res.data.msg,
-            type: 'warning',
-          });
-        } else {
-          this.$notify({
-            title: '发送成功',
-            type: 'success',
-          });
-        }
-      });
+      this.$axios
+        .post('/api/sendEmail', {
+          email: this.registerForm.email,
+        })
+        .then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '登录失败',
+              message: res.data.msg,
+              type: 'warning',
+            });
+          } else {
+            this.$notify({
+              title: '发送成功',
+              type: 'success',
+            });
+          }
+        });
       this.time = 60;
       this.displayed = true;
       this.timer();
