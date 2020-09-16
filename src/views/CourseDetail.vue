@@ -30,6 +30,8 @@
               <el-button v-if="userType === 0" type="success" @click="apply">申请加入</el-button>
               <el-button v-if="userType === 2" type="success"
                 @click="showUpload = true">上传视频</el-button>
+              <el-button v-if="userType === 2" type="success"
+                @click="showImport = true">导入成员</el-button>
             </div>
           </el-col>
         </el-row>
@@ -66,6 +68,9 @@
     <el-dialog :visible.sync="showUpload" width="30%">
       <FileUploader />
     </el-dialog>
+    <el-dialog :visible.sync="showImport" width="30%">
+      <UploadXls />
+    </el-dialog>
   </div>
 </template>
 
@@ -73,6 +78,7 @@
 // @ is an alias to /src
 import Header from '@/components/Header.vue';
 import FileUploader from '@/components/FileUploader.vue';
+import UploadXls from '@/components/uploadxls.vue';
 
 export default {
   name: 'Home',
@@ -83,11 +89,13 @@ export default {
       courseId: null,
       course: null,
       showUpload: false,
+      showImport: false,
     };
   },
   components: {
     Header,
     FileUploader,
+    UploadXls,
   },
   mounted() {
     this.courseId = this.$route.query.courseId;
