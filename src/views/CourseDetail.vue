@@ -36,20 +36,46 @@
             </div>
           </el-col>
         </el-row>
-        <div class="box-hd" v-if="userType !== 0">
-          <div class="title">开课列表</div>
-        </div>
-        <div class="box-bd" v-if="userType !== 0">
-          <el-table :data="course.videoList" style="width: 100%">
-            <el-table-column prop="title" label="标题"></el-table-column>
-            <el-table-column prop="date" label="开课日期"></el-table-column>
-            <el-table-column prop="time" label="时长"></el-table-column>
-            <el-table-column>
-              <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">进入课程</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+        <div class="box-bd" v-if="userType !== 0" style="padding-top: 35px">
+          <el-tabs type="card" style="width: 70%">
+            <el-tab-pane label="开课列表">
+              <el-table
+                :data="course.videoList">
+                <el-table-column
+                  prop="title"
+                  label="标题">
+                </el-table-column>
+                <el-table-column
+                  prop="date"
+                  label="开课日期">
+                </el-table-column>
+                <el-table-column
+                  prop="time"
+                  label="时长">
+                </el-table-column>
+                <el-table-column>
+                  <template slot-scope="scope">
+                    <el-button @click="handleClick(scope.row)" type="text" size="small">
+                      进入课程
+                    </el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="学生名单" v-if="userType === 2">
+              <el-table
+                :data="course.studentList">
+                <el-table-column
+                  prop="studentID"
+                  label="学号">
+                </el-table-column>
+                <el-table-column
+                  prop="studentName"
+                  label="用户名">
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
         </div>
       </div>
     </div>
