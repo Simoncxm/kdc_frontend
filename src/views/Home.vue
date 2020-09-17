@@ -66,9 +66,6 @@ export default {
         });
       } else {
         this.hotCourses = res.data.list;
-        this.hotCourses.forEach((e) => {
-          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
-        });
       }
     });
     this.$axios.get('/api/getHotTeacher').then((res) => {
@@ -80,9 +77,6 @@ export default {
         });
       } else {
         this.hotTeachers = res.data.list;
-        this.hotTeachers.forEach((e) => {
-          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/instructor_image/link/0253d4da52e643c98076e7e06110b0c4.png';
-        });
       }
     });
     if (this.$cookies.isKey('userID')) {
@@ -111,9 +105,6 @@ export default {
           });
         } else {
           this.myCourses = res.data.list;
-          this.myCourses.forEach((e) => {
-            e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
-          });
           if (this.myCourses.length > 8) {
             this.myCourses = this.myCourses.slice(0, 8);
           }
