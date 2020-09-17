@@ -1,20 +1,6 @@
 <template>
     <div class="login-container">
         <div class="login-wrapper">
-            <!-- 顶部三个蓝条 -->
-            <div class="row-div" style="width: 100%; height: 10px">
-                <div style="width: 190px; height: 100%; background-color: #006EFF"></div>
-                <div style="width: 160px; height: 100%; background-color: #00A4FF"></div>
-                <div style="width: 100px; height: 100%; background-color: #5AD5E0"></div>
-            </div>
-            <!-- 腾讯云logo -->
-            <div class="row-div" style="width: 100%; height: 100px; justify-content: center">
-                <img style="height: 23px" :src="txcLogo" alt="">
-                <div style="width: 9px"></div>
-                <div style="width: 1px; height: 10px; background-color: #D8D8D8"></div>
-                <div style="width: 9px"></div>
-                <div  style="width: 115px; height: 23px; padding-top: 8px; font-size: 18px; color: #333333">直播互动组件</div>
-            </div>
             <!-- 登录操作区-->
             <el-form ref="login" label-width="120" :rules="rules" :model="form" class="loginBox">
                 <el-form-item prop="userID">
@@ -172,11 +158,11 @@ export default {
   methods: {
     selecteRoleHandler(value) {
       if (value === 'pusher') {
-        //this.$router.push('/pc-pusher')
+        // this.$router.push('/pc-pusher')
         this.isTest = true;
       }else{
         this.isTest = false;
-        //this.$router.push('/pc-player')
+        // this.$router.push('/pc-player')
       }
     },
     // WEBLIVE 登录
@@ -204,6 +190,7 @@ export default {
         const LoginInfo = JSON.parse(_LoginInfo);
         this.$store.commit('setChatInfo', LoginInfo);
         this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
+        this.$router.push('/pc-pusher')
       }).catch((err) => {
         this.loading = false;
         console.log(err);
@@ -310,8 +297,7 @@ export default {
     width 450px
     background $white
     color $black
-    border-radius 5px
-    box-shadow: 0 11px 20px 0 rgba(0, 0, 0, 0.3)
+
 
     .row-div
         display flex

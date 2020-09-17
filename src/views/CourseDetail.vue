@@ -31,9 +31,10 @@
             </div>
             <div class="buttons">
               <el-button v-if="userType === 0" type="success" @click="apply">申请加入</el-button>
-              <el-button v-if="userType === 2" type="success" @click="showUpload = true">上传视频</el-button>
               <el-button v-if="userType === 2" type="success" @click="showImport = true">导入成员</el-button>
               <el-button v-if="userType === 2" type="success" @click="showCover = true">上传封面</el-button>
+              <el-button v-if="userType === 2" type="success" @click="showUpload = true">上传视频</el-button>
+              <el-button v-if="userType === 2" type="success" @click="openlive">开启直播</el-button>
             </div>
           </el-col>
         </el-row>
@@ -110,6 +111,9 @@
 import Header from '@/components/Header.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import UploadXls from '@/components/uploadxls.vue';
+import Login from '@/components/sms-login/index'
+
+const WEB_LIVE_SMS_LOGIN_INFO = 'web_live_sms_login_info';
 
 export default {
   name: 'Home',
@@ -183,6 +187,37 @@ export default {
           type: 'warning',
         });
       }
+    },
+    openlive() {
+      let userID = '12345678';
+      let userSig = window.genTestUserSig('12345678').userSig;
+      this.im.login({
+        userID: userID,
+        userSig: userSig
+      }).then(() => {
+        this.loading = false;
+        this.$store.commit('toggleIsLogin', true);
+        this.$store.commit('setRole', 'pusher');
+        let _webLiveSmsLoginInfo = {
+          loginTime: Date.now(),
+          roomID: '123456',
+          userSig:userSig,
+          userID: userID,
+          streamID: 'test',
+          role: 'pusher',
+          resolution: '720p'
+        };
+        localStorage.setItem(WEB_LIVE_SMS_LOGIN_INFO, JSON.stringify(_webLiveSmsLoginInfo));
+        let _LoginInfo = localStorage.getItem(WEB_LIVE_SMS_LOGIN_INFO);
+        const LoginInfo = JSON.parse(_LoginInfo);
+        this.$store.commit('setChatInfo', LoginInfo);
+        this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
+        this.$router.push('/pc-pusher')
+      }).catch((err) => {
+        this.loading = false;
+        console.log(err);
+        this.$store.commit('showMessage', { message: '登录失败', type: 'error' });
+      });
     },
     handleClick(row) {
       this.$router.push(`/videoPlayer/?id=${row.id}`);

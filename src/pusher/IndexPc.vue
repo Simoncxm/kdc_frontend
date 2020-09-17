@@ -54,18 +54,18 @@
         return !this.isJoined;
       }
     },
-    watch: {
-      // 如果路由有变化，会再次执行该方法
-      '$route': {
-        handler() {
-          if (!this.isLogin) {
-            this.$router.replace('/');
-            // this.logout()
-          }
-        },
-        'immediate': true
-      }
-    },
+    // watch: {
+    //   // 如果路由有变化，会再次执行该方法
+    //   '$route': {
+    //     handler() {
+    //       if (!this.isLogin) {
+    //         this.$router.replace('/');
+    //         // this.logout()
+    //       }
+    //     },
+    //     'immediate': true
+    //   }
+    // },
     destroyed() {
       this.logout();
     },
