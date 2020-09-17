@@ -1,59 +1,66 @@
 {
-  "name": "kdc_frontend",
-  "version": "0.1.0",
+  "name": "tweblive-demo",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "start": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js serve --open",
+    "serve": "node node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
+    "build": "node node_modules/@vue/cli-service/bin/vue-cli-service.js build",
+    "lint": "node node_modules/@vue/cli-service/bin/vue-cli-service.js lint src --ext .vue,.js --fix"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "animate.css": "^4.1.0",
+    "archiver": "^4.0.1",
+    "axios": "^0.19.0",
     "bootstrap": "^4.5.2",
-    "core-js": "^3.6.5",
-    "element-ui": "^2.13.2",
+    "core-js": "^2.6.11",
+    "element-ui": "^2.13.0",
     "jquery": "^3.5.1",
-    "node-sass": "^4.14.1",
+    "jsdom": "^16.4.0",
+    "location": "0.0.1",
+    "md5": "^2.2.1",
+    "navigator": "^1.0.1",
     "pikaz-excel-js": "^0.2.14",
     "popper.js": "^1.16.1",
+    "postcss-plugin-px2rem": "^0.8.1",
+    "postcss-px-to-viewport": "^1.1.1",
+    "postcss-pxtorem": "^5.1.1",
+    "qrcode": "^1.4.4",
+    "sass": "^1.26.10",
     "sass-loader": "^10.0.2",
     "spark-md5": "^3.0.1",
+    "trtc-js-sdk": "^4.6.2",
+    "tweblive": "^1.0.1",
+    "vconsole": "^3.3.4",
     "video.js": "^7.8.4",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.4.3",
+    "vuex": "^3.1.2",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/eslint-config-airbnb": "^5.0.2",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-vue": "^6.2.2",
+    "@vue/cli-plugin-babel": "^3.12.1",
+    "@vue/cli-plugin-eslint": "^3.12.1",
+    "@vue/cli-service": "^3.12.1",
+    "babel-eslint": "^10.0.3",
+    "babel-plugin-component": "^1.1.1",
+    "cp": "^0.2.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "stylus": "^0.54.7",
+    "mta-h5-analysis": "^2.0.15",
+    "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.6.11"
   },
-  "eslintConfig": {
-    "root": false,
-    "env": {
-      "node": false
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/airbnb"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {
-      "max-len": 1
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
     }
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not dead"
+    "not ie <= 8"
   ]
 }

@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't
-          work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+  <meta charset="utf-8">
+  <!-- 优先使用Chrome内核 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="腾讯云 Web 直播互动组件">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, mininmum-scale=1, user-scalable=no">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>腾讯云 Web 直播互动组件</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<style>
+  body {
+    touch-action: manipulation;
+  }
+</style>
+<body>
+  <div id="app"></div>
+  <script src="./debug/GenerateTestUserSig.js"></script>
+  <script src="./debug/lib-generate-test-usersig.min.js"></script>
+</body>
+
 </html>
