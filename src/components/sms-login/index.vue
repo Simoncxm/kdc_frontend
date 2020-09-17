@@ -92,15 +92,15 @@
 </template>
 
 <script>
-import { Form, FormItem } from 'element-ui'
-import axios from 'axios'
-import txcLogo from '../../assets/image/txc-logo.png'
-import { isMobile } from '../../utils/mobile'
-import CapabilityTest from '../test/test'
-import { isMobileType } from '../../utils/common'
+import { Form, FormItem } from 'element-ui';
+import axios from 'axios';
+import txcLogo from '../../assets/image/txc-logo.png';
+import { isMobile } from '../../utils/mobile';
+import CapabilityTest from '../test/test';
+import { isMobileType } from '../../utils/common';
 
 // 手机号验证码登录缓存key
-const WEB_LIVE_SMS_LOGIN_INFO = 'web_live_sms_login_info'
+const WEB_LIVE_SMS_LOGIN_INFO = 'web_live_sms_login_info';
 
 export default {
   name: 'SmsLogin',
@@ -147,24 +147,24 @@ export default {
         verifyCode:false,
         streamID:false,
       }
-    }
+    };
   },
   created () {
 
     if (isMobileType.iOS() && !isMobileType.isSafari()) {
-      this.showGuide = true
+      this.showGuide = true;
     } else {
-      this.showGuide = false
+      this.showGuide = false;
     }
-    let webLiveSmsLoginInfo = localStorage.getItem(WEB_LIVE_SMS_LOGIN_INFO)
-    webLiveSmsLoginInfo = webLiveSmsLoginInfo ? JSON.parse(webLiveSmsLoginInfo) : {}
-    const { roomID = '', userID = '', streamID = '', role, resolution } = webLiveSmsLoginInfo
+    let webLiveSmsLoginInfo = localStorage.getItem(WEB_LIVE_SMS_LOGIN_INFO);
+    webLiveSmsLoginInfo = webLiveSmsLoginInfo ? JSON.parse(webLiveSmsLoginInfo) : {};
+    const { roomID = '', userID = '', streamID = '', role, resolution } = webLiveSmsLoginInfo;
 
-      this.form.roomID = roomID
-      this.form.userID = userID
-      this.form.streamID = streamID
-      this.form.selecteRole = role
-      this.form.resolution = resolution
+      this.form.roomID = roomID;
+      this.form.userID = userID;
+      this.form.streamID = streamID;
+      this.form.selecteRole = role;
+      this.form.resolution = resolution;
   },
   mounted() {
 
@@ -173,23 +173,23 @@ export default {
     selecteRoleHandler(value) {
       if (value === 'pusher') {
         //this.$router.push('/pc-pusher')
-        this.isTest = true
+        this.isTest = true;
       }else{
-        this.isTest = false
+        this.isTest = false;
         //this.$router.push('/pc-player')
       }
     },
     // WEBLIVE 登录
     webLiveLogin () {
-      let userID = this.form.userID
-      let userSig = window.genTestUserSig(this.form.userID).userSig
+      let userID = this.form.userID;
+      let userSig = window.genTestUserSig(this.form.userID).userSig;
       this.im.login({
         userID: userID,
         userSig: userSig
       }).then(() => {
-        this.loading = false
-        this.$store.commit('toggleIsLogin', true)
-        this.$store.commit('setRole', this.form.selecteRole)
+        this.loading = false;
+        this.$store.commit('toggleIsLogin', true);
+        this.$store.commit('setRole', this.form.selecteRole);
         let _webLiveSmsLoginInfo = {
           loginTime: Date.now(),
           roomID: this.form.roomID,
@@ -198,73 +198,73 @@ export default {
           streamID: this.form.streamID,
           role: this.form.selecteRole,
           resolution: this.form.resolution
-        }
-        localStorage.setItem(WEB_LIVE_SMS_LOGIN_INFO, JSON.stringify(_webLiveSmsLoginInfo))
-        let _LoginInfo = localStorage.getItem(WEB_LIVE_SMS_LOGIN_INFO)
-        const LoginInfo = JSON.parse(_LoginInfo)
-        this.$store.commit('setChatInfo', LoginInfo)
-        this.$store.commit('showMessage', { message: '登录成功', type: 'success' })
+        };
+        localStorage.setItem(WEB_LIVE_SMS_LOGIN_INFO, JSON.stringify(_webLiveSmsLoginInfo));
+        let _LoginInfo = localStorage.getItem(WEB_LIVE_SMS_LOGIN_INFO);
+        const LoginInfo = JSON.parse(_LoginInfo);
+        this.$store.commit('setChatInfo', LoginInfo);
+        this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
       }).catch((err) => {
-        this.loading = false
-        console.log(err)
-        this.$store.commit('showMessage', { message: '登录失败', type: 'error' })
-      })
+        this.loading = false;
+        console.log(err);
+        this.$store.commit('showMessage', { message: '登录失败', type: 'error' });
+      });
     },
     // 处理登录失败的情况
     handleLoginFail (code) {
-      this.loading = false
-      let message = ''
+      this.loading = false;
+      let message = '';
       switch (code) {
         case -1001:
-          message = '缺少参数'
-          break
+          message = '缺少参数';
+          break;
         case -1002:
-          message = '手机号格式不对'
-          break
+          message = '手机号格式不对';
+          break;
         case -1003:
-          message = '验证码发送失败'
-          break
+          message = '验证码发送失败';
+          break;
         case -1004:
-          message = '方法名不存在'
-          break
+          message = '方法名不存在';
+          break;
         case -1005:
-          message = 'token错误'
-          break
+          message = 'token错误';
+          break;
         case -1006:
-          message = 'token已过期，输入短信验证码重新登录'
-          break
+          message = 'token已过期，输入短信验证码重新登录';
+          break;
         case -1007:
-          message = '手机号与token不匹配'
-          break
+          message = '手机号与token不匹配';
+          break;
         case -1100:
-          message = '验证码已失效'
-          break
+          message = '验证码已失效';
+          break;
         case -1101:
-          message = '验证码已过期'
-          break
+          message = '验证码已过期';
+          break;
         case -1102:
-          message = '验证码错误'
-          break
+          message = '验证码错误';
+          break;
         case -1103:
-          message = 'sessionID不匹配'
-          break
+          message = 'sessionID不匹配';
+          break;
         case -1201:
-          message = '该手机号尚未注册'
-          break
+          message = '该手机号尚未注册';
+          break;
         default:
-          message = '操作异常'
-          break
+          message = '操作异常';
+          break;
       }
-      this.$store.commit('showMessage', { message: message, type: 'error' })
+      this.$store.commit('showMessage', { message: message, type: 'error' });
     },
     // 退出账号
     exitAccount () {
-      localStorage.removeItem(WEB_LIVE_SMS_LOGIN_INFO)
-      this.roomLabel = ''
+      localStorage.removeItem(WEB_LIVE_SMS_LOGIN_INFO);
+      this.roomLabel = '';
       // this.hasToken = false
     }
   }
-}
+};
 </script>
 
 <style lang="stylus" scoped>

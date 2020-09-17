@@ -46,7 +46,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
 
   export default {
     name: 'Header',
@@ -54,7 +54,7 @@
       return {
         showEditMyProfile: false,
         form: { avatar: '', nick: '' }
-      }
+      };
     },
     computed: {
       ...mapState({
@@ -67,15 +67,15 @@
     },
     methods: {
       login() {
-        this.$store.commit('toggleIsLogin', true)
+        this.$store.commit('toggleIsLogin', true);
         // this.$emit()
       },
       handleCommand(command) {
         if (command === 'setProfile') {
-          this.showEditMyProfile = true
+          this.showEditMyProfile = true;
         }
         if (command === 'outLogin') {
-          this.open()
+          this.open();
         }
       },
       open() {
@@ -84,58 +84,58 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('logout')
+          this.$emit('logout');
         }).catch(() => {
           this.$store.commit('showMessage', {
             message: '已取消退出',
             type: 'info'
-          })
-        })
+          });
+        });
       },
       // 没有昵称或者昵称为''或者""的，都用 userID 展示
       canIUseNick(nick) {
         if (nick && nick !== '""' && nick !== '\'\'') {
-          return true
+          return true;
         }
-        return false
+        return false;
       },
       setMyProfile() {
         if (this.form.avatar && this.form.avatar.indexOf('http') === -1) {
           this.$store.commit('showMessage', {
             message: '头像应该是 Url 地址',
             type: 'warning'
-          })
-          this.form.avatar = ''
-          return
+          });
+          this.form.avatar = '';
+          return;
         }
-        const options = {}
+        const options = {};
         // 过滤空串
         Object.keys(this.form).forEach(key => {
           if (this.form[key]) {
-            options[key] = this.form[key]
+            options[key] = this.form[key];
           }
-        })
+        });
         this.im.setMyProfile(options)
           .then((imResponse) => {
             this.$store.commit('showMessage', {
               message: '修改成功'
-            })
-            const { nick, avatar, userID } = imResponse.data
-            this.userInfo.nickName = this.canIUseNick(nick) ? nick : userID
+            });
+            const { nick, avatar, userID } = imResponse.data;
+            this.userInfo.nickName = this.canIUseNick(nick) ? nick : userID;
             if (avatar) {
-              this.userInfo.avatar = avatar
+              this.userInfo.avatar = avatar;
             }
-            this.showEditMyProfile = false
+            this.showEditMyProfile = false;
           })
           .catch(imError => {
             this.$store.commit('showMessage', {
               message: imError.message,
               type: 'error'
-            })
-          })
+            });
+          });
       },
     }
-  }
+  };
 </script>
 
 <style lang="stylus" scoped>

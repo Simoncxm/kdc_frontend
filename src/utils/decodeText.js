@@ -1,4 +1,4 @@
-import { emojiMap, emojiUrl } from './emojiMap'
+import { emojiMap, emojiUrl } from './emojiMap';
 /** 传入messageBody（群系统消息SystemMessage，群提示消息GroupTip除外）
  * payload = {
  *  msgType: 'TIMTextElem',
@@ -8,55 +8,55 @@ import { emojiMap, emojiUrl } from './emojiMap'
  *}
  **/
 export function decodeText (text) {
-  let renderDom = []
+  let renderDom = [];
   // 文本消息
-    let temp = text
+    let temp = text;
 
-  let left = -1
-    let right = -1
+  let left = -1;
+    let right = -1;
     while (temp !== ''&& typeof temp !== 'undefined') {
-      left = temp.indexOf('[')
-      right = temp.indexOf(']')
+      left = temp.indexOf('[');
+      right = temp.indexOf(']');
       switch (left) {
         case 0:
           if (right === -1) {
             renderDom.push({
               name: 'text',
               text: temp
-            })
-            temp = ''
+            });
+            temp = '';
           } else {
-            let _emoji = temp.slice(0, right + 1)
+            let _emoji = temp.slice(0, right + 1);
             if (emojiMap[_emoji]) {
               renderDom.push({
                 name: 'img',
                 src: emojiUrl + emojiMap[_emoji]
-              })
-              temp = temp.substring(right + 1)
+              });
+              temp = temp.substring(right + 1);
             } else {
               renderDom.push({
                 name: 'text',
                 text: '['
-              })
-              temp = temp.slice(1)
+              });
+              temp = temp.slice(1);
             }
           }
-          break
+          break;
         case -1:
           renderDom.push({
             name: 'text',
             text: temp
-          })
-          temp = ''
-          break
+          });
+          temp = '';
+          break;
         default:
           renderDom.push({
             name: 'text',
             text: temp.slice(0, left)
-          })
-          temp = temp.substring(left)
-          break
+          });
+          temp = temp.substring(left);
+          break;
       }
     }
-  return renderDom
+  return renderDom;
 }

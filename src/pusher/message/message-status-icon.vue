@@ -20,43 +20,43 @@
       messageIconClass() {
         switch (this.message.status) {
           case 'unSend':
-            return 'el-icon-loading'
+            return 'el-icon-loading';
           case 'fail':
-            return 'message-send-fail'
+            return 'message-send-fail';
           default:
-            return ''
+            return '';
         }
       }
     },
     methods: {
       handleIconClick() {
         if (this.messageIconClass === 'message-send-fail') {
-          this.$store.commit('pushCurrentMessageList', this.message)
+          this.$store.commit('pushCurrentMessageList', this.message);
           this.tweblive.sendTextMessage({
               roomID: this.message.to,
               priority: this.TWebLive.TYPES.MSG_PRIORITY_NORMAL,
               text: this.message.payload.text
             })
             .then(() => {
-              this.message.status = 'success'
+              this.message.status = 'success';
             })
             .catch(error => {
-              this.message.status = 'fail'
+              this.message.status = 'fail';
 
               //JSON.stringify(error, ['message', 'code'])
               if (error.code === 80001) {
-                error.message = '文本中可能包含敏感词汇'
+                error.message = '文本中可能包含敏感词汇';
               }
               this.$store.commit('showMessage', {
                 type: 'error',
                 message: error.message
-              })
-            })
+              });
+            });
         }
 
       }
     }
-  }
+  };
 </script>
 
 <style lang="stylus" scoped>

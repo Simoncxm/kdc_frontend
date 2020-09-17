@@ -14,10 +14,10 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import NewChat from './message/chat-mobile'
-  import { isMobile } from '../utils/mobile'
-  import Pusher from './pusherMobile'
+  import { mapState } from 'vuex';
+  import NewChat from './message/chat-mobile';
+  import { isMobile } from '../utils/mobile';
+  import Pusher from './pusherMobile';
 
 
   export default {
@@ -34,7 +34,7 @@
         tweblive: null,
         isJoined: false,
         isMobile: isMobile()
-      }
+      };
 
     },
     created() {
@@ -50,7 +50,7 @@
       }),
       // 是否显示 Loading 状态
       showLoading() {
-        return !this.isJoined
+        return !this.isJoined;
       }
     },
     watch: {
@@ -58,7 +58,7 @@
       '$route': {
         handler() {
           if (!this.isLogin) {
-            this.$router.replace('/')
+            this.$router.replace('/');
           }
         },
         'immediate': true
@@ -71,7 +71,7 @@
       // })
     },
     destroyed() {
-      this.logout()
+      this.logout();
     },
     methods: {
       open() {
@@ -80,38 +80,38 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.logout()
+          this.logout();
         }).catch(() => {
           this.$store.commit('showMessage', {
             message: '已取消退出',
             type: 'info'
-          })
-        })
+          });
+        });
       },
       exitRoom() {
         this.im.exitRoom(this.chatInfo.groupId).then(() => {
-          this.isJoined = false
-        })
+          this.isJoined = false;
+        });
       },
       login() {
-        this.$store.commit('toggleIsLogin', true)
+        this.$store.commit('toggleIsLogin', true);
         // this.$emit()
       },
       _logout() {
         this.im.logout().then(() => {
-          this.$store.commit('toggleIsSDKReady', false)
-          this.$store.commit('showMessage', { type: 'success', message: '退出成功' })
-        })
+          this.$store.commit('toggleIsSDKReady', false);
+          this.$store.commit('showMessage', { type: 'success', message: '退出成功' });
+        });
       },
       async logout() {
         if (this.isSDKReady) {
-          await this.exitRoom()
-          await this._logout()
+          await this.exitRoom();
+          await this._logout();
         }
-        window.location.reload()
+        window.location.reload();
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="stylus">

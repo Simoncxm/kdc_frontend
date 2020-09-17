@@ -6,10 +6,10 @@
  * @returns
  */
 export function getDate(date, splitor = '-') {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  return `${year}${splitor}${addZeroPrefix(month)}${splitor}${addZeroPrefix(day)}`
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}${splitor}${addZeroPrefix(month)}${splitor}${addZeroPrefix(day)}`;
 }
 
 /**
@@ -20,18 +20,18 @@ export function getDate(date, splitor = '-') {
  * @returns
  */
 export function getTime(date, withSecond = false) {
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
-  return withSecond ? `${addZeroPrefix(hour)}:${addZeroPrefix(minute)}:${addZeroPrefix(second)}` : `${hour}:${addZeroPrefix(minute)}`
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const second = date.getSeconds();
+  return withSecond ? `${addZeroPrefix(hour)}:${addZeroPrefix(minute)}:${addZeroPrefix(second)}` : `${hour}:${addZeroPrefix(minute)}`;
 }
 
 export function getFullDate(date) {
-  return `${getDate(date)} ${getTime(date)}`
+  return `${getDate(date)} ${getTime(date)}`;
 }
 
 export function isToday(date) {
-  return date.toDateString() === new Date().toDateString()
+  return date.toDateString() === new Date().toDateString();
 }
 
 
@@ -41,5 +41,5 @@ export function isToday(date) {
  * @returns
  */
 function addZeroPrefix(number) {
-  return number < 10 ? `0${number}`:number
+  return number < 10 ? `0${number}`:number;
 }

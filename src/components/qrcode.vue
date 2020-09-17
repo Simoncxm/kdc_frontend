@@ -10,20 +10,20 @@
     data() {
       return {
         final_img: ''
-      }
+      };
     },
     methods: {
       generateQR(text) {
-        return this.qrcode.toDataURL(text)
+        return this.qrcode.toDataURL(text);
       }
     },
     created() {
-      let url = this.url
+      let url = this.url;
       this.generateQR(url).then(res => {
-        this.final_img = res
-      })
+        this.final_img = res;
+      });
     }
-  }
+  };
 </script>
 <style lang="stylus" scoped>
   .result-img {

@@ -70,8 +70,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import Vue from 'vue'
+  import { mapState } from 'vuex';
+  import Vue from 'vue';
 
   export default {
     name: 'pusher',
@@ -90,7 +90,7 @@
         isStartCamera: true,
         isPlay: true,
         isShow_playUrl: false
-      }
+      };
     },
 
     computed: {
@@ -104,7 +104,7 @@
       }),
       // 是否显示 Loading 状态
       showLoading() {
-        return !this.isJoined
+        return !this.isJoined;
       }
     },
     created() {
@@ -112,13 +112,13 @@
     },
     mounted() {
       // 初始化监听器
-      this.initListener()
+      this.initListener();
 
       // this.logout()
       window.addEventListener('beforeunload', () => {
-          this.logout()
+          this.logout();
         }
-      )
+      );
 
     },
 
@@ -126,30 +126,30 @@
 
     methods: {
       handleClose() {
-        this.drawer = !this.drawer
+        this.drawer = !this.drawer;
       },
       initListener() {
         const pusher = Vue.prototype.TWebLive.createPusher({
           userID: this.chatInfo.userId
-        })
-        window.pusher = pusher
-        Vue.prototype.pusher = pusher
+        });
+        window.pusher = pusher;
+        Vue.prototype.pusher = pusher;
         setTimeout(() => {
-          this.setRenderView()
-        }, 1000)
-        console.log(this.pusher)
-        this.pusher.on(this.TWebLive.EVENT.RTC_CONNECTION_STATE_CHANGED, this.onRTCConnectionStateChanged)
-        this.pusher.on(this.TWebLive.EVENT.RTC_CLIENT_BANNED, this.onRTCClientBanned)
-        this.pusher.on(this.TWebLive.EVENT.RTC_CLIENT_ERROR, this.onRTCError)
+          this.setRenderView();
+        }, 1000);
+        console.log(this.pusher);
+        this.pusher.on(this.TWebLive.EVENT.RTC_CONNECTION_STATE_CHANGED, this.onRTCConnectionStateChanged);
+        this.pusher.on(this.TWebLive.EVENT.RTC_CLIENT_BANNED, this.onRTCClientBanned);
+        this.pusher.on(this.TWebLive.EVENT.RTC_CLIENT_ERROR, this.onRTCError);
       },
       onRTCConnectionStateChanged(event) {
-        console.log('demo pusher | onRTCConnectionStateChanged |', event)
+        console.log('demo pusher | onRTCConnectionStateChanged |', event);
       },
       onRTCClientBanned(event) {
-        console.log('demo pusher | onRTCClientBanned |', event)
+        console.log('demo pusher | onRTCClientBanned |', event);
       },
       onRTCError(event) {
-        console.log('demo pusher | onRTCError |', event)
+        console.log('demo pusher | onRTCError |', event);
       },
 
       //开启本地预览
@@ -159,92 +159,92 @@
           audio: true,
           video: this.chatInfo.resolution
         }).then(() => {
-          console.log('demo pusher | setRenderView | ok')
-          this.isStartCamera = false
+          console.log('demo pusher | setRenderView | ok');
+          this.isStartCamera = false;
         }).catch((error) => {
-          console.error('demo pusher | setRenderView | failed', error)
-        })
+          console.error('demo pusher | setRenderView | failed', error);
+        });
       },
       startCamera() {
         this.pusher.startCamera().then(() => {
-          this.isStartCamera = false
-          console.log('pusher | startCamera | ok')
+          this.isStartCamera = false;
+          console.log('pusher | startCamera | ok');
         }).catch((error) => {
-          console.error('pusher | startCamera | failed', error)
-        })
+          console.error('pusher | startCamera | failed', error);
+        });
       },
       stopCamera() {
         this.pusher.stopCamera().then(() => {
-          this.isStartCamera = true
-          console.log('pusher | stopCamera | ok')
+          this.isStartCamera = true;
+          console.log('pusher | stopCamera | ok');
         }).catch((error) => {
-          console.error('pusher | stopCamera | failed', error)
-        })
+          console.error('pusher | stopCamera | failed', error);
+        });
       },
       startMicrophone() {
         this.pusher.startMicrophone().then(() => {
-          this.isMute = false
-          console.log('pusher | startMicrophone | ok')
+          this.isMute = false;
+          console.log('pusher | startMicrophone | ok');
         }).catch((error) => {
-          console.error('pusher | startMicrophone | failed', error)
-        })
+          console.error('pusher | startMicrophone | failed', error);
+        });
       },
       stopMicrophone() {
         this.pusher.stopMicrophone().then(() => {
-          this.isMute = true
-          console.log('pusher | stopMicrophone | ok')
+          this.isMute = true;
+          console.log('pusher | stopMicrophone | ok');
         }).catch((error) => {
-          console.error('pusher | stopMicrophone | failed', error)
-        })
+          console.error('pusher | stopMicrophone | failed', error);
+        });
       },
       //推流
       startPush() {
-        let userID = this.chatInfo.userId
-        let userSig = this.chatInfo.userSig
-        let SDKAppID = this.chatInfo.sdkAppID
-        let liveDomainName = '113575.liveplay.myqcloud.com'
-        let streamID = this.chatInfo.streamId
+        let userID = this.chatInfo.userId;
+        let userSig = this.chatInfo.userSig;
+        let SDKAppID = this.chatInfo.sdkAppID;
+        let liveDomainName = '113575.liveplay.myqcloud.com';
+        let streamID = this.chatInfo.streamId;
 
         if (!streamID) {
-          streamID = `${SDKAppID}_${this.chatInfo.groupId}_${userID}_main` //sdkappid_roomid_userid_main
+          streamID = `${SDKAppID}_${this.chatInfo.groupId}_${userID}_main`; //sdkappid_roomid_userid_main
         }
-        let url = `room://livedomainname=${liveDomainName}&sdkappid=${SDKAppID}&roomid=${this.chatInfo.groupId}&userid=${this.chatInfo.userId}&usersig=${userSig}&streamid=${streamID}`
+        let url = `room://livedomainname=${liveDomainName}&sdkappid=${SDKAppID}&roomid=${this.chatInfo.groupId}&userid=${this.chatInfo.userId}&usersig=${userSig}&streamid=${streamID}`;
         this.pusher.startPush(url).then(() => {
-          console.log('demo pusher | startPush | ok')
-          this.isPush = false
-          this.isShow_playUrl = true
-          this.getLiveStreamURL()
+          console.log('demo pusher | startPush | ok');
+          this.isPush = false;
+          this.isShow_playUrl = true;
+          this.getLiveStreamURL();
         }).catch((error) => {
-          console.error('demo pusher | startPush | failed', error)
-        })
+          console.error('demo pusher | startPush | failed', error);
+        });
       },
       // 停止推流
       stopPush() {
         this.pusher.stopPush().then(() => {
-          console.log('demo pusher | stopPush | ok')
-          this.isPush = true
-          this.pushContent = '开始推流'
+          console.log('demo pusher | stopPush | ok');
+          this.isPush = true;
+          this.pushContent = '开始推流';
 
         }).catch((error) => {
-          console.error('demo pusher | stopPush | failed', error)
-        })
+          console.error('demo pusher | stopPush | failed', error);
+        });
       },
       // 获取推流地址
       getLiveStreamURL() {
-        let url = this.pusher.getLiveStreamURL()
-        this.playUrl.flv = url
+        let url = this.pusher.getLiveStreamURL();
+        this.playUrl.flv = url;
         // +'&roomid='+this.chatInfo.groupId
         // https://webim-1252463788.cos.ap-shanghai.myqcloud.com/tweblive-demo-preview/index.html
-        this.playUrl.cdnUrl = `https://webim-1252463788.cos.ap-shanghai.myqcloud.com/tweblivedemo/0.3.2-new-player/index.html?flv=${url}&roomid=${this.chatInfo.groupId}`
-        console.log('demo pusher | getLiveStreamURL | ' + url, ' cdn 观看：https://webim-1252463788.cos.ap-shanghai.myqcloud.com/tweblive-preview/index.html?flv=' + url)
+        this.playUrl.cdnUrl = `https://webim-1252463788.cos.ap-shanghai.myqcloud.com/tweblivedemo/0.3.2-new-player/index.html?flv=${url}&roomid=${this.chatInfo.groupId}`;
+        console.log('demo pusher | getLiveStreamURL | ' + url, ' cdn 观看：https://webim-1252463788.cos.ap-shanghai.myqcloud.com/tweblive-preview/index.html?flv=' + url);
       },
       playHandler() {
-        this.isPlay = false
+        this.isPlay = false;
         // window.location.href = this.playUrl.cdnUrl
-        window.open(this.playUrl.cdnUrl, '_blank')
+        window.open(this.playUrl.cdnUrl, '_blank');
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="stylus">

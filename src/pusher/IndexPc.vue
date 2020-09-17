@@ -16,11 +16,11 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import NewChat from './message/chat-room'
-  import Header from './header'
-  import Pusher from './pusher'
-  import { isMobile } from '../utils/mobile'
+  import { mapState } from 'vuex';
+  import NewChat from './message/chat-room';
+  import Header from './header';
+  import Pusher from './pusher';
+  import { isMobile } from '../utils/mobile';
 
   export default {
     title: 'im',
@@ -36,7 +36,7 @@
         isJoined: false,
         isMobile: isMobile(),
         mobileImg: false,
-      }
+      };
 
     },
 
@@ -51,7 +51,7 @@
       }),
       // 是否显示 Loading 状态
       showLoading() {
-        return !this.isJoined
+        return !this.isJoined;
       }
     },
     watch: {
@@ -59,7 +59,7 @@
       '$route': {
         handler() {
           if (!this.isLogin) {
-            this.$router.replace('/')
+            this.$router.replace('/');
             // this.logout()
           }
         },
@@ -67,7 +67,7 @@
       }
     },
     destroyed() {
-      this.logout()
+      this.logout();
     },
 
     methods: {
@@ -76,27 +76,27 @@
       },
       exitRoom() {
         this.im.exitRoom(this.chatInfo.groupId).then(() => {
-          this.isJoined = false
-        })
+          this.isJoined = false;
+        });
       },
       _logout() {
         this.im.logout().then(() => {
-          this.$store.commit('toggleIsSDKReady', false)
-          this.$store.commit('toggleIsLogin', false)
+          this.$store.commit('toggleIsSDKReady', false);
+          this.$store.commit('toggleIsLogin', false);
           // this.$store.commit('reset')
-          this.$store.commit('showMessage', { type: 'success', message: '退出成功' })
-        })
+          this.$store.commit('showMessage', { type: 'success', message: '退出成功' });
+        });
       },
 
       async logout() {
         if (this.isSDKReady) {
-          await this.exitRoom()
-          await this._logout()
-          window.location.reload()
+          await this.exitRoom();
+          await this._logout();
+          window.location.reload();
         }
       },
     }
-  }
+  };
 </script>
 
 <style scoped lang="stylus">

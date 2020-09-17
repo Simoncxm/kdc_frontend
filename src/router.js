@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 // import { isLogin } from './store/modules/user'
 import Home from './views/Home.vue';
 import TeacherDetail from './views/TeacherDetail.vue';
@@ -9,7 +9,7 @@ import VideoPlayer from './views/VideoPlayer.vue';
 import SearchTeacherResult from './views/SearchTeacherResult.vue';
 import SearchCourseResult from './views/SearchCourseResult.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 // Vue.use(Loading);
 const router= new Router({
     mode: 'history',
@@ -103,7 +103,7 @@ const router= new Router({
         component: () => import(/* webpackChunkName: "group-player" */'./player/IndexMobile')
     }
     ]
-})
+});
 
 
-export default router
+export default router;

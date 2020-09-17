@@ -273,11 +273,11 @@
 </template>
 
 <script>
-  import './icon/iconfont.js'
-  import $ from 'jquery'
-  import TRTC from 'trtc-js-sdk'
-  import Presetting from './presetting'
-  import { getOS, getBroswer } from '../../utils/common.js'
+  import './icon/iconfont.js';
+  import $ from 'jquery';
+  import TRTC from 'trtc-js-sdk';
+  import Presetting from './presetting';
+  import { getOS, getBroswer } from '../../utils/common.js';
 
   export default {
     name: 'test',
@@ -342,7 +342,7 @@
         micId: '',
         // getUserMedia: navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia
 
-      }
+      };
     },
     created() {
       // 监听设备变化
@@ -350,26 +350,26 @@
 
     },
     mounted() {
-      this.deviceTestingInit()
-      this.init()
+      this.deviceTestingInit();
+      this.init();
       if (navigator.mediaDevices) {
         navigator.mediaDevices.ondevicechange = async function (event) {
           // 当前在摄像头检测页
           if (this.curTestingPageId === 'camera-testing-body') {
-            await this.updateCameraDeviceList()
-            return
+            await this.updateCameraDeviceList();
+            return;
           }
           // 当前在扬声器检测页
           if (this.curTestingPageId === 'voice-testing-body') {
-            await this.updateVoiceDeviceList()
-            return
+            await this.updateVoiceDeviceList();
+            return;
           }
           // 当前在麦克风检测页
           if (this.curTestingPageId === 'mic-testing-body') {
-            await this.updateMicDeviceList()
-            return
+            await this.updateMicDeviceList();
+            return;
           }
-        }
+        };
 
       }
       // 初始化监听器
@@ -380,25 +380,25 @@
         this.isSafari =
           /Safari/.test(navigator.userAgent) &&
           !/Chrome/.test(navigator.userAgent) &&
-          !/CriOS/.test(navigator.userAgent)
-        this.hideVoiceForSafari()
+          !/CriOS/.test(navigator.userAgent);
+        this.hideVoiceForSafari();
 
       },
       /**
        * webRTC不支持的浏览器需要提示用户跳转或者切换
        */
       showNotSupportRemindInfo() {
-        let osType = getOS().type
-        $('#remind-info-container').show()
+        let osType = getOS().type;
+        $('#remind-info-container').show();
         switch (osType) {
           case 'desktop':
-            this.showDesktopRemindInfo()
-            break
+            this.showDesktopRemindInfo();
+            break;
           case 'mobile':
-            this.showMobileRemindInfo()
-            break
+            this.showMobileRemindInfo();
+            break;
           default:
-            break
+            break;
         }
       },
 
@@ -406,12 +406,12 @@
        * 获取桌面浏览器提醒信息
        */
       showDesktopRemindInfo() {
-        let osName = getOS().osName
-        $('#browser-remind').show()
+        let osName = getOS().osName;
+        $('#browser-remind').show();
         if (osName.indexOf('Mac OS') > -1) {
-          $('#remind-info').text('请使用chrome或者safari浏览器打开链接')
+          $('#remind-info').text('请使用chrome或者safari浏览器打开链接');
         } else {
-          $('#remind-info').text('请使用chrome浏览器打开链接')
+          $('#remind-info').text('请使用chrome浏览器打开链接');
         }
       },
 
@@ -419,18 +419,18 @@
        * 获取移动端浏览器提醒信息
        */
       showMobileRemindInfo() {
-        let osName = getOS().osName
+        let osName = getOS().osName;
         if (osName === 'iOS') {
-          let isWeChat = /MicroMessenger/.test(navigator.userAgent)
-          let isQQ = /QQ/.test(navigator.userAgent)
+          let isWeChat = /MicroMessenger/.test(navigator.userAgent);
+          let isQQ = /QQ/.test(navigator.userAgent);
           if (isWeChat || isQQ) {
-            $('#webview-remind').show()
-            return
+            $('#webview-remind').show();
+            return;
           }
           if (!this.isSafari) {
-            $('#browser-remind').show()
-            $('#remind-info').text('当前浏览器不支持webRTC, 请使用safari浏览器打开链接')
-            return
+            $('#browser-remind').show();
+            $('#remind-info').text('当前浏览器不支持webRTC, 请使用safari浏览器打开链接');
+            return;
           }
         }
       },
@@ -439,433 +439,433 @@
        * safari浏览器中隐藏扬声器相关检测
        */
       hideVoiceForSafari() {
-        if (!this.isSafari) return
-        $('#connect-voice').hide()
-        $('#device-voice').hide()
-        $('#voice-testing').hide()
+        if (!this.isSafari) return;
+        $('#connect-voice').hide();
+        $('#device-voice').hide();
+        $('#voice-testing').hide();
         // $('#voice-testing-body').hide()
-        $('#voice-report').hide()
-        $('#device-mic').addClass('safari')
-        $('#device-network').addClass('safari')
-        $('#mic-testing').addClass('safari')
-        $('#network-testing').addClass('safari')
+        $('#voice-report').hide();
+        $('#device-mic').addClass('safari');
+        $('#device-network').addClass('safari');
+        $('#mic-testing').addClass('safari');
+        $('#network-testing').addClass('safari');
       },
       async deviceTestingInit() {
         // 当前浏览器不支持webRTC
         if (navigator.mediaDevices === undefined) {
-          this.showNotSupportRemindInfo()
-          return
+          this.showNotSupportRemindInfo();
+          return;
         }
-        let self = this
+        let self = this;
         // 点击【设备检测】文字, 点击 【重新连接】按钮
         $('#device-testing-btn, #connect-again-btn').on('click', () => {
-          this.startDeviceConnect()
-        })
+          this.startDeviceConnect();
+        });
         // 连接设备错误icon
         $('#connect-attention-icon').on('mouseover', () => {
-          $('#connect-attention-info').show()
-        })
+          $('#connect-attention-info').show();
+        });
         // 连接设备错误icon
         $('#connect-attention-icon').on('mouseout', () => {
-          $('#connect-attention-info').hide()
-        })
+          $('#connect-attention-info').hide();
+        });
         // 【开始检测】开始设备检测按钮
         $('#start-test-btn').on('click', () => {
-          if ($(this).hasClass('start-gray')) return
-          $('#device-testing-prepare').hide()
-          $('#device-testing').show()
-          this.startCameraTesting()
-        })
+          if ($(this).hasClass('start-gray')) return;
+          $('#device-testing-prepare').hide();
+          $('#device-testing').show();
+          this.startCameraTesting();
+        });
         // 摄像头检测失败/成功
         $('#camera-fail, #camera-success').on('click', (e) => {
-          this.cameraTestingResult.statusResult = e.target.id === 'camera-success'
-          $('#camera-testing-body').hide()
-          this.localStream.close()
+          this.cameraTestingResult.statusResult = e.target.id === 'camera-success';
+          $('#camera-testing-body').hide();
+          this.localStream.close();
           // safari浏览器跳过扬声器检测
-          this.isSafari ? this.startMicTesting() : this.startVoiceTesting()
-        })
+          this.isSafari ? this.startMicTesting() : this.startVoiceTesting();
+        });
         // 播放器检测失败/成功
         $('#voice-fail, #voice-success').on('click', (e) => {
           // $(this).attr('id')
-          this.voiceTestingResult.statusResult = e.target.id === 'voice-success'
-          $('#voice-testing-body').hide()
-          let audioPlayer = document.querySelector('#audio-player')
+          this.voiceTestingResult.statusResult = e.target.id === 'voice-success';
+          $('#voice-testing-body').hide();
+          let audioPlayer = document.querySelector('#audio-player');
           if (!audioPlayer.paused) {
-            audioPlayer.pause()
+            audioPlayer.pause();
           }
-          this.startMicTesting()
-        })
+          this.startMicTesting();
+        });
         // 麦克风测试失败/成功
         $('#mic-fail, #mic-success').on('click', (e) => {
-          this.micTestingResult.statusResult = e.target.id === 'mic-success'
-          $('#mic-testing-body').hide()
-          this.localStream.close()
-          this.startNetworkTesting()
-        })
+          this.micTestingResult.statusResult = e.target.id === 'mic-success';
+          $('#mic-testing-body').hide();
+          this.localStream.close();
+          this.startNetworkTesting();
+        });
         // 点击【查看检测报告】按钮
         $('#testing-report-btn').on('click', () => {
-          this.showTestingReport()
-          this.localStream.close()
-          this.client && this.client.leave()
-          this.client && this.client.off('network-quality')
-        })
+          this.showTestingReport();
+          this.localStream.close();
+          this.client && this.client.leave();
+          this.client && this.client.off('network-quality');
+        });
         // 点击【重新测试】按钮
         $('#testing-again').on('click', () => {
-          $('#device-testing-report').hide()
-          this.startDeviceConnect()
-          this.completedTestingPageIdList = []
-        })
+          $('#device-testing-report').hide();
+          this.startDeviceConnect();
+          this.completedTestingPageIdList = [];
+        });
         // 点击【测试完成】按钮 / 点击关闭图标
         $('#testing-finish, #device-testing-close-btn').on('click', () => {
-          this.finishDeviceTesting()
-        })
+          this.finishDeviceTesting();
+        });
         // 测试tab页切换
         $('#camera-testing, #voice-testing, #mic-testing, #network-testing').on('click', function () {
-          let targetPageId = $(this).attr('id') + '-body'
+          let targetPageId = $(this).attr('id') + '-body';
           if (targetPageId !== self.curTestingPageId && self.completedTestingPageIdList.indexOf(targetPageId) > -1) {
-            $(`#${self.curTestingPageId}`).hide()
-            self.localStream && self.localStream.close()
-            self.client && self.client.leave()
-            self.client && self.client.off('network-quality')
+            $(`#${self.curTestingPageId}`).hide();
+            self.localStream && self.localStream.close();
+            self.client && self.client.leave();
+            self.client && self.client.off('network-quality');
             // 停止播放器的音乐
-            let audioPlayer = document.querySelector('#audio-player')
+            let audioPlayer = document.querySelector('#audio-player');
             if (!audioPlayer.paused) {
-              audioPlayer.pause()
+              audioPlayer.pause();
             }
             // 展示要切换的设备检测tab页面
-            $(`#${targetPageId}`).show()
-            let pageCallbackConfig = self.pageCallbackConfig
-            self[pageCallbackConfig[targetPageId]] && self[pageCallbackConfig[targetPageId]]()
+            $(`#${targetPageId}`).show();
+            let pageCallbackConfig = self.pageCallbackConfig;
+            self[pageCallbackConfig[targetPageId]] && self[pageCallbackConfig[targetPageId]]();
           }
-        })
+        });
         // 摄像头设备切换
         $('#camera-select').change(async function () {
-          let newCameraId = $(this).children('option:selected').val()
-          localStorage.setItem('txy_webRTC_cameraId', newCameraId)
+          let newCameraId = $(this).children('option:selected').val();
+          localStorage.setItem('txy_webRTC_cameraId', newCameraId);
           self.cameraTestingResult.device = {
             label: $(this).children('option:selected').text(),
             deviceId: $(this).children('option:selected').val(),
             kind: 'videoinput',
-          }
-          await self.localStream.switchDevice('video', newCameraId)
-        })
+          };
+          await self.localStream.switchDevice('video', newCameraId);
+        });
         // 扬声器设备切换
         $('#voice-select').change(async function () {
-          let newVoiceId = $(this).children('option:selected').val()
-          localStorage.setItem('txy_webRTC_voiceId', newVoiceId)
+          let newVoiceId = $(this).children('option:selected').val();
+          localStorage.setItem('txy_webRTC_voiceId', newVoiceId);
           self.voiceTestingResult.device = {
             label: $(this).children('option:selected').text(),
             deviceId: $(this).children('option:selected').val(),
             kind: 'audiooutput',
-          }
+          };
 
-          let audioPlayer = document.querySelector('#audio-player')
-          await audioPlayer.setSinkId(newVoiceId)
-        })
+          let audioPlayer = document.querySelector('#audio-player');
+          await audioPlayer.setSinkId(newVoiceId);
+        });
         // 麦克风设备切换
         $('#mic-select').change(async function () {
-          let newMicID = $(this).children('option:selected').val()
-          localStorage.setItem('txy_webRTC_micId', newMicID)
+          let newMicID = $(this).children('option:selected').val();
+          localStorage.setItem('txy_webRTC_micId', newMicID);
           self.micTestingResult.device = {
             label: $(this).children('option:selected').text(),
             deviceId: $(this).children('option:selected').val(),
             kind: 'audioinput',
-          }
-          await self.localStream.switchDevice('audio', newMicID)
-        })
+          };
+          await self.localStream.switchDevice('audio', newMicID);
+        });
 
         $('body').on('click', function () {
-          $('#device-connect-list').hide()
-        })
+          $('#device-connect-list').hide();
+        });
 
         // 获取设备信息
-        await this.getDevicesInfo()
+        await this.getDevicesInfo();
         // 初始化设备弹窗信息
-        this.startDeviceConnect()
+        this.startDeviceConnect();
       },
       // 获取设备信息及网络连接信息
       async getDevicesInfo() {
 
-        this.cameraList = await TRTC.getCameras()
-        this.micList = await TRTC.getMicrophones()
-        this.voiceList = await TRTC.getSpeakers()
+        this.cameraList = await TRTC.getCameras();
+        this.micList = await TRTC.getMicrophones();
+        this.voiceList = await TRTC.getSpeakers();
 
         if (this.cameraList.length > 0) {
-          this.hasCameraDevice = true
+          this.hasCameraDevice = true;
         }
         if (this.micList.length > 0 && this.voiceList.length > 0) {
-          this.hasMicAndVoiceDevice = true
+          this.hasMicAndVoiceDevice = true;
         }
         this.cameraList.forEach(camera => {
           if (camera.deviceId.length > 0) {
-            this.hasCameraConnect = true
+            this.hasCameraConnect = true;
           }
-        })
+        });
         this.micList.forEach(mic => {
           if (mic.deviceId.length > 0) {
 
-            this.hasMicConnect = true
+            this.hasMicConnect = true;
           }
-        })
+        });
         if (this.isSafari) {
-          this.hasVoiceConnect = true
+          this.hasVoiceConnect = true;
         } else {
           this.voiceList.forEach(voice => {
             if (voice.deviceId.length > 0) {
-              this.hasVoiceConnect = true
+              this.hasVoiceConnect = true;
             }
-          })
+          });
         }
-        this.hasNetworkConnect = !!navigator.onLine
+        this.hasNetworkConnect = !!navigator.onLine;
       },
 
       showDeviceStatus() {
-        $('#device-connect-list').show()
+        $('#device-connect-list').show();
         this.timeout = setTimeout(() => {
-          $('#device-connect-list').hide()
-        }, 3000)
-        $('#connect-camera').css('color', `${this.hasCameraConnect ? 'green' : 'red'}`)
-        $('#connect-voice').css('color', `${this.hasVoiceConnect ? 'green' : 'red'}`)
-        $('#connect-mic').css('color', `${this.hasMicConnect ? 'green' : 'red'}`)
-        $('#connect-network').css('color', `${this.hasNetworkConnect ? 'green' : 'red'}`)
+          $('#device-connect-list').hide();
+        }, 3000);
+        $('#connect-camera').css('color', `${this.hasCameraConnect ? 'green' : 'red'}`);
+        $('#connect-voice').css('color', `${this.hasVoiceConnect ? 'green' : 'red'}`);
+        $('#connect-mic').css('color', `${this.hasMicConnect ? 'green' : 'red'}`);
+        $('#connect-network').css('color', `${this.hasNetworkConnect ? 'green' : 'red'}`);
         if (!(this.hasCameraConnect && this.hasVoiceConnect && this.hasMicConnect && this.hasNetworkConnect)) {
-          $('#device-testing-btn').css('color', 'red')
+          $('#device-testing-btn').css('color', 'red');
         } else {
-          $('#device-testing-btn').css('color', 'green')
+          $('#device-testing-btn').css('color', 'green');
         }
       },
       // 弹窗-设备连接检查
       startDeviceConnect() {
 
         // 显示设备检测弹窗
-        $('#device-testing-root').show()
+        $('#device-testing-root').show();
         // 设备检测弹窗-设备连接页
-        $('#device-testing-prepare').show()
+        $('#device-testing-prepare').show();
 
-        this.curTestingPageId = 'device-testing-prepare'
-        this.initTestingTabTitle()
+        this.curTestingPageId = 'device-testing-prepare';
+        this.initTestingTabTitle();
         // 在设备检测弹窗显示设备连接信息
-        this.showDeviceConnectInfo()
+        this.showDeviceConnectInfo();
         // 如果有设备未连接，唤起请求弹窗
         if (!(this.hasCameraConnect && this.hasVoiceConnect && this.hasMicConnect)) {
-          console.log(navigator.mediaDevices)
+          console.log(navigator.mediaDevices);
           navigator.mediaDevices.getUserMedia({ video: this.hasCameraDevice, audio: this.hasMicAndVoiceDevice })
             .then(async () => {
               // 重新获取设备信息
-              await this.getDevicesInfo()
+              await this.getDevicesInfo();
               // 更新首页popover的option list
-              this.getDevicesList()
+              this.getDevicesList();
               // 显示设备连接信息
-              this.showDeviceConnectInfo()
+              this.showDeviceConnectInfo();
             })
             .catch(err => {
-              console.log('err', err.name)
-            })
+              console.log('err', err.name);
+            });
         }
       },
       showDeviceConnectInfo() {
         if (!(this.hasCameraConnect && this.hasVoiceConnect && this.hasMicConnect && this.hasNetworkConnect)) {
-          $('#device-testing-btn').css('color', 'red')
+          $('#device-testing-btn').css('color', 'red');
         } else {
-          $('#device-testing-btn').css('color', 'green')
+          $('#device-testing-btn').css('color', 'green');
         }
         // 隐藏设备连接失败提示
-        $('#connect-attention-container').hide()
+        $('#connect-attention-container').hide();
 
         // 设备连接中
-        $('#device-loading').show()
-        $('#connect-info').text('设备正在连接中，请稍等').css('color', '#cccccc')
-        $('#device-camera, #device-voice, #device-mic, #device-network').removeClass('connect-success connect-fail')
-        $('#connect-again-btn').hide()
-        $('#start-test-btn').addClass('start-gray').show()
+        $('#device-loading').show();
+        $('#connect-info').text('设备正在连接中，请稍等').css('color', '#cccccc');
+        $('#device-camera, #device-voice, #device-mic, #device-network').removeClass('connect-success connect-fail');
+        $('#connect-again-btn').hide();
+        $('#start-test-btn').addClass('start-gray').show();
 
         // 设备连接结束，展示连接结果
         setTimeout(() => {
-          $('#device-loading').hide()
+          $('#device-loading').hide();
           $('#device-camera').removeClass('connect-success connect-fail')
-            .addClass(`${this.hasCameraConnect ? 'connect-success' : 'connect-fail'}`)
+            .addClass(`${this.hasCameraConnect ? 'connect-success' : 'connect-fail'}`);
           $('#device-voice').removeClass('connect-success connect-fail')
-            .addClass(`${this.hasVoiceConnect ? 'connect-success' : 'connect-fail'}`)
+            .addClass(`${this.hasVoiceConnect ? 'connect-success' : 'connect-fail'}`);
           $('#device-mic').removeClass('connect-success connect-fail')
-            .addClass(`${this.hasMicConnect ? 'connect-success' : 'connect-fail'}`)
+            .addClass(`${this.hasMicConnect ? 'connect-success' : 'connect-fail'}`);
           $('#device-network').removeClass('connect-success connect-fail')
-            .addClass(`${this.hasNetworkConnect ? 'connect-success' : 'connect-fail'}`)
+            .addClass(`${this.hasNetworkConnect ? 'connect-success' : 'connect-fail'}`);
 
           if (!(this.hasCameraConnect && this.hasVoiceConnect && this.hasMicConnect)) {
             let connectInfo = this.hasNetworkConnect
               ? '设备连接失败，请允许网页访问摄像头及麦克风'
-              : '设备及网络连接失败，请允许网页访问摄像头及麦克风并检查网络连接'
-            $('#connect-info').text(connectInfo).css('color', 'red')
+              : '设备及网络连接失败，请允许网页访问摄像头及麦克风并检查网络连接';
+            $('#connect-info').text(connectInfo).css('color', 'red');
             // 显示设备连接失败引导
-            $('#connect-attention-container').show()
-            $('#connect-attention-info').html(this.deviceFailAttention)
+            $('#connect-attention-container').show();
+            $('#connect-attention-info').html(this.deviceFailAttention);
             // 切换按钮状态
-            $('#start-test-btn').hide()
-            $('#connect-again-btn').show()
+            $('#start-test-btn').hide();
+            $('#connect-again-btn').show();
           }
           if ((this.hasCameraConnect && this.hasVoiceConnect && this.hasMicConnect) && !this.hasNetworkConnect) {
-            $('#connect-info').text('网络连接失败，请检查网络连接').css('color', 'red')
+            $('#connect-info').text('网络连接失败，请检查网络连接').css('color', 'red');
             // 显示网络连接失败引导
-            $('#connect-attention-container').show()
-            $('#connect-attention-info').html(this.networkFailAttention)
+            $('#connect-attention-container').show();
+            $('#connect-attention-info').html(this.networkFailAttention);
             // 切换按钮状态
-            $('#start-test-btn').hide()
-            $('#connect-again-btn').show()
+            $('#start-test-btn').hide();
+            $('#connect-again-btn').show();
           }
           if (this.hasCameraConnect && this.hasVoiceConnect && this.hasMicConnect && this.hasNetworkConnect) {
-            $('#connect-info').text('设备及网络连接成功，请开始设备检测').css('color', '#008000')
-            $('#connect-again-btn').hide()
-            $('#start-test-btn').removeClass('start-gray').show()
+            $('#connect-info').text('设备及网络连接成功，请开始设备检测').css('color', '#008000');
+            $('#connect-again-btn').hide();
+            $('#start-test-btn').removeClass('start-gray').show();
           }
-        }, 2000)
+        }, 2000);
       },
       // 更新首页popover的option list
       getDevicesList() {
         // populate camera options
         TRTC.getCameras().then(devices => {
-          $('#camera-option').empty()
+          $('#camera-option').empty();
           devices.forEach(device => {
             if (!this.cameraId) {
-              this.cameraId = device.deviceId
+              this.cameraId = device.deviceId;
             }
-            let div = $('<div></div>')
-            div.attr('id', device.deviceId)
-            div.html(device.label)
-            div.appendTo('#camera-option')
-          })
-        })
+            let div = $('<div></div>');
+            div.attr('id', device.deviceId);
+            div.html(device.label);
+            div.appendTo('#camera-option');
+          });
+        });
 
         // populate microphone options
         TRTC.getMicrophones().then(devices => {
-          $('#mic-option').empty()
+          $('#mic-option').empty();
           devices.forEach(device => {
             if (!this.micId) {
-              this.micId = device.deviceId
+              this.micId = device.deviceId;
             }
-            let div = $('<div></div>')
-            div.attr('id', device.deviceId)
-            div.html(device.label)
-            div.appendTo('#mic-option')
-          })
-        })
+            let div = $('<div></div>');
+            div.attr('id', device.deviceId);
+            div.html(device.label);
+            div.appendTo('#mic-option');
+          });
+        });
       },
 
       // 摄像头检测页-检测展示摄像头设备选择列表
       async updateCameraDeviceList() {
-        let cameraDevices = await TRTC.getCameras()
+        let cameraDevices = await TRTC.getCameras();
         // cameraDevices.filter(camera => camera.deviceId !== 'default')
-        $('#camera-select').empty()
+        $('#camera-select').empty();
         cameraDevices.forEach(camera => {
-          let option = $('<option></option>')
-          option.attr('value', camera.deviceId)
-          option.html(camera.label)
-          option.appendTo('#camera-select')
-        })
+          let option = $('<option></option>');
+          option.attr('value', camera.deviceId);
+          option.html(camera.label);
+          option.appendTo('#camera-select');
+        });
 
         // 如果有用户设备选择缓存，优先使用缓存的deviceId
-        let cacheCameraDevice = cameraDevices.filter(camera => camera.deviceId === localStorage.getItem('txy_webRTC_cameraId'))
+        let cacheCameraDevice = cameraDevices.filter(camera => camera.deviceId === localStorage.getItem('txy_webRTC_cameraId'));
         if (cacheCameraDevice.length > 0) {
-          $('#camera-select').val(localStorage.getItem('txy_webRTC_cameraId'))
-          this.cameraTestingResult.device = cacheCameraDevice[0]
+          $('#camera-select').val(localStorage.getItem('txy_webRTC_cameraId'));
+          this.cameraTestingResult.device = cacheCameraDevice[0];
         } else {
-          $('#camera-select').val(cameraDevices[0].deviceId)
-          this.cameraTestingResult.device = cameraDevices[0]
+          $('#camera-select').val(cameraDevices[0].deviceId);
+          this.cameraTestingResult.device = cameraDevices[0];
         }
       },
 
       // 摄像头设备测试
       async startCameraTesting() {
-        $('#camera-testing-body').show()
-        this.curTestingPageId = 'camera-testing-body'
-        $('#camera-testing').removeClass('icon-normal').addClass('icon-blue complete')
-        this.completedTestingPageIdList.push('camera-testing-body')
-        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)]
+        $('#camera-testing-body').show();
+        this.curTestingPageId = 'camera-testing-body';
+        $('#camera-testing').removeClass('icon-normal').addClass('icon-blue complete');
+        this.completedTestingPageIdList.push('camera-testing-body');
+        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)];
 
-        await this.updateCameraDeviceList()
+        await this.updateCameraDeviceList();
 
         // 创建本地视频流
         this.localStream = TRTC.createStream({
           audio: false,
           video: true,
           cameraId: this.cameraTestingResult.device.deviceId,
-        })
-        this.localStream.initialize()
-        this.localStream.play('camera-video')
+        });
+        this.localStream.initialize();
+        this.localStream.play('camera-video');
       },
 
       // 初始化/更新扬声器设备数组
       async updateVoiceDeviceList() {
         // 获取扬声器设备并展示在界面中
-        let voiceDevices = await TRTC.getSpeakers()
+        let voiceDevices = await TRTC.getSpeakers();
         //voiceDevices = voiceDevices.filter(voice => voice.deviceId !== 'default')
-        $('#voice-select').empty()
+        $('#voice-select').empty();
         voiceDevices.forEach(voice => {
-          let option = $('<option></option>')
-          option.attr('value', voice.deviceId)
-          option.html(voice.label)
-          option.appendTo('#voice-select')
-        })
+          let option = $('<option></option>');
+          option.attr('value', voice.deviceId);
+          option.html(voice.label);
+          option.appendTo('#voice-select');
+        });
 
         // 如果有用户设备选择缓存，优先使用缓存的deviceId
-        let cacheVoiceDevice = voiceDevices.filter(mic => mic.deviceId === localStorage.getItem('txy_webRTC_voiceId'))
+        let cacheVoiceDevice = voiceDevices.filter(mic => mic.deviceId === localStorage.getItem('txy_webRTC_voiceId'));
         if (cacheVoiceDevice.length > 0) {
-          $('#voice-select').val(localStorage.getItem('txy_webRTC_voiceId'))
-          this.voiceTestingResult.device = cacheVoiceDevice[0]
+          $('#voice-select').val(localStorage.getItem('txy_webRTC_voiceId'));
+          this.voiceTestingResult.device = cacheVoiceDevice[0];
         } else {
-          $('#voice-select').val(voiceDevices[0].deviceId)
-          this.voiceTestingResult.device = voiceDevices[0]
+          $('#voice-select').val(voiceDevices[0].deviceId);
+          this.voiceTestingResult.device = voiceDevices[0];
         }
       },
 
       // 播放器设备测试
       async startVoiceTesting() {
-        $('#voice-testing-body').show()
-        this.curTestingPageId = 'voice-testing-body'
-        $('#voice-testing').removeClass('icon-gray').addClass('icon-blue complete')
-        this.completedTestingPageIdList.push('voice-testing-body')
-        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)]
+        $('#voice-testing-body').show();
+        this.curTestingPageId = 'voice-testing-body';
+        $('#voice-testing').removeClass('icon-gray').addClass('icon-blue complete');
+        this.completedTestingPageIdList.push('voice-testing-body');
+        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)];
 
-        await this.updateVoiceDeviceList()
+        await this.updateVoiceDeviceList();
       },
 
       // 更新/初始化麦克风设备
       async updateMicDeviceList() {
         // 展示麦克风设备选择
-        let micDevices = await TRTC.getMicrophones()
+        let micDevices = await TRTC.getMicrophones();
         //micDevices = micDevices.filter(mic => mic.deviceId !== 'default')
-        $('#mic-select').empty()
+        $('#mic-select').empty();
         micDevices.forEach(mic => {
-          let option = $('<option></option>')
-          option.attr('value', mic.deviceId)
-          option.html(mic.label)
-          option.appendTo('#mic-select')
-        })
+          let option = $('<option></option>');
+          option.attr('value', mic.deviceId);
+          option.html(mic.label);
+          option.appendTo('#mic-select');
+        });
 
         // 如果有用户设备选择缓存，优先使用缓存的deviceId
-        let cacheMicDevice = micDevices.filter(mic => mic.deviceId === localStorage.getItem('txy_webRTC_micId'))
+        let cacheMicDevice = micDevices.filter(mic => mic.deviceId === localStorage.getItem('txy_webRTC_micId'));
         if (cacheMicDevice.length > 0) {
-          $('#mic-select').val(localStorage.getItem('txy_webRTC_micId'))
-          this.micTestingResult.device = cacheMicDevice[0]
+          $('#mic-select').val(localStorage.getItem('txy_webRTC_micId'));
+          this.micTestingResult.device = cacheMicDevice[0];
         } else {
-          $('#mic-select').val(micDevices[0].deviceId)
-          this.micTestingResult.device = micDevices[0]
+          $('#mic-select').val(micDevices[0].deviceId);
+          this.micTestingResult.device = micDevices[0];
         }
       },
 
       // 麦克风设备测试
       async startMicTesting() {
-        $('#mic-testing-body').show()
-        this.curTestingPageId = 'mic-testing-body'
-        $('#mic-testing').removeClass('icon-gray').addClass('icon-blue complete')
-        this.completedTestingPageIdList.push('mic-testing-body')
-        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)]
+        $('#mic-testing-body').show();
+        this.curTestingPageId = 'mic-testing-body';
+        $('#mic-testing').removeClass('icon-gray').addClass('icon-blue complete');
+        this.completedTestingPageIdList.push('mic-testing-body');
+        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)];
 
-        await this.updateMicDeviceList()
+        await this.updateMicDeviceList();
 
         // 展示麦克风的声音大小显示
         if ($('#mic-bar-container').children().length === 0) {
           for (let index = 0; index < 28; index++) {
-            $('<div></div>').addClass('mic-bar').appendTo('#mic-bar-container')
+            $('<div></div>').addClass('mic-bar').appendTo('#mic-bar-container');
           }
         }
 
@@ -874,42 +874,42 @@
           audio: true,
           microphoneId: this.micTestingResult.device.deviceId,
           video: false,
-        })
-        this.localStream.initialize()
-        this.localStream.play('audio-container')
+        });
+        this.localStream.initialize();
+        this.localStream.play('audio-container');
 
         // 监听音量，并量化显示出来
         setInterval(() => {
-          let volume = this.localStream.getAudioLevel()
-          let num = Math.ceil(28 * volume)
-          $('#mic-bar-container').children('.active').removeClass('active')
+          let volume = this.localStream.getAudioLevel();
+          let num = Math.ceil(28 * volume);
+          $('#mic-bar-container').children('.active').removeClass('active');
           for (let i = 0; i < num; i++) {
-            $('#mic-bar-container').children().slice(0, i).addClass('active')
+            $('#mic-bar-container').children().slice(0, i).addClass('active');
           }
-        }, 100)
+        }, 100);
       },
 
       // 系统信息展示
       async startNetworkTesting() {
-        $('#network-testing-body').show()
-        $('#testing-report-btn').hide()
-        this.curTestingPageId = 'network-testing-body'
-        $('#network-testing').removeClass('icon-gray').addClass('icon-blue complete')
-        this.completedTestingPageIdList.push('network-testing-body')
-        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)]
+        $('#network-testing-body').show();
+        $('#testing-report-btn').hide();
+        this.curTestingPageId = 'network-testing-body';
+        $('#network-testing').removeClass('icon-gray').addClass('icon-blue complete');
+        this.completedTestingPageIdList.push('network-testing-body');
+        this.completedTestingPageIdList = [...new Set(this.completedTestingPageIdList)];
 
-        this.networkQualityNum = 0
-        $('#uplink-network').addClass('network-loading').text('')
+        this.networkQualityNum = 0;
+        $('#uplink-network').addClass('network-loading').text('');
 
         // 获取系统信息
-        $('#system').empty()
-        let OSInfo = getOS()
-        $('<div></div>').text(OSInfo.osName).appendTo('#system')
+        $('#system').empty();
+        let OSInfo = getOS();
+        $('<div></div>').text(OSInfo.osName).appendTo('#system');
 
         // 获取浏览器及版本信息
-        $('#browser').empty()
-        let browser = getBroswer()
-        $('<div></div>').text(`${browser.broswer} ${browser.version}`).appendTo('#browser')
+        $('#browser').empty();
+        let browser = getBroswer();
+        $('<div></div>').text(`${browser.broswer} ${browser.version}`).appendTo('#browser');
 
         // 获取ip地址信息
         // $('#ip').empty();
@@ -918,115 +918,115 @@
         // this.networkTestingResult.IPAddress = IPAddress;
 
         // 是否支持屏幕分享能力
-        $('#screen-share').empty()
-        let isScreenShareSupported = TRTC.isScreenShareSupported()
-        $('<div></div>').text(isScreenShareSupported ? '支持' : '不支持').appendTo('#screen-share')
+        $('#screen-share').empty();
+        let isScreenShareSupported = TRTC.isScreenShareSupported();
+        $('<div></div>').text(isScreenShareSupported ? '支持' : '不支持').appendTo('#screen-share');
 
         // 上下行网络质量
-        const presetting = new Presetting()
+        const presetting = new Presetting();
         presetting.login(false, async options => {
-          this.client = TRTC.createClient({ mode: 'rtc', ...options })
+          this.client = TRTC.createClient({ mode: 'rtc', ...options });
           this.client.on('network-quality', event => {
-            this.networkQualityNum++
+            this.networkQualityNum++;
             // 收到3次'network-quality'事件的时候认为拿到了网络实际质量
             if (this.networkQualityNum === 3) {
-              this.networkTestingResult.upLinkNetwork = event.uplinkNetworkQuality
-              this.networkTestingResult.downLinkNetwork = event.downlinkNetworkQuality
-              $('#uplink-network').removeClass('network-loading').text(this.NETWORK_QUALITY[String(this.networkTestingResult.upLinkNetwork)])
-              $('#testing-report-btn').show()
-              this.client && this.client.leave()
-              this.client && this.client.off('network-quality')
+              this.networkTestingResult.upLinkNetwork = event.uplinkNetworkQuality;
+              this.networkTestingResult.downLinkNetwork = event.downlinkNetworkQuality;
+              $('#uplink-network').removeClass('network-loading').text(this.NETWORK_QUALITY[String(this.networkTestingResult.upLinkNetwork)]);
+              $('#testing-report-btn').show();
+              this.client && this.client.leave();
+              this.client && this.client.off('network-quality');
             }
-          })
+          });
           await this.client.join({
             roomId: options.roomId,
-          })
+          });
           this.localStream = TRTC.createStream({
             audio: true,
             video: false,
-          })
-          await this.localStream.initialize()
-          this.localStream.play('audio-container')
-          await this.client.publish(this.localStream)
+          });
+          await this.localStream.initialize();
+          this.localStream.play('audio-container');
+          await this.client.publish(this.localStream);
           // 音频轨道静音
-          this.localStream.muteAudio()
-        })
+          this.localStream.muteAudio();
+        });
       },
 
       // 展示检测报告
       showTestingReport() {
-        $('#device-testing').hide()
-        $('#network-testing-body').hide()
-        $('#device-testing-report').show()
-        this.curTestingPageId = 'device-testing-report'
+        $('#device-testing').hide();
+        $('#network-testing-body').hide();
+        $('#device-testing-report').show();
+        this.curTestingPageId = 'device-testing-report';
 
         // 摄像头检测结果
-        $('#camera-name').text(this.cameraTestingResult.device.label)
+        $('#camera-name').text(this.cameraTestingResult.device.label);
 
         if (this.cameraTestingResult.statusResult) {
-          $('#camera-testing-result').text('正常').css('color', 'green')
+          $('#camera-testing-result').text('正常').css('color', 'green');
         } else {
-          $('#camera-testing-result').text('异常').css('color', 'red')
+          $('#camera-testing-result').text('异常').css('color', 'red');
         }
 
 
         // 扬声器检测结果(safari浏览器不显示扬声器检测结果)
         if (!this.isSafari) {
-          $('#voice-name').text(this.voiceTestingResult.device.label)
+          $('#voice-name').text(this.voiceTestingResult.device.label);
           if (this.voiceTestingResult.statusResult) {
             $('#voice-testing-result')
               .text('正常')
-              .css('color', 'green')
+              .css('color', 'green');
           } else {
             $('#voice-testing-result')
               .text('异常')
-              .css('color', 'red')
+              .css('color', 'red');
           }
         }
 
         // 麦克风检测结果
-        $('#mic-name').text(this.micTestingResult.device.label)
+        $('#mic-name').text(this.micTestingResult.device.label);
         if (this.micTestingResult.statusResult) {
-          $('#mic-testing-result').text('正常').css('color', 'green')
+          $('#mic-testing-result').text('正常').css('color', 'green');
         } else {
-          $('#mic-testing-result').text('异常').css('color', 'red')
+          $('#mic-testing-result').text('异常').css('color', 'red');
         }
 
         // 网络检测结果
         // $('#network-name').text(this.networkTestingResult.IPAddress);
-        $('#network-name').text('网络质量')
+        $('#network-name').text('网络质量');
         $('#network-testing-result').html(`${this.NETWORK_QUALITY[String(this.networkTestingResult.upLinkNetwork)]}`)
-          .css('color', `${Number(this.networkTestingResult.upLinkNetwork) > 3 ? 'red' : 'green'}`)
+          .css('color', `${Number(this.networkTestingResult.upLinkNetwork) > 3 ? 'red' : 'green'}`);
       },
 
       // 结束设备检测，隐藏设备检测弹窗
       finishDeviceTesting() {
-        $('#device-testing-root').hide()
-        $('#device-testing').hide()
-        $(`#${this.curTestingPageId}`).hide()
-        this.curTestingPageId = ''
-        this.completedTestingPageIdList = []
+        $('#device-testing-root').hide();
+        $('#device-testing').hide();
+        $(`#${this.curTestingPageId}`).hide();
+        this.curTestingPageId = '';
+        this.completedTestingPageIdList = [];
 
         // 停止摄像头/麦克风的流采集并释放摄像头/麦克风设备
-        this.localStream && this.localStream.close()
-        this.client && this.client.leave()
-        this.client && this.client.off('network-quality')
+        this.localStream && this.localStream.close();
+        this.client && this.client.leave();
+        this.client && this.client.off('network-quality');
         // 停止播放器的音乐
-        let audioPlayer = document.querySelector('#audio-player')
+        let audioPlayer = document.querySelector('#audio-player');
         if (!audioPlayer.paused) {
-          audioPlayer.pause()
+          audioPlayer.pause();
         }
-        audioPlayer.currentTime = 0
+        audioPlayer.currentTime = 0;
       },
 
       // 恢复检测页面头部图标的状态
       initTestingTabTitle() {
         ['camera', 'voice', 'mic', 'network'].forEach(item => {
-          $(`#${item}-testing`).removeClass('icon-blue complete').addClass('icon-gray')
-        })
+          $(`#${item}-testing`).removeClass('icon-blue complete').addClass('icon-gray');
+        });
       },
     }
-  }
+  };
 
 </script>
 <style>

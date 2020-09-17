@@ -1,4 +1,4 @@
-import defaultImg from '../../assets/image/default.png'
+import defaultImg from '../../assets/image/default.png';
 
 const user = {
   state: {
@@ -17,25 +17,25 @@ const user = {
   },
   mutations: {
     updateCurrentUserProfile(state, userProfile) {
-      state.currentUserProfile = userProfile
+      state.currentUserProfile = userProfile;
     },
     toggleIsLogin(state, isLogin) {
-      state.isLogin = typeof isLogin === 'undefined' ? !state.isLogin : isLogin
+      state.isLogin = typeof isLogin === 'undefined' ? !state.isLogin : isLogin;
     },
     toggleIsSDKReady(state, isSDKReady) {
-      state.isSDKReady = typeof isSDKReady === 'undefined' ? !state.isSDKReady : isSDKReady
+      state.isSDKReady = typeof isSDKReady === 'undefined' ? !state.isSDKReady : isSDKReady;
     },
     reset(state) {
       Object.assign(state, {
         currentUserProfile: {},
         isLogin: false,   // 是否显示登录
         isSDKReady: false // TIM SDK 是否 ready
-      })
+      });
     },
     GET_USER_INFO(state, payload) {
-      state.userID = payload.userID
-      state.userSig = payload.userSig
-      state.sdkAppID = payload.sdkAppID
+      state.userID = payload.userID;
+      state.userSig = payload.userSig;
+      state.sdkAppID = payload.sdkAppID;
     },
   },
   actions: {
@@ -51,6 +51,6 @@ const user = {
     //   })
     // }
   }
-}
+};
 
-export default user
+export default user;

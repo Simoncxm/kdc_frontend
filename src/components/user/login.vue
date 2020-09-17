@@ -49,14 +49,14 @@
 </template>
 
 <script>
-  import { Form, FormItem } from 'element-ui'
-  import axios from 'axios'
-  import close from '../../assets/image/close-login.png'
-  import logo from '../../assets/image/logo.png'
-  import Register from './register'
-  import { errorMap } from '../../utils/common'
-  import { mapState } from 'vuex'
-  import md5 from 'md5'
+  import { Form, FormItem } from 'element-ui';
+  import axios from 'axios';
+  import close from '../../assets/image/close-login.png';
+  import logo from '../../assets/image/logo.png';
+  import Register from './register';
+  import { errorMap } from '../../utils/common';
+  import { mapState } from 'vuex';
+  import md5 from 'md5';
 
   export default {
     name: 'Login',
@@ -68,11 +68,11 @@
     data() {
       const checkUserID = (rule, value, callback) => {
         if (!/^[a-zA-Z][a-zA-Z0-9_]{3,23}$/.test(value)) {
-          callback(new Error('不合法（字母开头+字母/数字，长度4-24)'))
+          callback(new Error('不合法（字母开头+字母/数字，长度4-24)'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         form: {
           userID: '',
@@ -89,7 +89,7 @@
         close: close,
         registerVisible: false,
         loading: false
-      }
+      };
     },
     computed: {
       ...mapState({
@@ -98,14 +98,14 @@
     },
     methods: {
       handleMobileInputFocus() {
-        window.scroll(0, 0)
+        window.scroll(0, 0);
         // setTimeout(()=>{
         // },200)
       },
       handleMobileInputBlur() {
         this.$nextTick(() => {
-          window.scroll(0, 0)
-        })
+          window.scroll(0, 0);
+        });
         // if(isIOS()) {
         //   this.$nextTick(() => {
         //     window.scrollTo(0, 0);
@@ -115,16 +115,16 @@
       submit() {
         this.$refs['login'].validate(valid => {
           if (valid) {
-            this.login()
+            this.login();
           }
-        })
+        });
       },
       closeLogin() {
-        this.$store.commit('toggleIsLogin', false)
+        this.$store.commit('toggleIsLogin', false);
       },
       login() {
-        this.exitRoom()
-        this.loading = true
+        this.exitRoom();
+        this.loading = true;
         // 1. 请求换取 userSig
         axios({
           url: 'https://im-demo.qcloud.com/login',
@@ -141,50 +141,50 @@
                 userID: this.form.userID,
                 userSig: data.im_userSig_info.userSig,
                 sdkAppID: data.im_userSig_info.sdkAppID
-              })
+              });
               // 2. 调用 TIM SDK 登录接口
               return this.im.login({
                 userID: this.form.userID,
                 userSig: data.im_userSig_info.userSig
-              })
+              });
             } else {
-              throw response
+              throw response;
             }
           })
           .then(() => {
-            this.loading = false
-            this.$store.commit('toggleIsLogin', false)
+            this.loading = false;
+            this.$store.commit('toggleIsLogin', false);
             // this.$store.commit('startComputeCurrent')
-            this.$store.commit('showMessage', { type: 'success', message: '登录成功' })
+            this.$store.commit('showMessage', { type: 'success', message: '登录成功' });
           })
           .catch(error => {
-            this.loading = false
-            let message = ''
+            this.loading = false;
+            let message = '';
             if (error.code) {
-              message = errorMap[error.code]
+              message = errorMap[error.code];
             } else {
-              message = error.message
+              message = error.message;
             }
             this.$store.commit('showMessage', {
               message: '登录失败：' + message,
               type: 'error'
-            })
-          })
+            });
+          });
       },
       exitRoom() {
         this.im.exitRoom(this.chatInfo.groupId).then(() => {
-        })
+        });
       },
       toggleRegisterVisible(visible) {
         this.registerVisible =
-          typeof visible !== 'undefined' ? visible : !this.registerVisible
+          typeof visible !== 'undefined' ? visible : !this.registerVisible;
       },
       handleRegistSuccess({ userID, password }) {
-        this.form.userID = userID
-        this.form.password = password
+        this.form.userID = userID;
+        this.form.password = password;
       }
     }
-  }
+  };
 </script>
 
 <style lang="stylus" scoped>

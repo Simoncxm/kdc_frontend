@@ -1,4 +1,4 @@
-import MTA from 'mta-h5-analysis'
+import MTA from 'mta-h5-analysis';
 
 MTA.init({
   'sid': '500702399', //必填，统计用的appid
@@ -8,6 +8,6 @@ MTA.init({
   'senseQuery': 0, //url参数是否进入url统计
   'performanceMonitor': 0, //是否开启性能监控
   'ignoreParams': [] //开启url参数上报时，可忽略部分参数拼接上报
-})
+});
 
-export default MTA
+export default MTA;

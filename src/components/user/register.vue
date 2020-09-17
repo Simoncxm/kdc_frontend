@@ -25,10 +25,10 @@
 </template>
 
 <script>
-  import { Form, FormItem } from 'element-ui'
-  import axios from 'axios'
-  import { errorMap } from '../../utils/common'
-  import md5 from 'md5'
+  import { Form, FormItem } from 'element-ui';
+  import axios from 'axios';
+  import { errorMap } from '../../utils/common';
+  import md5 from 'md5';
 
   export default {
     name: 'register',
@@ -49,11 +49,11 @@
     data() {
       const checkUserID = (rule, value, callback) => {
         if (!/^[a-zA-Z][a-zA-Z0-9_]{3,23}$/.test(value)) {
-          callback(new Error('不合法（字母开头+字母/数字，长度4-24)'))
+          callback(new Error('不合法（字母开头+字母/数字，长度4-24)'));
         } else {
-          callback()
+          callback();
         }
-      }
+      };
       return {
         form: {
           userID: '',
@@ -67,57 +67,57 @@
           password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
         },
         loading: false
-      }
+      };
     },
     methods: {
       submit() {
         this.$refs['register'].validate(valid => {
           if (valid) {
-            this.register()
+            this.register();
           }
-        })
+        });
       },
       register() {
-        this.loading = true
+        this.loading = true;
         axios
           .post('https://im-demo.qcloud.com/register', {
             userid: this.form.userID,
             password: md5(this.form.password)
           })
           .then(({ data: { code, message } }) => {
-            this.loading = false
+            this.loading = false;
             if (code === 200) {
-              this.$store.commit('showMessage', { type: 'success', message: '注册成功' })
-              this.toggleVisible(false)
+              this.$store.commit('showMessage', { type: 'success', message: '注册成功' });
+              this.toggleVisible(false);
               this.$emit('regist-success', {
                 userID: this.form.userID,
                 password: this.form.password
-              })
+              });
             } else {
               this.$store.commit('showMessage', {
                 message: '注册失败：' + errorMap[code] || message,
                 type: 'error'
-              })
+              });
             }
           })
           .catch(error => {
-            this.loading = false
+            this.loading = false;
             this.$store.commit('showMessage', {
               message: error.message,
               type: 'error'
-            })
-          })
+            });
+          });
       },
       handleClose() {
         if (this.visible) {
-          this.toggleVisible(false)
+          this.toggleVisible(false);
         }
       },
       resetForm() {
-        this.$refs['register'].resetFields()
+        this.$refs['register'].resetFields();
       }
     }
-  }
+  };
 </script>
 
 <style lang="stylus" scoped>

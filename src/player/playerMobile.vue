@@ -25,8 +25,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import Vue from 'vue'
+  import { mapState } from 'vuex';
+  import Vue from 'vue';
   export default {
     name: 'player',
     data() {
@@ -50,7 +50,7 @@
         islowlatency: true,
         playUrl_flv: 'https://200002949.vod.myqcloud.com/200002949_b6ffc.f0.flv',
         playUrl_m3u8: 'https://200002949.vod.myqcloud.com/200002949_b6ffc.f0.m3u8'
-      }
+      };
 
     },
 
@@ -65,7 +65,7 @@
       }),
       // 是否显示 Loading 状态
       showLoading() {
-        return !this.isJoined
+        return !this.isJoined;
       }
     },
     created() {
@@ -73,60 +73,60 @@
     mounted() {
       // 初始化监听器
       // this.logout()
-      this.initListener()
+      this.initListener();
 
     },
     destroyed() {
-      this.stopPlay()
+      this.stopPlay();
     },
     methods: {
       initListener() {
-        const player = Vue.prototype.TWebLive.createPlayer()
-        window.player = player
-        Vue.prototype.player = player
-        this.setRenderView()
+        const player = Vue.prototype.TWebLive.createPlayer();
+        window.player = player;
+        Vue.prototype.player = player;
+        this.setRenderView();
         // 播放时
-        this.player.on(this.TWebLive.EVENT.PLAYER_PAUSE, this.onPlayerPlaying)
+        this.player.on(this.TWebLive.EVENT.PLAYER_PAUSE, this.onPlayerPlaying);
         // 暂停
-        this.player.on(this.TWebLive.EVENT.PLAYER_PAUSE, this.onPlayerPause)
+        this.player.on(this.TWebLive.EVENT.PLAYER_PAUSE, this.onPlayerPause);
         // 浏览器不允许自动播放
-        this.player.on(this.TWebLive.EVENT.PLAYER_AUTOPLAY_NOT_ALLOWED, this.onPlayerAutoPlayNotAllowed)
-        this.player.on(this.TWebLive.EVENT.PLAYER_ERROR, this.onPlayerError)
+        this.player.on(this.TWebLive.EVENT.PLAYER_AUTOPLAY_NOT_ALLOWED, this.onPlayerAutoPlayNotAllowed);
+        this.player.on(this.TWebLive.EVENT.PLAYER_ERROR, this.onPlayerError);
       },
       onPlayerPlaying(event) {
-        console.log('demo player | onPlayerPlaying |', event)
+        console.log('demo player | onPlayerPlaying |', event);
       },
       onPlayerPause(event) {
-        console.log('demo player | onPlayerPause |', event)
+        console.log('demo player | onPlayerPause |', event);
       },
       onPlayerAutoPlayNotAllowed(event) {
-        console.log('demo player | onPlayerAutoPlayNotAllowed |', event)
+        console.log('demo player | onPlayerAutoPlayNotAllowed |', event);
       },
       onPlayerError(event) {
-        console.log('demo player | onPlayerError |', event)
+        console.log('demo player | onPlayerError |', event);
       },
       // 设置渲染界面
       setRenderView() {
-        this.player.setRenderView({ elementID: 'player-container' })
-        this.startPlay()
+        this.player.setRenderView({ elementID: 'player-container' });
+        this.startPlay();
       },
       resumeAudio() {
         this.player.resumeAudio().then(() => {
-          console.log('demo player | resumeAudio | ok')
-          this.isMute = false
-          this.audioContent = '关闭麦克风'
+          console.log('demo player | resumeAudio | ok');
+          this.isMute = false;
+          this.audioContent = '关闭麦克风';
         }).catch((error) => {
-          console.error('demo player | resumeAudio | failed', error)
-        })
+          console.error('demo player | resumeAudio | failed', error);
+        });
       },
       pauseAudio() {
         this.player.pauseAudio().then(() => {
-          this.isMute = true
-          this.audioContent = '打开麦克风'
-          console.log('demo player | pauseAudio | ok')
+          this.isMute = true;
+          this.audioContent = '打开麦克风';
+          console.log('demo player | pauseAudio | ok');
         }).catch((error) => {
-          console.error('demo player | pauseAudio | failed', error)
-        })
+          console.error('demo player | pauseAudio | failed', error);
+        });
       },
       //播放
       startPlay() {
@@ -134,65 +134,65 @@
         //   + 'flv=https://200002949.vod.myqcloud.com/200002949_b6ffc.f0.flv' + '&' // 请替换成实际可用的播放地址
         //   + 'hls=https://200002949.vod.myqcloud.com/200002949_b6ffc.f0.m3u8'; // 请替换成实际可用的播放地址
         // 播放 WebRTC 低延时流，填入 sdkappid roomid 等信息，此时 url 必须以 `room://` 开头
-        let userID = this.chatInfo.userId
-        let userSig = this.chatInfo.userSig
-        let SDKAppID = this.chatInfo.sdkAppID
-        let roomID = this.chatInfo.groupId
-        let url = `room://sdkappid=${SDKAppID}&roomid=${roomID}&userid=${userID}&usersig=${userSig}`
+        let userID = this.chatInfo.userId;
+        let userSig = this.chatInfo.userSig;
+        let SDKAppID = this.chatInfo.sdkAppID;
+        let roomID = this.chatInfo.groupId;
+        let url = `room://sdkappid=${SDKAppID}&roomid=${roomID}&userid=${userID}&usersig=${userSig}`;
         this.player.startPlay(url).then(() => {
-          console.log('demo player | startPlay | ok')
-          this.isPlay = true
-          this.isShow_playUrl = true
-          this.playContent = '暂停播放'
+          console.log('demo player | startPlay | ok');
+          this.isPlay = true;
+          this.isShow_playUrl = true;
+          this.playContent = '暂停播放';
         }).catch((error) => {
-          console.error('demo player | startPlay | failed', error)
-        })
+          console.error('demo player | startPlay | failed', error);
+        });
       },
 
       //暂停播放 {
       pauseVideo() {
         this.player.pauseVideo().then(() => {
-          this.isPlay = false
-          this.playContent = '开启播放'
-          console.log('demo player | pauseVideo | ok')
+          this.isPlay = false;
+          this.playContent = '开启播放';
+          console.log('demo player | pauseVideo | ok');
         }).catch((error) => {
-          console.error('demo player | pauseVideo | failed', error)
-        })
+          console.error('demo player | pauseVideo | failed', error);
+        });
       },
       // 回复播放
       resumeVideo() {
         this.player.resumeVideo().then(() => {
-          this.isPlay = true
-          this.playContent = '暂停播放'
-          console.log('demo player | resumeVideo | ok')
+          this.isPlay = true;
+          this.playContent = '暂停播放';
+          console.log('demo player | resumeVideo | ok');
         }).catch((error) => {
-          console.error('demo player | resumeVideo | failed', error)
-        })
+          console.error('demo player | resumeVideo | failed', error);
+        });
       },
       // 正在播放
       isPlaying() {
-        return this.player.isPlaying()
+        return this.player.isPlaying();
       },
       //
       setPlayoutVolume() {
-        console.log('demo player | setPlayoutVolume', this.volumeValue)
-        this.player.setPlayoutVolume(this.volumeValue)
+        console.log('demo player | setPlayoutVolume', this.volumeValue);
+        this.player.setPlayoutVolume(this.volumeValue);
       },
       // 停止播放
       stopPlay() {
-        this.player.stopPlay()
-        console.log('demo player | stopPlay | ok')
-        this.isPlay = false
-        this.pushContent = '开始直播'
+        this.player.stopPlay();
+        console.log('demo player | stopPlay | ok');
+        this.isPlay = false;
+        this.pushContent = '开始直播';
       },
       // 获取推流地址
       playHandler() {
-        this.isPlay = false
+        this.isPlay = false;
         // window.location.href = this.playUrl.cdnUrl
-        window.open(this.playUrl.cdnUrl, '_blank')
+        window.open(this.playUrl.cdnUrl, '_blank');
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="stylus">

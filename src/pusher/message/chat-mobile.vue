@@ -70,16 +70,16 @@
 </template>
 
 <script>
-  import { decodeText } from '../../utils/decodeText'
-  import { getFullDate } from '../../utils/date'
-  import { mapState } from 'vuex'
+  import { decodeText } from '../../utils/decodeText';
+  import { getFullDate } from '../../utils/date';
+  import { mapState } from 'vuex';
   import {
     Input,
     Popover,
-  } from 'element-ui'
-  import liveLike from '../../components/liveLike/liveLike'
-  import MessageStatusIcon from './message-status-icon.vue'
-  import { emojiMap, emojiName, emojiUrl } from '../../utils/emojiMap'
+  } from 'element-ui';
+  import liveLike from '../../components/liveLike/liveLike';
+  import MessageStatusIcon from './message-status-icon.vue';
+  import { emojiMap, emojiName, emojiUrl } from '../../utils/emojiMap';
 
   export default {
     name: 'newChat',
@@ -114,7 +114,7 @@
         showAtGroupMember: false,
         atUserID: '',
         focus: false,
-      }
+      };
     },
     computed: {
       ...mapState({
@@ -128,85 +128,85 @@
       }),
       contentList() {
         return (text) => {
-          return decodeText(text)
-        }
+          return decodeText(text);
+        };
 
       },
       showTip() {
         if (this.currentLiveTips.length > 0) {
-          return this.currentLiveTips[0]
+          return this.currentLiveTips[0];
         } else {
-          return ''
+          return '';
         }
       },
       getGroupTipContent() {
         return (message) => {
-          return message.payload.text
-        }
+          return message.payload.text;
+        };
       },
       getDate() {
         return (message) => {
-          return getFullDate(new Date(message.time * 1000))
-        }
+          return getFullDate(new Date(message.time * 1000));
+        };
       },
     },
     updated() {
-      this.keepMessageListOnButtom()
+      this.keepMessageListOnButtom();
 
     },
     mounted() {
-      this.initListener()
+      this.initListener();
     },
     methods: {
       initListener() {
         // 登录成功后会触发 SDK_READY 事件，该事件触发后，可正常使用 SDK 接口
-        this.im.on(this.TWebLive.EVENT.IM_READY, this.onReadyStateUpdate)
+        this.im.on(this.TWebLive.EVENT.IM_READY, this.onReadyStateUpdate);
         // 被踢出
-        this.im.on(this.TWebLive.EVENT.IM_KICKED_OUT, this.onKickedOut)
+        this.im.on(this.TWebLive.EVENT.IM_KICKED_OUT, this.onKickedOut);
         // 收到自定义新消息
-        this.im.on(this.TWebLive.EVENT.IM_CUSTOM_MESSAGE_RECEIVED, this.onCustomMessageReceived)
+        this.im.on(this.TWebLive.EVENT.IM_CUSTOM_MESSAGE_RECEIVED, this.onCustomMessageReceived);
         // 收到文本新消息
-        this.im.on(this.TWebLive.EVENT.IM_TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived)
+        this.im.on(this.TWebLive.EVENT.IM_TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived);
         // 加入直播间
-        this.im.on(this.TWebLive.EVENT.IM_REMOTE_USER_JOIN, this.onRemoteUserJoin)
+        this.im.on(this.TWebLive.EVENT.IM_REMOTE_USER_JOIN, this.onRemoteUserJoin);
         // 离开直播间
-        this.im.on(this.TWebLive.EVENT.IM_REMOTE_USER_LEAVE, this.onRemoteUserLeave)
+        this.im.on(this.TWebLive.EVENT.IM_REMOTE_USER_LEAVE, this.onRemoteUserLeave);
         // 网络监测
-        this.im.on(this.TWebLive.EVENT.IM_NET_STATE_CHANGED, this.onNetStateChanged)
+        this.im.on(this.TWebLive.EVENT.IM_NET_STATE_CHANGED, this.onNetStateChanged);
         // 推流结束
       },
       // 没有昵称或者昵称为''或者""的，都用 userID 展示
       canIUseNick(nick) {
         if (nick && nick !== '""' && nick !== '\'\'') {
-          return true
+          return true;
         }
-        return false
+        return false;
       },
       onTextMessageReceived({ data: messageList }) {
         messageList.forEach((message) => {
-          message.nick = this.canIUseNick(message.nick) ? message.nick : message.from
-          message.avatar = message.avatar || this.userInfo.defaultImg
-        })
-        this.$store.commit('pushCurrentMessageList', messageList)
+          message.nick = this.canIUseNick(message.nick) ? message.nick : message.from;
+          message.avatar = message.avatar || this.userInfo.defaultImg;
+        });
+        this.$store.commit('pushCurrentMessageList', messageList);
       },
       onCustomMessageReceived({ data: messageList }) {
-        this.$store.commit('showLike', messageList.length)
+        this.$store.commit('showLike', messageList.length);
       },
       onRemoteUserJoin({ data: messageList }) {
         messageList.forEach((message) => {
-          const userName = this.canIUseNick(message.nick) ? message.nick : message.payload.userIDList[0]
-          message.payload.text = `${userName} 来了`
+          const userName = this.canIUseNick(message.nick) ? message.nick : message.payload.userIDList[0];
+          message.payload.text = `${userName} 来了`;
           // message.type = 'Live-tips'
-        })
-        this.$store.commit('pushCurrentTipsList', messageList)
+        });
+        this.$store.commit('pushCurrentTipsList', messageList);
       },
       onRemoteUserLeave({ data: messageList }) {
         messageList.forEach((message) => {
-          const userName = this.canIUseNick(message.nick) ? message.nick : message.payload.userIDList[0]
-          message.payload.text = `${userName} 走了`
+          const userName = this.canIUseNick(message.nick) ? message.nick : message.payload.userIDList[0];
+          message.payload.text = `${userName} 走了`;
           // message.type = 'Live-tips'
-        })
-        this.$store.commit('pushCurrentTipsList', messageList)
+        });
+        this.$store.commit('pushCurrentTipsList', messageList);
       },
       onNetStateChanged() {},
       onError({ data }) {
@@ -218,159 +218,159 @@
         }
       },
       onReadyStateUpdate({ name }) {
-        const isSDKReady = name === this.TWebLive.EVENT.IM_READY ? true : false
-        this.$store.commit('toggleIsSDKReady', isSDKReady)
+        const isSDKReady = name === this.TWebLive.EVENT.IM_READY ? true : false;
+        this.$store.commit('toggleIsSDKReady', isSDKReady);
 
         if (isSDKReady) {
           if (this.chatInfo.role === 'pusher') {
-            this.createRoom()
+            this.createRoom();
           } else {
-            this.enterRoom()
+            this.enterRoom();
           }
-          this.getMyProfile()
+          this.getMyProfile();
         }
       },
       getMyProfile() {
         this.im.getMyProfile().then((res) => {
-          this.userInfo.nickName = res.data.nick || this.userID
-          this.userInfo.avatar = res.data.avatar || this.userInfo.defaultImg
+          this.userInfo.nickName = res.data.nick || this.userID;
+          this.userInfo.avatar = res.data.avatar || this.userInfo.defaultImg;
         }).catch(() => {
-        })
+        });
       },
       createRoom() {
         let promise = this.im.createRoom({
           name: '我的直播间',
           roomID: this.chatInfo.groupId
-        })
+        });
         promise.then((imResponse) => { // 创建成功
-          console.log(imResponse.data.group.groupID, '创建成功')// 创建的群的 ID
-          this.enterRoom()
+          console.log(imResponse.data.group.groupID, '创建成功');// 创建的群的 ID
+          this.enterRoom();
 
         }).catch((imError) => {
           if (imError.code === 10021 || imError.code === 10025) {
-            this.enterRoom()
+            this.enterRoom();
           }
-        })
+        });
       },
       // 加入直播间
       enterRoom() {
         this.im.enterRoom(this.chatInfo.groupId).then((imResponse) => {
-          const status = imResponse.data.status
+          const status = imResponse.data.status;
           if (status === this.TWebLive.TYPES.ENTER_ROOM_SUCCESS || status === this.TWebLive.TYPES.ALREADY_IN_ROOM) {
-            this.isJoined = true
+            this.isJoined = true;
           }
         }).catch((imError) => {
           if (imError.code === 10007 || imError.code === 10015) {
-            this.$store.commit('showMessage', { type: 'warning', message: '进入直播间失败' })
+            this.$store.commit('showMessage', { type: 'warning', message: '进入直播间失败' });
           }
-        })
+        });
       },
       onLiveEnd() {
-        this.$store.commit('showMessage', { type: 'warning', message: '直播已结束' })
+        this.$store.commit('showMessage', { type: 'warning', message: '直播已结束' });
       },
       onNetStateChange(event) {
-        this.$store.commit('showMessage', this.checkoutNetState(event.data))
+        this.$store.commit('showMessage', this.checkoutNetState(event.data));
       },
       onKickedOut(event) {
         this.$store.commit('showMessage', {
           message: `${this.kickedOutReason(event.data.type)}被踢出，请重新登录。`,
           type: 'error'
-        })
-        this.$store.commit('toggleIsLogin', true)
-        this.$store.commit('reset')
+        });
+        this.$store.commit('toggleIsLogin', true);
+        this.$store.commit('reset');
       },
       imgError(item) {
-        item.avatar = require('../../assets/image/default.png')
+        item.avatar = require('../../assets/image/default.png');
       },
       kickedOutReason(type) {
         switch (type) {
           case this.TWebLive.TYPES.KICKED_OUT_MULT_ACCOUNT:
-            return '由于多实例登录'
+            return '由于多实例登录';
           case this.TWebLive.TYPES.KICKED_OUT_MULT_DEVICE:
-            return '由于多设备登录'
+            return '由于多设备登录';
           case this.TWebLive.TYPES.KICKED_OUT_USERSIG_EXPIRED:
-            return '由于 userSig 过期'
+            return '由于 userSig 过期';
           default:
-            return ''
+            return '';
         }
       },
       handleMobileInputFocus() {
-        window.scroll(0, 400)
-        this.focus = true
+        window.scroll(0, 400);
+        this.focus = true;
       },
       handleMobileInputBlur() {
         //this.sendTextMessage()
 
       },
       onScroll({ target: { scrollTop } }) {
-        let messageListNode = this.$refs['message-list']
+        let messageListNode = this.$refs['message-list'];
         if (!messageListNode) {
-          return
+          return;
         }
         if (this.preScrollHeight - messageListNode.clientHeight - scrollTop < 20) {
-          this.isShowScrollButtomTips = false
+          this.isShowScrollButtomTips = false;
         }
       },
       // 如果滚到底部就保持在底部，否则提示是否要滚到底部
       keepMessageListOnButtom() {
-        let messageListNode = this.$refs['message-list']
+        let messageListNode = this.$refs['message-list'];
         if (!messageListNode) {
-          return
+          return;
         }
         // 距离底部20px内强制滚到底部,否则提示有新消息
         if (this.preScrollHeight - messageListNode.clientHeight - messageListNode.scrollTop < 20) {
           this.$nextTick(() => {
-            messageListNode.scrollTop = messageListNode.scrollHeight + 60
-          })
-          this.isShowScrollButtomTips = false
+            messageListNode.scrollTop = messageListNode.scrollHeight + 60;
+          });
+          this.isShowScrollButtomTips = false;
         } else {
-          this.isShowScrollButtomTips = true
+          this.isShowScrollButtomTips = true;
         }
-        this.preScrollHeight = messageListNode.scrollHeight
+        this.preScrollHeight = messageListNode.scrollHeight;
       },
       reEditMessage(payload) {
-        this.messageContent = payload
+        this.messageContent = payload;
       },
       handleLine() {
-        this.messageContent += '\n'
+        this.messageContent += '\n';
       },
       handleEnter() {
-        this.sendTextMessage()
+        this.sendTextMessage();
       },
       checkLogin() {
-        this.messageContent = ''
+        this.messageContent = '';
         this.$store.commit('showMessage', {
           message: '请先登录',
           type: 'warning'
-        })
-        this.$store.commit('toggleIsLogin', true)
+        });
+        this.$store.commit('toggleIsLogin', true);
       },
       sendTextMessage() {
-        window.scroll(0, 0)    //ios键盘回落
+        window.scroll(0, 0);    //ios键盘回落
         // if (!this.showMessage) {
         //   this.showMessage = true
         // }
         if (this.messageContent === '' || this.messageContent.trim().length === 0) {
-          this.messageContent = ''
+          this.messageContent = '';
           this.$store.commit('showMessage', {
             message: '不能发送空消息哦！',
             type: 'info'
-          })
-          return
+          });
+          return;
         }
         let message = {
           payload: {
             text: ''
           }
-        }
-        message.nick = this.userInfo.nickName
-        message.avatar = this.userInfo.avatar
-        message.payload.text = this.messageContent
-        message.type = 'TIMTextElem'
-        message.status = 'unsend'
-        message.to = this.chatInfo.groupId
-        message.time = Date.now() / 1000
-        this.$store.commit('pushCurrentMessageList', message)
+        };
+        message.nick = this.userInfo.nickName;
+        message.avatar = this.userInfo.avatar;
+        message.payload.text = this.messageContent;
+        message.type = 'TIMTextElem';
+        message.status = 'unsend';
+        message.to = this.chatInfo.groupId;
+        message.time = Date.now() / 1000;
+        this.$store.commit('pushCurrentMessageList', message);
         this.im.sendTextMessage({
             roomID: this.chatInfo.groupId,
             priority: this.TWebLive.TYPES.MSG_PRIORITY_NORMAL,
@@ -379,26 +379,26 @@
           .then(() => {
           })
           .catch(error => {
-            message.status = 'fail'
+            message.status = 'fail';
             //JSON.stringify(error, ['message', 'code'])
             if (error.code === 80001) {
-              error.message = '文本中可能包含敏感词汇'
+              error.message = '文本中可能包含敏感词汇';
             }
             this.$store.commit('showMessage', {
               type: 'error',
               message: error.message
-            })
-          })
-        this.messageContent = ''
+            });
+          });
+        this.messageContent = '';
       },
       random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min)
+        return Math.floor(Math.random() * (max - min + 1) + min);
       },
       chooseEmoji(item) {
-        this.messageContent += item
+        this.messageContent += item;
       }
     }
-  }
+  };
 </script>
 
 <style lang="stylus" scoped>

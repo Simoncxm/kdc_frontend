@@ -13,10 +13,10 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import NewChat from '../pusher/message/chat-mobile'
-  import { isMobile } from '../utils/mobile'
-  import Player from './playerMobile'
+  import { mapState } from 'vuex';
+  import NewChat from '../pusher/message/chat-mobile';
+  import { isMobile } from '../utils/mobile';
+  import Player from './playerMobile';
 
 
   export default {
@@ -33,7 +33,7 @@
         tabSelected: 0,  //互动
         isJoined: false,
         isMobile: isMobile()
-      }
+      };
 
     },
     computed: {
@@ -44,7 +44,7 @@
       }),
       // 是否显示 Loading 状态
       showLoading() {
-        return !this.isJoined
+        return !this.isJoined;
       }
     },
 
@@ -57,7 +57,7 @@
     },
 
     destroyed() {
-      this.logout()
+      this.logout();
     },
     // watch: {
     //   // 如果路由有变化，会再次执行该方法
@@ -74,28 +74,28 @@
       // 加入直播间
       exitRoom() {
         this.im.exitRoom(this.chatInfo.groupId).then(() => {
-          this.isJoined = false
-        })
+          this.isJoined = false;
+        });
       },
       login() {
-        this.$store.commit('toggleIsLogin', true)
+        this.$store.commit('toggleIsLogin', true);
         // this.$emit()
       },
       _logout() {
         this.im.logout().then(() => {
-          this.$store.commit('toggleIsSDKReady', false)
-          this.$store.commit('showMessage', { type: 'success', message: '退出成功' })
-        })
+          this.$store.commit('toggleIsSDKReady', false);
+          this.$store.commit('showMessage', { type: 'success', message: '退出成功' });
+        });
       },
       async logout() {
         if (this.isSDKReady) {
-          await this.exitRoom()
-          await this._logout()
+          await this.exitRoom();
+          await this._logout();
         }
-        window.location.reload()
+        window.location.reload();
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="stylus">

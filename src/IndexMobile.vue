@@ -21,14 +21,14 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import Vue from 'vue'
-  import NewChat from './components/message/chat-mobile'
-  import Login from './components/user/login'
-  import MTA from './utils/mta'
-  import {isMobile} from './utils/mobile'
-  import { getUrlKey,isValidFlv } from './utils/common'
-  import bg from './assets/image/video-bg.png'
+  import { mapState } from 'vuex';
+  import Vue from 'vue';
+  import NewChat from './components/message/chat-mobile';
+  import Login from './components/user/login';
+  import MTA from './utils/mta';
+  import {isMobile} from './utils/mobile';
+  import { getUrlKey,isValidFlv } from './utils/common';
+  import bg from './assets/image/video-bg.png';
 
 
   export default {
@@ -64,20 +64,20 @@
         tweblive:null,
         isJoined:false,
         isMobile:isMobile()
-      }
+      };
 
     },
     created() {
-      let url = window.location.href
-      let roomId  = getUrlKey('roomid',url)
+      let url = window.location.href;
+      let roomId  = getUrlKey('roomid',url);
       if(roomId) {
-        this.$store.commit('setGroupId',roomId)
+        this.$store.commit('setGroupId',roomId);
       }
-      let flv = getUrlKey('flv',url)
+      let flv = getUrlKey('flv',url);
       if(flv && isValidFlv(flv)) {
-        let m3u8 = flv.replace('flv','m3u8')
-        this.options.flv = flv
-        this.options.m3u8 = m3u8
+        let m3u8 = flv.replace('flv','m3u8');
+        this.options.flv = flv;
+        this.options.m3u8 = m3u8;
       }
     },
     computed: {
@@ -91,34 +91,34 @@
       }),
       // 是否显示 Loading 状态
       showLoading() {
-        return !this.isJoined
+        return !this.isJoined;
       }
     },
 
     mounted() {
       // 初始化监听器
       this.$nextTick(() => {
-        const videoHeight = document.getElementById('video-container').clientHeight  //document.querySelector('video-container');
-        let height = document.documentElement.clientHeight
+        const videoHeight = document.getElementById('video-container').clientHeight;  //document.querySelector('video-container');
+        let height = document.documentElement.clientHeight;
         if(videoHeight < height / 2) { //超过一半高度
-          this.$refs.chat.style.height = height - videoHeight  + 'px'
+          this.$refs.chat.style.height = height - videoHeight  + 'px';
         } else {
-          this.$refs.chat.style.height = height - videoHeight  + 'px'
+          this.$refs.chat.style.height = height - videoHeight  + 'px';
         }
 
-      })
+      });
 
       window.addEventListener('unload', () => {
-        this.logout()
-      })
-      this.initListener()
+        this.logout();
+      });
+      this.initListener();
 
     },
 
     watch: {
       isLogin(next) {
         if (next) {
-          MTA.clickStat('link_two', { show: 'true' })
+          MTA.clickStat('link_two', { show: 'true' });
         }
       }
     },
@@ -126,70 +126,70 @@
     methods: {
       tabClick(index) {
         // window.scroll(0, 0)    //切换tab，聊天区域滑到底部
-        this.isActive = ['','']
-        this.isActive[index] = 1
-        this.tabSelected = index
+        this.isActive = ['',''];
+        this.isActive[index] = 1;
+        this.tabSelected = index;
         this.$nextTick(() => {
-          this.$refs.live.keepMessageListOnButtom()
-        })
+          this.$refs.live.keepMessageListOnButtom();
+        });
       },
       initListener() {
         const tweblive = new this.TWebLive({
           SDKAppID: 1400187352,
           domID: 'video-container',
           ...this.options
-        })
-        this.tweblive = tweblive
-        window.tweblive = tweblive
-        Vue.prototype.tweblive = tweblive
-        this.enterRoom()
+        });
+        this.tweblive = tweblive;
+        window.tweblive = tweblive;
+        Vue.prototype.tweblive = tweblive;
+        this.enterRoom();
 
         // 登录成功后会触发 SDK_READY 事件，该事件触发后，可正常使用 SDK 接口
-        this.tweblive.on(this.TWebLive.EVENT.IM_READY, this.onReadyStateUpdate)
+        this.tweblive.on(this.TWebLive.EVENT.IM_READY, this.onReadyStateUpdate);
         // 被踢出
-        this.tweblive.on(this.TWebLive.EVENT.KICKED_OUT, this.onKickedOut)
+        this.tweblive.on(this.TWebLive.EVENT.KICKED_OUT, this.onKickedOut);
         // SDK内部出错
-        this.tweblive.on(this.TWebLive.EVENT.ERROR, this.onError)
+        this.tweblive.on(this.TWebLive.EVENT.ERROR, this.onError);
         // 收到自定义新消息
-        this.tweblive.on(this.TWebLive.EVENT.CUSTOM_MESSAGE_RECEIVED, this.onCustomMessageReceived)
+        this.tweblive.on(this.TWebLive.EVENT.CUSTOM_MESSAGE_RECEIVED, this.onCustomMessageReceived);
         // 收到文本新消息
-        this.tweblive.on(this.TWebLive.EVENT.TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived)
+        this.tweblive.on(this.TWebLive.EVENT.TEXT_MESSAGE_RECEIVED, this.onTextMessageReceived);
         // 加入直播间
-        this.tweblive.on(this.TWebLive.EVENT.REMOTE_USER_JOIN, this.onRemoteUserJoin)
+        this.tweblive.on(this.TWebLive.EVENT.REMOTE_USER_JOIN, this.onRemoteUserJoin);
         // 离开直播间
-        this.tweblive.on(this.TWebLive.EVENT.REMOTE_USER_LEAVE, this.onRemoteUserLeave)
+        this.tweblive.on(this.TWebLive.EVENT.REMOTE_USER_LEAVE, this.onRemoteUserLeave);
         // 网络监测enterRoom
-        this.tweblive.on(this.TWebLive.EVENT.NET_STATE_CHANGE, this.onNetStateChange)
+        this.tweblive.on(this.TWebLive.EVENT.NET_STATE_CHANGE, this.onNetStateChange);
         // 推流结束
-        this.tweblive.on(this.TWebLive.EVENT.ENDED, this.onLiveEnd)
+        this.tweblive.on(this.TWebLive.EVENT.ENDED, this.onLiveEnd);
       },
       onTextMessageReceived ({ data: messageList }) {
         messageList.forEach((message)=> {
-          const userName = message.nick || message.from
-          const avatar = message.avatar || this.userInfo.defaultImg
-          message.nick = userName
-          message.avatar = avatar
-        })
-        this.$store.commit('pushCurrentMessageList', messageList)
+          const userName = message.nick || message.from;
+          const avatar = message.avatar || this.userInfo.defaultImg;
+          message.nick = userName;
+          message.avatar = avatar;
+        });
+        this.$store.commit('pushCurrentMessageList', messageList);
       },
       onCustomMessageReceived ({ data: messageList }) {
-        this.$store.commit('showLike',messageList.length)
+        this.$store.commit('showLike',messageList.length);
       },
       onRemoteUserJoin ({ data: messageList }) {
         messageList.forEach(function(message) {
-          const userName = message.nick || message.payload.userIDList[0]
-          message.payload.text = `${userName} 来了`
+          const userName = message.nick || message.payload.userIDList[0];
+          message.payload.text = `${userName} 来了`;
           // message.type = 'Live-tips'
-        })
-        this.$store.commit('pushCurrentTipsList', messageList)
+        });
+        this.$store.commit('pushCurrentTipsList', messageList);
       },
       onRemoteUserLeave ({ data: messageList }) {
         messageList.forEach(function(message) {
-          const userName = message.nick || message.payload.userIDList[0]
-          message.payload.text = `${userName} 走了`
+          const userName = message.nick || message.payload.userIDList[0];
+          message.payload.text = `${userName} 走了`;
           // message.type = 'Live-tips'
-        })
-        this.$store.commit('pushCurrentTipsList', messageList)
+        });
+        this.$store.commit('pushCurrentTipsList', messageList);
       },
       onError({ data }) {
         if (data.message !== '' && data.message !== 'Network Error') {
@@ -200,100 +200,100 @@
         }
       },
       onReadyStateUpdate({ name }) {
-        const isSDKReady = name === this.TWebLive.EVENT.IM_READY ? true : false
-        this.$store.commit('toggleIsSDKReady', isSDKReady)
+        const isSDKReady = name === this.TWebLive.EVENT.IM_READY ? true : false;
+        this.$store.commit('toggleIsSDKReady', isSDKReady);
 
         if (isSDKReady) {
-          this.enterRoom()
-          this.getMyProfile()
+          this.enterRoom();
+          this.getMyProfile();
         }
       },
       getMyProfile() {
         this.tweblive.getMyProfile().then((res) => {
-          this.userInfo.nickName = res.data.nick || this.userID
-          this.userInfo.avatar = res.data.avatar || this.userInfo.defaultImg
+          this.userInfo.nickName = res.data.nick || this.userID;
+          this.userInfo.avatar = res.data.avatar || this.userInfo.defaultImg;
         }).catch(()=>{
           // console.log('getMyProfile error:', imError)// 更新资料失败的相关信息
-        })
+        });
 
       },
       // 加入直播间
       enterRoom() {
         this.tweblive.enterRoom(this.chatInfo.groupId).then(() => {
-          this.isJoined = true
+          this.isJoined = true;
         }).catch((imError) => {
           if(imError.code === 10007 || imError.code === 10015) {
-            this.$store.commit('showMessage', { type: 'error', message: '你加入的直播间不存在哦~'})
+            this.$store.commit('showMessage', { type: 'error', message: '你加入的直播间不存在哦~'});
           }
-        })
+        });
       },
       exitRoom() {
         this.tweblive.exitRoom(this.chatInfo.groupId).then(() => {
-          this.isJoined = false
-        })
+          this.isJoined = false;
+        });
       },
       kickedOutReason(type) {
         switch (type) {
           case this.TWebLive.TYPES.KICKED_OUT_MULT_ACCOUNT:
-            return '由于多实例登录'
+            return '由于多实例登录';
           case this.TWebLive.TYPES.KICKED_OUT_MULT_DEVICE:
-            return '由于多设备登录'
+            return '由于多设备登录';
           case this.TWebLive.TYPES.KICKED_OUT_USERSIG_EXPIRED:
-            return '由于 userSig 过期'
+            return '由于 userSig 过期';
           default:
-            return ''
+            return '';
         }
       },
 
       checkoutNetState(state) {
         switch (state) {
           case this.TWebLive.TYPES.NET_STATE_CONNECTED:
-            return { message: '已接入网络', type: 'success' }
+            return { message: '已接入网络', type: 'success' };
           case this.TWebLive.TYPES.NET_STATE_CONNECTING:
-            return { message: '当前网络不稳定', type: 'warning' }
+            return { message: '当前网络不稳定', type: 'warning' };
           case this.TWebLive.TYPES.NET_STATE_DISCONNECTED:
-            return { message: '当前网络不可用', type: 'error' }
+            return { message: '当前网络不可用', type: 'error' };
           default:
-            return ''
+            return '';
         }
       },
       login() {
-        this.$store.commit('toggleIsLogin', true)
+        this.$store.commit('toggleIsLogin', true);
         // this.$emit()
       },
       _logout() {
         this.tweblive.logout().then(() => {
-          this.$store.commit('toggleIsSDKReady', false)
-          this.$store.commit('showMessage', { type: 'success', message: '退出成功' })
-        })
+          this.$store.commit('toggleIsSDKReady', false);
+          this.$store.commit('showMessage', { type: 'success', message: '退出成功' });
+        });
       },
       async logout() {
         if (this.isSDKReady) {
-          await this.exitRoom()
-          await this._logout()
-          this.enterRoom()
+          await this.exitRoom();
+          await this._logout();
+          this.enterRoom();
         }
       },
       onLiveEnd() {
-        this.$store.commit('showMessage', { type: 'warning', message: '直播已结束' })
+        this.$store.commit('showMessage', { type: 'warning', message: '直播已结束' });
       },
       onNetStateChange(event) {
-        this.$store.commit('showMessage', this.checkoutNetState(event.data))
+        this.$store.commit('showMessage', this.checkoutNetState(event.data));
       },
       showPanel() {
-        let el = document.getElementsByClassName('vcp-controls-panel')[0]
-        el.setAttribute('class', 'vcp-controls-panel show') //设置元素class
+        let el = document.getElementsByClassName('vcp-controls-panel')[0];
+        el.setAttribute('class', 'vcp-controls-panel show'); //设置元素class
       },
       onKickedOut(event) {
         this.$store.commit('showMessage', {
           message: `${this.kickedOutReason(event.data.type)}被踢出，请重新登录。`,
           type: 'error'
-        })
-        this.$store.commit('toggleIsLogin', true)
-        this.$store.commit('reset')
+        });
+        this.$store.commit('toggleIsLogin', true);
+        this.$store.commit('reset');
       }
     }
-  }
+  };
 </script>
 
 <style scoped lang="stylus">

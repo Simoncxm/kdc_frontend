@@ -1,5 +1,5 @@
 // import { SDKAPPID } from '../../../public/debug/GenerateTestUserSig'
-const SDKAPPID = window.genTestUserSig('').SDKAppID
+const SDKAPPID = window.genTestUserSig('').SDKAppID;
 const conversationModules = {
   state: {
     currentMessageList: [],
@@ -18,18 +18,18 @@ const conversationModules = {
   getters: {},
   mutations: {
     setRole(state, data) {
-      state.chatInfo.role = data
+      state.chatInfo.role = data;
     },
     setChatInfo(state, data) {
-      state.chatInfo.groupId = data.roomID
-      state.chatInfo.userId = data.userID
-      state.chatInfo.userSig = data.userSig
-      state.chatInfo.streamId = data.streamID
-      state.chatInfo.role = data.role
-      state.chatInfo.resolution = data.resolution
+      state.chatInfo.groupId = data.roomID;
+      state.chatInfo.userId = data.userID;
+      state.chatInfo.userSig = data.userSig;
+      state.chatInfo.streamId = data.streamID;
+      state.chatInfo.role = data.role;
+      state.chatInfo.resolution = data.resolution;
     },
     showLike(state, data) {
-      state.likeCount += data
+      state.likeCount += data;
     },
     /**
      * 将消息插入当前会话列表
@@ -40,23 +40,23 @@ const conversationModules = {
      */
     pushCurrentMessageList(state, data) {
       if (Array.isArray(data)) {
-        state.currentMessageList = [...state.currentMessageList, ...data]
+        state.currentMessageList = [...state.currentMessageList, ...data];
       } else {
-        state.currentMessageList = [...state.currentMessageList, data]
+        state.currentMessageList = [...state.currentMessageList, data];
       }
     },
     pushCurrentTipsList(state, data) {
-      let timer = null
+      let timer = null;
       if (Array.isArray(data)) {
-        state.currentLiveTips = [...state.currentLiveTips, ...data]
+        state.currentLiveTips = [...state.currentLiveTips, ...data];
       } else {
-        state.currentLiveTips = [...state.currentLiveTips, data]
+        state.currentLiveTips = [...state.currentLiveTips, data];
       }
       timer = setTimeout(() => {
-        state.currentLiveTips.shift()
-      }, 2000)
+        state.currentLiveTips.shift();
+      }, 2000);
       if (state.currentLiveTips.length === 0) {
-        clearTimeout(timer)
+        clearTimeout(timer);
       }
     },
     /**
@@ -68,10 +68,10 @@ const conversationModules = {
       Object.assign(state, {
         currentMessageList: [],
         currentLiveTips: [],
-      })
+      });
     }
   },
   actions: {}
-}
+};
 
-export default conversationModules
+export default conversationModules;

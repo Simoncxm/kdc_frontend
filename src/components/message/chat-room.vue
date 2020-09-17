@@ -72,16 +72,16 @@
 </template>
 
 <script>
-  import { decodeText } from '../../utils/decodeText'
-  import { getFullDate } from '../../utils/date'
-  import { mapState } from 'vuex'
+  import { decodeText } from '../../utils/decodeText';
+  import { getFullDate } from '../../utils/date';
+  import { mapState } from 'vuex';
   import {
     Input,
     Popover,
-  } from 'element-ui'
-  import liveLike from './liveLike/liveLike1.vue'
-  import MessageStatusIcon from './message-status-icon.vue'
-  import { emojiMap, emojiName, emojiUrl } from '../../utils/emojiMap'
+  } from 'element-ui';
+  import liveLike from './liveLike/liveLike1.vue';
+  import MessageStatusIcon from './message-status-icon.vue';
+  import { emojiMap, emojiName, emojiUrl } from '../../utils/emojiMap';
   export default {
     name: 'newChat',
     props: ['scrollMessageListToButtom'],
@@ -112,7 +112,7 @@
         showAtGroupMember: false,
         atUserID: '',
         focus: false
-      }
+      };
     },
     computed: {
       ...mapState({
@@ -126,119 +126,119 @@
       contentList() {
         // console.log(this.currentMessageList)
         return (text) => {
-          return decodeText(text)
-        }
+          return decodeText(text);
+        };
 
       },
       getGroupTipContent() {
         return (message) => {
-          return message.payload.text
-        }
+          return message.payload.text;
+        };
       },
       getDate() {
         return (message) => {
-          return getFullDate(new Date(message.time * 1000))
-        }
+          return getFullDate(new Date(message.time * 1000));
+        };
       },
     },
     updated() {
-      this.keepMessageListOnButtom()
+      this.keepMessageListOnButtom();
 
     },
     methods: {
       imgError(item) {
-        item.avatar = require('../../assets/image/default.png')
+        item.avatar = require('../../assets/image/default.png');
       },
       tabClick(index) {
         // window.scroll(0, 0)    //切换tab，聊天区域滑到底部
-        this.isActive = ['','']
-        this.isActive[index] = 1
-        this.tabSelected = index
+        this.isActive = ['',''];
+        this.isActive[index] = 1;
+        this.tabSelected = index;
       },
       // 如果滚到底部就保持在底部，否则提示是否要滚到底部
       keepMessageListOnButtom() {
-        let messageListNode = this.$refs['message-list']
+        let messageListNode = this.$refs['message-list'];
         if (!messageListNode) {
-          return
+          return;
         }
         // 距离底部20px内强制滚到底部,否则提示有新消息
         if (this.preScrollHeight - messageListNode.clientHeight - messageListNode.scrollTop < 20) {
           this.$nextTick(() => {
-            messageListNode.scrollTop = messageListNode.scrollHeight + 60
-          })
-          this.isShowScrollButtomTips = false
+            messageListNode.scrollTop = messageListNode.scrollHeight + 60;
+          });
+          this.isShowScrollButtomTips = false;
         } else {
-          this.isShowScrollButtomTips = true
+          this.isShowScrollButtomTips = true;
         }
-        this.preScrollHeight = messageListNode.scrollHeight
+        this.preScrollHeight = messageListNode.scrollHeight;
       },
       onScroll({ target: { scrollTop } }) {
-        let messageListNode = this.$refs['message-list']
+        let messageListNode = this.$refs['message-list'];
         if (!messageListNode) {
-          return
+          return;
         }
         if (this.preScrollHeight - messageListNode.clientHeight - scrollTop < 20) {
           // this.isShowScrollButtomTips = false
         }
       },
       reEditMessage(payload) {
-        this.messageContent = payload
+        this.messageContent = payload;
       },
       handleLine() {
-        this.messageContent += '\n'
+        this.messageContent += '\n';
       },
       handleEnter() {
-         this.sendTextMessage()
+         this.sendTextMessage();
       },
       // isMine(type) {
       //   return type === 'isMine'
       // },
       leaveMsg(type) {
-         return type === 'Live-Leave'
+         return type === 'Live-Leave';
       },
       textMsg(type) {
-        return type === 'TIMTextElem'
+        return type === 'TIMTextElem';
       },
       joinMsg(type) {
-        return type === 'Live-Join'
+        return type === 'Live-Join';
       },
       checkLogin () {
-        this.messageContent = ''
+        this.messageContent = '';
         this.$store.commit('showMessage', {
           message: '请先登录',
           type: 'warning'
-        })
-        this.$store.commit('toggleIsLogin', true)
+        });
+        this.$store.commit('toggleIsLogin', true);
       },
       sendTextMessage() {
         if (!this.isSDKReady) {
-          this.checkLogin()
-          return
+          this.checkLogin();
+          return;
         }else{
           if (
             this.messageContent === '' ||
             this.messageContent.trim().length === 0
           ) {
-            this.messageContent = ''
+            this.messageContent = '';
             this.$store.commit('showMessage', {
               message: '不能发送空消息哦！',
               type: 'info'
-            })
-            return
+            });
+            return;
           }
           let message = {
             payload:{
               text:'',
             }
-          }
-          message.nick = this.userInfo.nickName
-          message.avatar = this.userInfo.avatar
-          message.payload.text = this.messageContent
-          message.type = 'TIMTextElem'
-          message.status = 'unsend'
-          message.to = this.chatInfo.groupId
-          message.time = Date.now() / 1000
-          this.$store.commit('pushCurrentMessageList', message)
+          };
+          message.nick = this.userInfo.nickName;
+          message.avatar = this.userInfo.avatar;
+          message.payload.text = this.messageContent;
+          message.type = 'TIMTextElem';
+          message.status = 'unsend';
+          message.to = this.chatInfo.groupId;
+          message.time = Date.now() / 1000;
+          this.$store.commit('pushCurrentMessageList', message);
             this.tweblive.sendTextMessage({
               roomID: this.chatInfo.groupId,
               priority: this.TWebLive.TYPES.MSG_PRIORITY_NORMAL,
@@ -247,27 +247,27 @@
               .then(() => {
               })
               .catch(error => {
-                message.status = 'fail'
+                message.status = 'fail';
                 if (error.code ===80001) {
-                  error.message = '文本中可能包含敏感词汇'
+                  error.message = '文本中可能包含敏感词汇';
                 }
                 this.$store.commit('showMessage', {
                   type: 'error',
                   message: error.message
-                })
-              })
-          this.messageContent = ''
+                });
+              });
+          this.messageContent = '';
         }
 
       },
       random(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min)
+        return Math.floor(Math.random() * (max - min + 1) + min);
       },
       chooseEmoji(item) {
-        this.messageContent += item
+        this.messageContent += item;
       }
     }
-  }
+  };
 </script>
 
 <style lang="stylus" scoped>
