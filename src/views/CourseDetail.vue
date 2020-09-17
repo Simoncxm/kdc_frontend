@@ -5,7 +5,7 @@
       <div class="main">
         <el-row :gutter="20" class="el-row" type="flex">
           <el-col :span="14" class="el-col">
-            <img class="avatar" :src="course.pic" alt="..." />
+            <img style="width: 400px" :src="course.pic" alt="..." />
           </el-col>
           <el-col :span="10" class="el-col">
             <div class="info">
@@ -31,8 +31,10 @@
             </div>
             <div class="buttons">
               <el-button v-if="userType === 0" type="success" @click="apply">申请加入</el-button>
-              <el-button v-if="userType === 2" type="success" @click="showUpload = true">上传视频</el-button>
               <el-button v-if="userType === 2" type="success" @click="showImport = true">导入成员</el-button>
+              <el-button v-if="userType === 2" type="success" @click="showCover = true">上传封面</el-button>
+              <el-button v-if="userType === 2" type="success" @click="showUpload = true">上传视频</el-button>
+              <el-button v-if="userType === 2" type="success" @click="openlive">开启直播</el-button>
             </div>
           </el-col>
         </el-row>
@@ -90,6 +92,17 @@
         <UploadXls :courseId="courseId" />
       </el-row>
     </el-dialog>
+    <el-dialog title="上传封面" :visible.sync="showCover" width="40%">
+      <el-upload
+        class="avatar-uploader"
+        action="/api/img/upload"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload"
+        :limit="1">
+        <el-button size="small" type="primary">点击上传</el-button>
+        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2Mb</div>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -98,6 +111,9 @@
 import Header from '@/components/Header.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import UploadXls from '@/components/uploadxls.vue';
+import Login from '@/components/sms-login/index'
+
+const WEB_LIVE_SMS_LOGIN_INFO = 'web_live_sms_login_info';
 
 export default {
   name: 'Home',
@@ -109,6 +125,7 @@ export default {
       course: null,
       showUpload: false,
       showImport: false,
+      showCover: false,
     };
   },
   components: {
@@ -171,9 +188,74 @@ export default {
         });
       }
     },
+    openlive() {
+      let userID = '12345678';
+      let userSig = window.genTestUserSig('12345678').userSig;
+      this.im.login({
+        userID: userID,
+        userSig: userSig
+      }).then(() => {
+        this.loading = false;
+        this.$store.commit('toggleIsLogin', true);
+        this.$store.commit('setRole', 'pusher');
+        let _webLiveSmsLoginInfo = {
+          loginTime: Date.now(),
+          roomID: '123456',
+          userSig:userSig,
+          userID: userID,
+          streamID: 'test',
+          role: 'pusher',
+          resolution: '720p'
+        };
+        localStorage.setItem(WEB_LIVE_SMS_LOGIN_INFO, JSON.stringify(_webLiveSmsLoginInfo));
+        let _LoginInfo = localStorage.getItem(WEB_LIVE_SMS_LOGIN_INFO);
+        const LoginInfo = JSON.parse(_LoginInfo);
+        this.$store.commit('setChatInfo', LoginInfo);
+        this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
+        this.$router.push('/pc-pusher')
+      }).catch((err) => {
+        this.loading = false;
+        console.log(err);
+        this.$store.commit('showMessage', { message: '登录失败', type: 'error' });
+      });
+    },
     handleClick(row) {
       this.$router.push(`/videoPlayer/?id=${row.id}`);
       return row;
+    },
+    handleAvatarSuccess(uRes, file) {
+      this.this.course.pic = URL.createObjectURL(file.raw);
+      this.$axios
+        .post('/api/uploadCourseCover', {
+          courseId: this.courseId,
+          url: this.this.this.course.pic,
+        })
+        .then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '修改失败',
+              message: res.data.msg,
+              type: 'warning',
+            });
+          } else {
+            this.$notify({
+              title: '修改成功',
+              type: 'success',
+            });
+            this.showCover = false;
+          }
+        });
+    },
+    beforeAvatarUpload(file) {
+      const isPIC = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isPIC) {
+        this.$message.error('上传头像图片只能是JPG或PNG格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isPIC && isLt2M;
     },
   },
 };
@@ -218,5 +300,29 @@ export default {
   position: absolute;
   right: 0px;
   bottom: 0px;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>
