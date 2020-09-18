@@ -3,8 +3,6 @@
         <Header  @logout="logout"/>
         <div class="top-box">
             <svg @click="showMobile" t="1591255158096" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2653" width="32" height="32"><path d="M754.9 64.4H269.1c-10.3 0-18.7 8.4-18.7 18.7v857.8c0 10.3 8.4 18.7 18.7 18.7h485.7c10.3 0 18.7-8.4 18.7-18.7V83.1c0.1-10.3-8.3-18.7-18.6-18.7z m-18.7 37.4v721.6H287.8V101.8h448.4zM475 875.9c0-19.3 15.7-35 35-35s35 15.7 35 35-15.7 35-35 35c-19.3 0.1-35-15.6-35-35z" fill="#ffffff" p-id="2654"></path></svg>
-            <span @click="showMobile"  style="color: #ffffff">手机观看</span>
-            <span style="color: #ffffff;margin-left: 10px">技术交流 QQ 群:468195767</span>
         </div>
 <!--        <div>时间</div>-->
         <el-dialog
@@ -51,8 +49,8 @@
     data() {
       return {
         options: {
-          flv: 'https://113575.liveplay.myqcloud.com/live/yqtest.flv',
-          m3u8: 'https://113575.liveplay.myqcloud.com/live/yqtest.m3u8',
+          flv: 'https://courselive.xyz/live/yqtest.flv',
+          m3u8: 'https://courselive.xyz/live/yqtest.m3u8',
           autoplay: true,
           width: '100%',
           height: 'auto',

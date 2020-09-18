@@ -101,7 +101,20 @@ export default {
                   title: '新建成功',
                   type: 'success',
                 });
-                this.$router.go(0);
+                this.$axios.post('/api/circle/addCircle', {
+                  courseId: res.data.courseId,
+                  userId: this.curUserID,
+                  circleName: this.addCourseForm.name,
+                }).then((res2) => {
+                  if (res2.data.code == -1) {
+                    this.$notify({
+                      title: '创建圈子失败',
+                      message: res2.data.msg,
+                      type: 'warning'
+                    })
+                  }
+                  this.$router.go(0);
+                })
               }
             });
         }

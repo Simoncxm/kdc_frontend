@@ -1,7 +1,7 @@
 /*eslint-disable*/
 
-const _SDKAPPID = 1400426456;
-const _SECRETKEY = '0c6297d29bbf85162d6697cc84c53eb265d00a5e59370815667aa984c7c373ec';
+const _SDKAPPID = 0;
+const _SECRETKEY = '';
 /*
  * Module:   GenerateTestUserSig
  *

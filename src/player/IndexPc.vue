@@ -3,7 +3,7 @@
     <div class="live-pc">
       <Header @logout="logout"/>
       <div class="top-box">
-        <span style="color: #ffffff;margin-left: 10px">技术交流 QQ 群:468195767</span>
+        <span style="color: #ffffff;margin-left: 10px"></span>
       </div>
 
       <div class="container-pc">

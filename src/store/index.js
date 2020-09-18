@@ -10,7 +10,8 @@ export default new Vuex.Store({
   state: {
     current: Date.now(), // 当前时间
     intervalID: 0,
-    message: undefined
+    message: undefined,
+    msgNum: 0,
   },
   getters: {
     hidden(state) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    changeNum(state,payload) {
+      state.msgNum=payload;
+    },
     startComputeCurrent(state) {
       state.intervalID = setInterval(() => {
         state.current = Date.now();

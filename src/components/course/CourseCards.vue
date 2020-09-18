@@ -4,7 +4,7 @@
       <div @click="bindClazz(course)">
         <el-card :body-style="{ padding: '0px' }">
           <el-col :span="8">
-            <img :src="course.pic" alt="..." width="80%" style="float: left" />
+            <img :src="course.url" alt="..." width="80%" style="float: left" />
           </el-col>
           <el-col :span="16" class="course-info" style="margin-top: 10px;margin-bottom: 10px">
             <p style="font-size: large">{{course.name}}</p>

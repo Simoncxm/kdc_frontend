@@ -10,12 +10,6 @@
         </div>
         <div ref="chat" class="chat">
             <NewChat v-show="!this.tabSelected" ref="live"/>
-            <div class="tab-summary" v-show="this.tabSelected">
-                <p class="summary-text">腾讯云 Web 直播互动组件，以腾讯云 Web 超级播放器 - TcPlayer 和腾讯云即时通信 IM - TIM 为基础，封装了简单易用的 API，提供了免费开源的 Demo，方便开发者快速接入和使用。适用于 Web 直播互动场景，如大型会议、活动、课程、讲座等的在线直播，带货直播的微信 H5 分享等。</p>
-                <p class="summary-text">技术交流 QQ 群: 468195767</p>
-                <p class="summary-text">欢迎在github提issue哦~</p>
-                <p class="summary-text" style="font-size: 15px">github: https://github.com/tencentyun/TWebLive</p>
-            </div>
         </div>
   </div>
 </template>
@@ -44,8 +38,8 @@
         tabs:['互动','介绍'],
         tabSelected:0,  //互动
         options: {
-          flv: 'https://113575.liveplay.myqcloud.com/live/yqtest.flv',
-          m3u8: 'https://113575.liveplay.myqcloud.com/live/yqtest.m3u8',
+          flv: 'https://courselive.xyz/live/yqtest.flv',
+          m3u8: 'https://courselive.xyz/live/yqtest.m3u8',
           autoplay: true,
           x5_type:'h5',
           width: '100%',

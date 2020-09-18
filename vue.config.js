@@ -1,16 +1,16 @@
-const path = require('path')
+const path = require('path');
 
 function resolve(dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
 module.exports = {
   publicPath: '/',
-  assetsDir: '/',
+  assetsDir: './',
   productionSourceMap: false,
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src'))
-      .set('tim', resolve('src/tim.js'))
+      .set('tim', resolve('src/tim.js'));
   },
   css: {
     loaderOptions: {
@@ -51,4 +51,4 @@ module.exports = {
   //     }
   //   }
   // },
-}
+};

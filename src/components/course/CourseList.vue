@@ -4,7 +4,7 @@
       <a class="course-card img-hover pointer" @click="bindClazz(course)">
         <el-row>
           <el-col :xs="9" class="course-pic">
-            <img :src="course.pic" alt="..." />
+            <img :src="course.url" alt="..." />
           </el-col>
           <el-col :xs="15">
             <div class="text-dark course-info">
