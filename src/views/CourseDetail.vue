@@ -31,6 +31,7 @@
             </div>
             <div class="buttons">
               <el-button v-if="userType === 0" type="success" @click="apply">申请加入</el-button>
+              <el-button v-if="userType !== 0" type="success" @click="community">进入圈子</el-button>
               <el-button v-if="userType === 2" type="success" @click="showMsg = true">群发通知</el-button>
               <el-button v-if="userType === 2" type="success" @click="showImport = true">导入成员</el-button>
               <el-button v-if="userType === 2" type="success" @click="showCover = true">上传封面</el-button>
@@ -359,6 +360,9 @@ export default {
       }
       return isPIC && isLt2M;
     },
+    community() {
+      this.$router.push(`/community/?courseId=${this.courseId}`);
+    }
   },
 };
 </script>
