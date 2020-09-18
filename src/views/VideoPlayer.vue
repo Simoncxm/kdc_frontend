@@ -4,7 +4,7 @@
       <p v-html="title">{{ title }}</p>
     </div>
     <video id="videoplayer" ref="videoPlayer" class="video-js"/>
-    <!--<el-button @click="testMethod">test</el-button>-->
+    <el-button @click="leaving">保存学习进度</el-button>
   </div>
 </template>
 
@@ -32,9 +32,9 @@ export default {
     }
     this.source = `/api/video/playVideo?id=${vid}`;
     this.$axios.get(`/api/video/getTitleByVideoId?id=${vid}`)
-      .then((res) => {
-        this.title = res.data;
-      });
+        .then((res) => {
+          this.title = res.data;
+        });
     /*
     this.source = 'http://vjs.zencdn.net/v/oceans.mp4';
     this.title = '仅用于测试';
@@ -56,12 +56,11 @@ export default {
     setInterval(function () {
       if (self.ready) {
         if (!self.$video(self.$refs.videoPlayer)
-          .paused()) {
+            .paused()) {
           self.time++;
         }
       }
     }, 1000);
-    window.addEventListener('beforeunload', this.leaving);
   },
   methods: {
     /*
@@ -77,13 +76,15 @@ export default {
      */
     leaving() {
       if (this.ready) {
-        this.$axios.post('/api/video/saveProgress', {
-          id: this.$route.query.id,
-          user: this.$route.query.userId,
-          progress: this.$video(this.$refs.videoPlayer)
-            .currentTime(),
-          totalTime: this.time,
+        console.log({
+          'id': this.$route.query.id,
+          'user': this.$route.query.userId,
+          'progress': this.$video(this.$refs.videoPlayer)
+              .currentTime(),
+          'totalTime': this.time,
         });
+        this.$axios.get(`/api/video/saveProgress?id=${this.$route.query.id}&user=${this.$route.query.userId}&progress=${this.$video(this.$refs.videoPlayer)
+            .currentTime()}&totalTime=${this.time}`);
       }
     }
   }
@@ -92,16 +93,18 @@ export default {
 
 <style scoped>
 #video {
-  margin: 0 auto;
+  margin: 10px;
   width: 75%;
 }
 
 #videotitle {
+  margin: 10px;
   font-size: 20px;
   text-align: left;
 }
 
 #videoplayer {
+  margin: 10px;
   height: 360px;
   width: 640px;
 }
