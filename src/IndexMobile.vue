@@ -44,8 +44,8 @@
         tabs:['互动','介绍'],
         tabSelected:0,  //互动
         options: {
-          flv: 'https://113575.liveplay.myqcloud.com/live/yqtest.flv',
-          m3u8: 'https://113575.liveplay.myqcloud.com/live/yqtest.m3u8',
+          flv: 'https://courselive.xyz/live/yqtest.flv',
+          m3u8: 'https://courselive.xyz/live/yqtest.m3u8',
           autoplay: true,
           x5_type:'h5',
           width: '100%',
