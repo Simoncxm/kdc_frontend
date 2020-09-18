@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       messages: null,
-      unReadNum: null,
+      unReadNum: 0,
       curUserID: null,
       curUserType: null,
       myCourses: null,

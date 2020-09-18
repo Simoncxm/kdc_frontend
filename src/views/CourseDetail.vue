@@ -245,7 +245,7 @@ export default {
       }
     },
     openlive() {
-      let userID = getHashCode(this.userId,false).toString();
+      let userID = this.getHashCode(this.userId,false).toString();
       let userSig = window.genTestUserSig(userID).userSig;
       this.im.login({
         userID: userID,
@@ -256,7 +256,7 @@ export default {
         this.$store.commit('setRole', 'pusher');
         let _webLiveSmsLoginInfo = {
           loginTime: Date.now(),
-          roomID: getHashCode(this.courseId,false).toString(),
+          roomID: this.getHashCode(this.courseId,false).toString(),
           userSig:userSig,
           userID: userID,
           streamID: this.courseId,
@@ -276,7 +276,7 @@ export default {
       });
     },
     inlive() {
-      let userID = getHashCode(this.userId,false).toString();
+      let userID = this.getHashCode(this.userId,false).toString();
       let userSig = window.genTestUserSig(userID).userSig;
       this.im.login({
         userID: userID,
@@ -287,7 +287,7 @@ export default {
         this.$store.commit('setRole', 'pusher');
         let _webLiveSmsLoginInfo = {
           loginTime: Date.now(),
-          roomID: getHashCode(this.courseId,false).toString(),
+          roomID: this.getHashCode(this.courseId,false).toString(),
           userSig:userSig,
           userID: userID,
           streamID: this.courseId,
@@ -307,7 +307,7 @@ export default {
       });
     },
     handleClick(row) {
-      this.$router.push(`/videoPlayer/?id=${row.id}`);
+      this.$router.push(`/videoPlayer/?id=${row.id}&userId=${this.userId}`);
       return row;
     },
     handleAvatarSuccess(uRes, file) {

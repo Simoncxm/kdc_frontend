@@ -8,14 +8,12 @@
   html {
     height 100%
     width 100%
-    overflow hidden
   }
 
   body {
     margin 0
     height 100%
     width 100%
-    overflow hidden
     background-color #ffffff
     font-family 'Microsoft YaHei', '微软雅黑', 'MicrosoftJhengHei', 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'STHeiti', 'WenQuanYi Micro Hei', SimSun, sans-serif
     /*-ms-overflow-style: none;*/
