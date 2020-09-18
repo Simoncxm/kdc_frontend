@@ -70,7 +70,7 @@
               <el-table
                 :data="studentList">
                 <el-table-column
-                  prop="studentID"
+                  prop="studentId"
                   label="学号">
                 </el-table-column>
                 <el-table-column
