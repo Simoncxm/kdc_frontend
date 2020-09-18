@@ -56,33 +56,6 @@ const router= new Router({
     component: VideoPlayer,
     },
     {
-    path: '/createPost',
-    name: 'createPost',
-    component: () => import('./components/CreatePost.vue'),
-    },
-    {
-    path: '/posts',
-    name: 'posts',
-    component: () => import('./components/Posts.vue'),
-    },
-    {
-    path: '/community',
-    name: 'community',
-    component: () => import('./views/Community.vue'),
-    children: [
-        {
-        path: '',
-        name: 'Posts',
-        component: () => import('./components/Posts.vue'),
-        },
-        {
-        path: 'comments',
-        name: 'Comments',
-        component: () => import('./components/Comments.vue'),
-        },
-    ],
-    },
-    {
         path: '/login',
         name: 'login',
         component: () => import('./components/sms-login/index')
@@ -107,7 +80,39 @@ const router= new Router({
         path: '/mobile-player',
         name: 'playerMobile',
         component: () => import(/* webpackChunkName: "group-player" */'./player/IndexMobile')
-    }
+    },
+    {
+        path: '/createPost',
+        name: 'createPost',
+        component: () => import('./components/CreatePost.vue'),
+    },
+    {
+        path: '/posts',
+        name: 'posts',
+        component: () => import('./components/Posts.vue'),
+    },
+    {
+        path: '/community',
+        name: 'community',
+        component: () => import('./views/Community.vue'),
+        children: [
+            {
+                path: '/',
+                name: 'Posts',
+                component: () => import('./components/Posts.vue'),
+            },
+            {
+                path: 'comments',
+                name: 'Comments',
+                component: () => import('./components/Comments.vue'),
+            },
+            {
+                path: 'elites',
+                name: 'Elites',
+                component: () => import('./components/Elites.vue'),
+            },
+        ],
+    },
     ]
 });
 
