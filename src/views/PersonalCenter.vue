@@ -69,6 +69,27 @@
             </el-tabs>
           </div>
         </el-tab-pane>
+        <el-tab-pane>
+            <span slot="label">
+              <el-badge is-dot v-if="unReadNum !== 0">我的消息</el-badge>
+              <span v-if="unReadNum === 0">我的消息</span>
+            </span>
+          <el-row v-for="myMessage in messages" :key="myMessage.id" style="margin-bottom: 20px">
+            <el-card style="width: 80%" body-style="">
+              <div slot="header" shadow="never" v-if="myMessage.read === true" style="font-size: large" class="read">{{myMessage.title}}
+                <el-button style="float: right; padding: 3px 0; font-size: 16px" type="text" disabled>已读</el-button>
+                <p style="font-size: 13px; padding-top: 10px; margin-bottom: 0px;" class="read">{{myMessage.course}} | {{myMessage.from}} | {{myMessage.time}}</p>
+              </div>
+              <div slot="header" v-if="myMessage.read === false" style="font-size: large">{{myMessage.title}}
+                <el-button style="float: right; padding: 3px 0; font-size: 16px" type="text" @click="readingMessage(myMessage)">标为已读</el-button>
+                <p style="font-size: 13px; padding-top: 10px; margin-bottom: 0px; color: cadetblue">{{myMessage.course}} | {{myMessage.from}} | {{myMessage.time}}</p>
+              </div>
+              <div>
+                <p style="font-size: 16px" :class="{'read': (myMessage.read === true)}">{{myMessage.msg}}</p>
+              </div>
+            </el-card>
+          </el-row>
+        </el-tab-pane>
       </el-tabs>
     </el-col>
   </div>
@@ -86,6 +107,8 @@ export default {
   },
   data() {
     return {
+      messages: null,
+      unReadNum: null,
       curUserID: null,
       curUserType: null,
       myCourses: null,
@@ -160,8 +183,37 @@ export default {
         });
       }
     });
+    this.getAllMessages();
+    this.getUnreadNum();
   },
   methods: {
+    getAllMessages() {
+      this.$axios.get(`/api/getAllMessage/?id=${this.curUserID}`).then((res) => {
+        if (res.data.code === -1) {
+          this.$notify({
+            title: '获取消息失败',
+            message: res.data.msg,
+            type: 'warning',
+          });
+        } else {
+          this.messages = res.data.list;
+        }
+      });
+    },
+    getUnreadNum() {
+      this.$axios.get(`/api/getUnreadNum/?id=${this.curUserID}`).then((res) => {
+        if (res.data.code === -1) {
+          this.$notify({
+            title: '获取未读消息数量失败',
+            message: res.data.msg,
+            type: 'warning',
+          });
+        } else {
+          this.unReadNum = res.data.num;
+          this.$store.commit('changeNum', this.unReadNum);
+        }
+      });
+    },
     bindStudentId() {
       this.$axios
         .post('/api/bindStudentId', {
@@ -195,6 +247,25 @@ export default {
           if (res.data.code === -1) {
             this.$notify({
               title: '修改失败',
+            });
+          } else {
+            this.$notify({
+              title: '修改成功',
+              type: 'success',
+            });
+          }
+        });
+    },
+    readingMessage(myMessage) {
+      this.$axios
+        .post('/api/readMessage', {
+          messageId: myMessage.id,
+          userId: this.curUserID,
+        })
+        .then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '标为已读失败',
               message: res.data.msg,
               type: 'warning',
             });
@@ -203,6 +274,8 @@ export default {
               title: '修改成功',
               type: 'success',
             });
+            this.getAllMessages();
+            this.getUnreadNum();
           }
         });
     },
@@ -253,5 +326,8 @@ export default {
   width: 178px;
   height: 178px;
   display: block;
+}
+.read{
+  color: lightgrey;
 }
 </style>
