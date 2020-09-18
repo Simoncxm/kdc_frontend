@@ -24,10 +24,10 @@
                 <el-row>
                   <el-col v-if="curUserType === 'student'" :span="3">学 号：</el-col>
                   <el-col v-else :span="3">职工号：</el-col>
-                  <el-col v-if="id === 0" style="width: 400px">
+                  <el-col v-if="id === '0' && curUserType === 'student'" style="width: 400px">
                     <el-input @keyup.enter.native="bindStudentId" v-model="newId"></el-input>
                   </el-col>
-                  <el-col v-if="id === 0" :span="4" style="margin-left: 20px">
+                  <el-col v-if="id === '0' && curUserType === 'student'" :span="4" style="margin-left: 20px">
                     <el-button @click="bindStudentId" type="primary">立刻绑定</el-button>
                   </el-col>
                   <el-col v-else :span="10">{{id}}</el-col>
@@ -155,9 +155,6 @@ export default {
               });
             } else {
               this.myOpenCourses = tres.data.list;
-              this.myOpenCourses.forEach((e) => {
-                e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
-              });
             }
           });
         } else {
@@ -178,9 +175,6 @@ export default {
         });
       } else {
         this.myCourses = res.data.list;
-        this.myCourses.forEach((e) => {
-          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
-        });
       }
     });
     this.getAllMessages();
@@ -237,7 +231,7 @@ export default {
         });
     },
     handleAvatarSuccess(uRes, file) {
-      this.avatar = URL.createObjectURL(file.raw);
+      this.avatar = uRes;
       this.$axios
         .post('/api/uploadAvatar', {
           userId: this.curUserID,
@@ -270,10 +264,6 @@ export default {
               type: 'warning',
             });
           } else {
-            this.$notify({
-              title: '修改成功',
-              type: 'success',
-            });
             this.getAllMessages();
             this.getUnreadNum();
           }

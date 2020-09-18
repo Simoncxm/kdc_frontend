@@ -311,11 +311,11 @@ export default {
       return row;
     },
     handleAvatarSuccess(uRes, file) {
-      this.this.course.url = URL.createObjectURL(file.raw);
+      this.course.url = uRes;
       this.$axios
         .post('/api/uploadCourseCover', {
           courseId: this.courseId,
-          url: this.this.this.course.url,
+          url: this.course.url,
         })
         .then((res) => {
           if (res.data.code === -1) {
