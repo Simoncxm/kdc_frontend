@@ -20,9 +20,16 @@
           <el-button type="text" @click.native="showDialog = !showDialog">登录/注册</el-button>
         </el-col>
         <el-col :span="1" :offset="1" v-if="curUserID !== null">
-          <el-button type="text">
-            <router-link to="/personalCenter">个人中心</router-link>
-          </el-button>
+          <el-badge :value="$store.state.msgNum" v-if="$store.state.msgNum !== 0">
+            <el-button type="text">
+              <router-link to="/personalCenter">个人中心</router-link>
+            </el-button>
+          </el-badge>
+          <span v-if="$store.state.msgNum === 0">
+            <el-button type="text">
+              <router-link to="/personalCenter">个人中心</router-link>
+            </el-button>
+          </span>
         </el-col>
         <el-col :span="1" v-if="curUserID !== null && curUserType === 'teacher'">
           <el-button type="text" @click.native="showDialogCourse = !showDialogCourse">新增课程</el-button>
@@ -90,6 +97,17 @@ export default {
       this.curUserID = this.$cookies.get('userID');
       this.curUserType = this.$cookies.get('userType');
     }
+    this.$axios.get(`/api/getUnreadNum/?id=${this.curUserID}`).then((res) => {
+      if (res.data.code === -1) {
+        this.$notify({
+          title: '获取未读消息数量失败',
+          message: res.data.msg,
+          type: 'warning',
+        });
+      } else {
+        this.$store.commit('changeNum',res.data.num);
+      }
+    });
   },
   methods: {
     closeApplication() {

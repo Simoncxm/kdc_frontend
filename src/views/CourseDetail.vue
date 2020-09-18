@@ -31,6 +31,7 @@
             </div>
             <div class="buttons">
               <el-button v-if="userType === 0" type="success" @click="apply">申请加入</el-button>
+              <el-button v-if="userType === 2" type="success" @click="showMsg = true">群发通知</el-button>
               <el-button v-if="userType === 2" type="success" @click="showImport = true">导入成员</el-button>
               <el-button v-if="userType === 2" type="success" @click="showCover = true">上传封面</el-button>
               <el-button v-if="userType === 2" type="success" @click="showUpload = true">上传视频</el-button>
@@ -84,6 +85,20 @@
     <el-dialog title="上传视频" :visible.sync="showUpload" width="40%">
       <FileUploader />
     </el-dialog>
+    <el-dialog title="群发通知" :visible.sync="showMsg" width="40%">
+      <el-form :model="form">
+        <el-form-item label="标题">
+          <el-input v-model="form.title"></el-input>
+        </el-form-item>
+        <el-form-item label="内容">
+          <el-input type="textarea" :rows="3" v-model="form.content"></el-input>
+        </el-form-item>
+      </el-form>
+      <div align="right">
+        <el-button type="primary" @click="send">发送</el-button>
+        <el-button @click="showMsg=false">取消</el-button>
+      </div>
+    </el-dialog>
     <el-dialog title="导入成员" :visible.sync="showImport" width="40%">
       <el-row>
         <span>请将学生学号置于Excel文件第一列并将第一列表头改为studentId</span>
@@ -111,7 +126,6 @@
 import Header from '@/components/Header.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import UploadXls from '@/components/uploadxls.vue';
-import Login from '@/components/sms-login/index'
 
 const WEB_LIVE_SMS_LOGIN_INFO = 'web_live_sms_login_info';
 
@@ -119,6 +133,10 @@ export default {
   name: 'Home',
   data() {
     return {
+      form: {
+        title: '',
+        content: ''
+      },
       userType: 1,
       userId: null,
       courseId: null,
@@ -126,6 +144,7 @@ export default {
       showUpload: false,
       showImport: false,
       showCover: false,
+      showMsg: false,
     };
   },
   components: {
@@ -157,6 +176,30 @@ export default {
     });
   },
   methods: {
+    send() {
+      this.$axios
+        .post('/api/sendMessage', {
+          teacherName: this.course.teacherName,
+          courseId: this.course.id,
+          title: this.form.title,
+          msg: this.form.content
+        })
+        .then((res) => {
+          if (res.data.code === -1) {
+            this.$notify({
+              title: '发送失败',
+              message: res.data.msg,
+              type: 'warning',
+            });
+          } else {
+            this.$notify({
+              title: '发送成功',
+              type: 'success',
+            });
+            this.showMsg = false;
+          }
+        });
+    },
     isEmpty(obj) {
       return typeof obj === 'undefined' || obj === null || obj === '';
     },
@@ -212,7 +255,7 @@ export default {
         const LoginInfo = JSON.parse(_LoginInfo);
         this.$store.commit('setChatInfo', LoginInfo);
         this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
-        this.$router.push('/pc-pusher')
+        this.$router.push('/pc-pusher');
       }).catch((err) => {
         this.loading = false;
         console.log(err);
