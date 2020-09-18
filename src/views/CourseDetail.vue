@@ -220,7 +220,7 @@ export default {
       });
     },
     handleClick(row) {
-      this.$router.push(`/videoPlayer/?id=${row.id}`);
+      this.$router.push(`/videoPlayer/?id=${row.id}&userId=${this.userId}`);
       return row;
     },
     handleAvatarSuccess(uRes, file) {
