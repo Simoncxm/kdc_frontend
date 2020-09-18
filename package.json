@@ -34,10 +34,10 @@
     "vconsole": "^3.3.4",
     "video.js": "^7.8.4",
     "vue": "^2.6.11",
+    "wangeditor": "^3.1.1",
     "vue-cookies": "^1.7.4",
     "vue-router": "^3.4.3",
-    "vuex": "^3.1.2",
-    "xmlhttprequest": "^1.8.0"
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",

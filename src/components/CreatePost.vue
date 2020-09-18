@@ -1,6 +1,6 @@
 <!--发送帖子-->
 <template>
-  <div>
+  <div >
     <el-button type="primary" @click="createPostVisible = true">发帖</el-button>
     <el-dialog title="发帖" :visible.sync="createPostVisible">
       <el-form label-position="top" :model="postForm" :rules="rules" ref="postForm"
@@ -9,8 +9,7 @@
           <el-input v-model="postForm.title"></el-input>
         </el-form-item>
         <el-form-item label="帖子内容" prop="content">
-          <el-input v-model="postForm.content" type="textarea" :rows="3" placeholder="请输入内容">
-          </el-input>
+          <Editor v-model="postForm.content" :is-clear="isClear"></Editor>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(postForm)">发帖</el-button>
@@ -23,13 +22,22 @@
 <style></style>
 
 <script>
+import Editor from '@/components/Editor.vue';
+
 export default {
+  inject: ['reload'],
+  components: {
+    Editor,
+  },
+  props:[
+      'circleId',
+  ],
   data() {
     return {
+      isClear: false,
       createPostVisible: false,
       postForm: {
         title: '',
-        tags: '',
         content: '',
       },
       rules: {
@@ -39,7 +47,6 @@ export default {
             min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur',
           },
         ],
-        tags: { required: true, message: '请添加标签', trigger: 'blur' },
         content: [
           { required: true, message: '请填写帖子详细内容', trigger: 'blur' },
         ],
@@ -47,24 +54,54 @@ export default {
     };
   },
   methods: {
-    submitForm(form) { // 用户身份暂未获取
+    submitForm(form) {
+      if ( form.title === '') {
+        this.$notify({
+          title: '帖子标题不能为空',
+          message: '',
+          type: 'warning',
+        });
+        return;
+      }
+      if ( form.content === '') {
+        this.$notify({
+          title: '帖子内容不能为空',
+          message: '',
+          type: 'warning',
+        });
+        return;
+      }
       const finalform = form;
-      finalform.time = (new Date()).toISOString();
-      const xhttp = new XMLHttpRequest();
-      xhttp.open('POST', '/api/posts/createPost', true);
-      xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      finalform.userId = 'loginuser';// 当前登录用户
-      xhttp.send(JSON.stringify(finalform));
-      this.$notify({
-        title: '帖子已发出',
-        type: 'success',
+      finalform.time = (new Date()).toLocaleString();
+      finalform.circleId = this.circleId;// 圈子id暂未获取
+      finalform.userId = this.$cookies.get('userID');// 用户身份暂未获取
+      this.$axios.post('/api/posts/createPost', {
+        circleId: finalform.circleId,
+        userId: finalform.userId,
+        title: finalform.title,
+        content: finalform.content,
+        time: finalform.time,
+      }).then((res) => {
+        if (res.data.code === -1) {
+          this.$notify({
+            title: '发帖失败',
+            message: '',
+            type: 'warning',
+          });
+        } else {
+          this.$notify({
+            title: '发帖成功',
+            message: '',
+            type: 'success',
+          });
+          this.resetForm();
+          this.createPostVisible = false;
+          this.reload();
+        }
       });
-      this.resetForm();
-      this.createPostVisible = false;
     },
     resetForm() {
       this.postForm.title = '';
-      this.postForm.tags = '';
       this.postForm.content = '';
     },
   },
