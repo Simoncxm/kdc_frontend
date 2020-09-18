@@ -36,6 +36,7 @@
               <el-button v-if="userType === 2" type="success" @click="showCover = true">上传封面</el-button>
               <el-button v-if="userType === 2" type="success" @click="showUpload = true">上传视频</el-button>
               <el-button v-if="userType === 2" type="success" @click="openlive">开启直播</el-button>
+              <el-button v-if="userType === 1" type="success" @click="inlive">进入直播</el-button>
             </div>
           </el-col>
         </el-row>
@@ -203,6 +204,19 @@ export default {
     isEmpty(obj) {
       return typeof obj === 'undefined' || obj === null || obj === '';
     },
+    getHashCode(str,caseSensitive){
+      if(!caseSensitive){
+          str = str.toLowerCase();
+      }
+      // 1315423911=b'1001110011001111100011010100111'
+      let hash  =   1315423911,i,ch;
+      for (i = str.length - 1; i >= 0; i--) {
+          ch = str.charCodeAt(i);
+          hash ^= ((hash << 5) + ch + (hash >> 2));
+      }
+      
+      return  (hash & 0x7FFFFFFF);
+    },
     apply() {
       if (this.userId) {
         this.$axios
@@ -232,8 +246,8 @@ export default {
       }
     },
     openlive() {
-      let userID = '12345678';
-      let userSig = window.genTestUserSig('12345678').userSig;
+      let userID = getHashCode(this.userId,false).toString();
+      let userSig = window.genTestUserSig(userID).userSig;
       this.im.login({
         userID: userID,
         userSig: userSig
@@ -243,10 +257,10 @@ export default {
         this.$store.commit('setRole', 'pusher');
         let _webLiveSmsLoginInfo = {
           loginTime: Date.now(),
-          roomID: '123456',
+          roomID: getHashCode(this.courseId,false).toString(),
           userSig:userSig,
           userID: userID,
-          streamID: 'test',
+          streamID: this.courseId,
           role: 'pusher',
           resolution: '720p'
         };
@@ -256,6 +270,37 @@ export default {
         this.$store.commit('setChatInfo', LoginInfo);
         this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
         this.$router.push('/pc-pusher');
+      }).catch((err) => {
+        this.loading = false;
+        console.log(err);
+        this.$store.commit('showMessage', { message: '登录失败', type: 'error' });
+      });
+    },
+    inlive() {
+      let userID = getHashCode(this.userId,false).toString();
+      let userSig = window.genTestUserSig(userID).userSig;
+      this.im.login({
+        userID: userID,
+        userSig: userSig
+      }).then(() => {
+        this.loading = false;
+        this.$store.commit('toggleIsLogin', true);
+        this.$store.commit('setRole', 'pusher');
+        let _webLiveSmsLoginInfo = {
+          loginTime: Date.now(),
+          roomID: getHashCode(this.courseId,false).toString(),
+          userSig:userSig,
+          userID: userID,
+          streamID: this.courseId,
+          role: 'player',
+          resolution: '720p'
+        };
+        localStorage.setItem(WEB_LIVE_SMS_LOGIN_INFO, JSON.stringify(_webLiveSmsLoginInfo));
+        let _LoginInfo = localStorage.getItem(WEB_LIVE_SMS_LOGIN_INFO);
+        const LoginInfo = JSON.parse(_LoginInfo);
+        this.$store.commit('setChatInfo', LoginInfo);
+        this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
+        this.$router.push('/pc-player')
       }).catch((err) => {
         this.loading = false;
         console.log(err);

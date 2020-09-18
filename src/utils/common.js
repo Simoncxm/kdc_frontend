@@ -47,7 +47,7 @@ export function getUrlKey(name) {
 
 export function isValidFlv(url) {
   let domian = url.replace(/^https?:\/\/(.*?)(:\d+)?\/.*$/, '$1').toString()
-  return domian === '113575.liveplay.myqcloud.com'
+  return domian === 'courselive.xyz'
 }
 export const isMobileType = {
   Android: function () {

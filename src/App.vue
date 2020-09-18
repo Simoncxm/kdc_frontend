@@ -4,26 +4,58 @@
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style lang="stylus">
+  html {
+    height 100%
+    width 100%
+    overflow hidden
+  }
 
-#nav {
-  padding: 30px;
-}
+  body {
+    margin 0
+    height 100%
+    width 100%
+    overflow hidden
+    background-color #ffffff
+    font-family 'Microsoft YaHei', '微软雅黑', 'MicrosoftJhengHei', 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'STHeiti', 'WenQuanYi Micro Hei', SimSun, sans-serif
+    /*-ms-overflow-style: none;*/
+    /*overflow: auto;*/
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+  }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  #app {
+    height 100%
+    font-family: Roboto, PingFang SC !important;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .vconsole-box {
+    position fixed
+    top 0
+    right 0
+    color #ffffff
+    width 50px
+    height 50px
+    z-index 1001
+  }
+
+  /* 设置滚动条的样式 */
+  ::-webkit-scrollbar {
+    width 0
+    height 0
+  }
+
+  /* 滚动槽 */
+  ::-webkit-scrollbar-track {
+    border-radius 10px
+  }
+
+  /* 滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    border-radius 10px;
+    background rgba(0, 0, 0, 0.1)
+  }
 
 </style>
+
+

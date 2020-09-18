@@ -51,8 +51,8 @@
     data() {
       return {
         options: {
-          flv: 'https://113575.liveplay.myqcloud.com/live/yqtest.flv',
-          m3u8: 'https://113575.liveplay.myqcloud.com/live/yqtest.m3u8',
+          flv: 'https://courselive.xyz/live/yqtest.flv',
+          m3u8: 'https://courselive.xyz/live/yqtest.m3u8',
           autoplay: true,
           width: '100%',
           height: 'auto',

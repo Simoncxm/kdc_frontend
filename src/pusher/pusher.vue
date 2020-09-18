@@ -202,7 +202,7 @@
         let userID = this.chatInfo.userId;
         let userSig = this.chatInfo.userSig;
         let SDKAppID = this.chatInfo.sdkAppID;
-        let liveDomainName = '113575.liveplay.myqcloud.com';
+        let liveDomainName = 'courselive.xyz';
         let streamID = this.chatInfo.streamId;
 
         if (!streamID) {

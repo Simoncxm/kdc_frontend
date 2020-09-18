@@ -5,7 +5,7 @@ function resolve(dir) {
 }
 module.exports = {
   publicPath: '/',
-  assetsDir: '/',
+  assetsDir: './',
   productionSourceMap: false,
   chainWebpack: config => {
     config.resolve.alias
