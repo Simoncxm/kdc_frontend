@@ -185,7 +185,7 @@ export default {
               } else {
                 this.studentList = res.data.list;
               }
-            })
+            });
         }
       }
     });
@@ -218,8 +218,8 @@ export default {
     isEmpty(obj) {
       return typeof obj === 'undefined' || obj === null || obj === '';
     },
-    getHashCode(str,caseSensitive){
-      if(!caseSensitive){
+    getHashCode(str,caseSensitive) {
+      if (!caseSensitive) {
           str = str.toLowerCase();
       }
       // 1315423911=b'1001110011001111100011010100111'
@@ -314,7 +314,7 @@ export default {
         const LoginInfo = JSON.parse(_LoginInfo);
         this.$store.commit('setChatInfo', LoginInfo);
         this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
-        this.$router.push('/pc-player')
+        this.$router.push('/pc-player');
       }).catch((err) => {
         this.loading = false;
         console.log(err);

@@ -190,7 +190,7 @@ export default {
         const LoginInfo = JSON.parse(_LoginInfo);
         this.$store.commit('setChatInfo', LoginInfo);
         this.$store.commit('showMessage', { message: '登录成功', type: 'success' });
-        this.$router.push('/pc-pusher')
+        this.$router.push('/pc-pusher');
       }).catch((err) => {
         this.loading = false;
         console.log(err);

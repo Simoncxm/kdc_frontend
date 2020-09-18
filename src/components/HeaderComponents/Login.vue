@@ -60,6 +60,7 @@ export default {
                 this.$cookies.set('userID', res.data.id);
                 this.$cookies.set('userType', res.data.identity);
                 this.$cookies.set('username', this.loginForm.account);
+                this.$cookies.set('showWelcome', 1);
                 this.$router.go(0);
               }
             });
