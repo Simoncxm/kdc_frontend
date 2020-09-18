@@ -4,7 +4,7 @@
       <div @click="bindTeac(teacher)">
         <el-card :body-style="{ padding: '0px' }">
           <el-col :span="8">
-            <img :src="teacher.pic" alt="..." width="80%" style="float: left" />
+            <img :src="teacher.url" alt="..." width="80%" style="float: left" />
           </el-col>
           <el-col :span="16" class="teacher-info" style="margin-top: 10px;margin-bottom: 10px">
             <p style="font-size: large">{{teacher.name}}</p>

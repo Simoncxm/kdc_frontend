@@ -5,7 +5,7 @@
       <div class="main">
         <el-row :gutter="20" class="el-row" type="flex">
           <el-col :span="10" class="el-col">
-            <img class="avatar" :src="teacher.pic" alt="..." />
+            <img class="avatar" :src="teacher.url" alt="..." />
           </el-col>
           <el-col :span="14" class="el-col">
             <div class="info">
@@ -76,7 +76,6 @@ export default {
         });
       } else {
         this.teacher = res.data.teacher;
-        this.teacher.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/instructor_image/link/0253d4da52e643c98076e7e06110b0c4.png';
       }
     });
     this.$axios.get(`/api/getCourseByTeacherId/?id=${this.teacherId}`).then((res) => {
@@ -88,9 +87,6 @@ export default {
         });
       } else {
         this.courses = res.data.list;
-        this.courses.forEach((e) => {
-          e.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
-        });
       }
     });
   },

@@ -5,7 +5,7 @@
       <div class="main">
         <el-row :gutter="20" class="el-row" type="flex">
           <el-col :span="14" class="el-col">
-            <img style="width: 400px" :src="course.pic" alt="..." />
+            <img style="width: 400px" :src="course.url" alt="..." />
           </el-col>
           <el-col :span="10" class="el-col">
             <div class="info">
@@ -172,7 +172,6 @@ export default {
       } else {
         this.userType = res.data.code;
         this.course = res.data.course;
-        this.course.pic = 'https://gxbfile-gs.gaoxiaobang.com/uploads/course_image/link/1f9ef43fb5214614a1a40144e119e5f3.png';
       }
     });
   },
@@ -312,11 +311,11 @@ export default {
       return row;
     },
     handleAvatarSuccess(uRes, file) {
-      this.this.course.pic = URL.createObjectURL(file.raw);
+      this.this.course.url = URL.createObjectURL(file.raw);
       this.$axios
         .post('/api/uploadCourseCover', {
           courseId: this.courseId,
-          url: this.this.this.course.pic,
+          url: this.this.this.course.url,
         })
         .then((res) => {
           if (res.data.code === -1) {

@@ -4,7 +4,7 @@
       <a class="teacher-card img-hover pointer" @click="bindTeac(teacher)">
         <el-row>
           <el-col :xs="9" class="teacher-pic">
-            <img :src="teacher.pic" alt="..." />
+            <img :src="teacher.url" alt="..." />
           </el-col>
           <el-col :xs="15">
             <div class="text-dark teacher-info">

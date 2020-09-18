@@ -96,18 +96,18 @@ export default {
     if (this.$cookies.isKey('userID')) {
       this.curUserID = this.$cookies.get('userID');
       this.curUserType = this.$cookies.get('userType');
-    }
-    this.$axios.get(`/api/getUnreadNum/?id=${this.curUserID}`).then((res) => {
-      if (res.data.code === -1) {
-        this.$notify({
-          title: '获取未读消息数量失败',
-          message: res.data.msg,
-          type: 'warning',
-        });
-      } else {
-        this.$store.commit('changeNum',res.data.num);
-      }
+      this.$axios.get(`/api/getUnreadNum/?id=${this.curUserID}`).then((res) => {
+        if (res.data.code === -1) {
+          this.$notify({
+            title: '获取未读消息数量失败',
+            message: res.data.msg,
+            type: 'warning',
+          });
+        } else {
+          this.$store.commit('changeNum',res.data.num);
+        }
     });
+    }
   },
   methods: {
     closeApplication() {
