@@ -68,13 +68,13 @@
             </el-tab-pane>
             <el-tab-pane label="学生名单" v-if="userType === 2">
               <el-table
-                :data="course.studentList">
+                :data="studentList">
                 <el-table-column
                   prop="studentID"
                   label="学号">
                 </el-table-column>
                 <el-table-column
-                  prop="studentName"
+                  prop="userName"
                   label="用户名">
                 </el-table-column>
               </el-table>
@@ -142,6 +142,7 @@ export default {
       userId: null,
       courseId: null,
       course: null,
+      studentList: [],
       showUpload: false,
       showImport: false,
       showCover: false,
@@ -172,6 +173,20 @@ export default {
       } else {
         this.userType = res.data.code;
         this.course = res.data.course;
+        if (this.userType === 2) {
+          this.$axios.get(`/api/getStudentByCourseId?id=${this.courseId}`)
+            .then((res) => {
+              if (res.data.code === -1) {
+                this.$notify({
+                  title: '获取课程名单失败',
+                  message: res.data.msg,
+                  type: 'warning',
+                });
+              } else {
+                this.studentList = res.data.list;
+              }
+            })
+        }
       }
     });
   },
