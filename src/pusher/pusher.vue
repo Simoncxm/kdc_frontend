@@ -10,12 +10,11 @@
       <div class="url-box">
         <!--                <div style="width: 50%"><span class="setting-text">流名称:</span><el-input v-model="urLinput" placeholder="请输入流名称"></el-input></div>-->
         <div class="play-url" v-if="isShow_playUrl">
-          <span class="setting-text" style="min-width: 60px">播放地址:</span>
-          <span class="play-text">{{playUrl.flv}}</span>
+          <p style="font-size: 14px">您当前正在直播中......</p>
           <!--                    <img style="height: 22px;margin-left: 5px" src="../assets/image/copy.png"/>-->
         </div>
         <div v-else class="play-url">
-          <p style="font-size: 14px">欢迎使用腾讯云直播互动组件哦~</p>
+          <p style="font-size: 14px">您当前未在直播</p>
         </div>
       </div>
       <el-divider></el-divider>
@@ -51,16 +50,6 @@
           <p class="setting-icon cursor" v-else @click="stopPush">
             <img src="../assets/image/webrtc_pusher_stop.png">
             <span class="pusher-text active">结束直播</span>
-          </p>
-        </div>
-        <div>
-          <p class="setting-icon cursor" v-if="isPlay" @click="playHandler">
-            <img src="../assets/image/unplay.png">
-            <span class="pusher-text">观看直播</span>
-          </p>
-          <p class="setting-icon cursor" v-else @click="playHandler">
-            <img src="../assets/image/play.png">
-            <span class="pusher-text active">观看直播</span>
           </p>
         </div>
       </div>
@@ -224,7 +213,7 @@
           console.log('demo pusher | stopPush | ok');
           this.isPush = true;
           this.pushContent = '开始推流';
-
+          this.isShow_playUrl = false;
         }).catch((error) => {
           console.error('demo pusher | stopPush | failed', error);
         });

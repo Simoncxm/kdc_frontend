@@ -1,35 +1,9 @@
 <template>
   <div>
-    <el-dialog title="编辑个人资料" :visible.sync="showEditMyProfile" width="80%">
-      <el-form v-model="form" label-width="100px">
-        <el-form-item label="头像">
-          <el-input v-model="form.avatar" placeholder="头像地址(URL)"/>
-        </el-form-item>
-        <el-form-item label="昵称">
-          <el-input v-model="form.nick" placeholder="昵称"/>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-                <el-button @click="showEditMyProfile = false">取 消</el-button>
-                <el-button type="primary" @click="setMyProfile">确 定</el-button>
-            </span>
-    </el-dialog>
     <div class="direct-one">
       <div class="direct-security">
         <div class="direct-one-zhibo">
-          <img src="../assets/image/video.png" alt class="picture-png"/>腾讯云 Web 直播互动组件
-        </div>
-        <div class="rel">
-          <el-dropdown @command="handleCommand">
-            <div style="display: flex">
-              <img class="header-img" :src="userInfo.avatar"/>
-              <span class="header-text">{{(!userInfo.nickName || userInfo.nickName === '\'\'' || userInfo.nickName === '""') ? userID : userInfo.nickName }}</span>
-            </div>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="setProfile">修改信息</el-dropdown-item>
-              <el-dropdown-item command="outLogin">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          知识传播社区
         </div>
       </div>
     </div>
