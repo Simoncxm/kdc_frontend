@@ -53,9 +53,6 @@
 
 <script>
 export default {
-  props:[
-    'circleId',
-  ],
   data() {
     return {
       posts: [],
@@ -72,7 +69,7 @@ export default {
     },
   },
   mounted() {
-    this.$axios.get('/api/posts/getAllElitePosts?circleId='+this.circleId+'&userId='+this.$cookies.get('userID')).then((res) => {
+    this.$axios.get('/api/posts/getAllElitePosts?circleId='+this.$route.query.circleId+'&userId='+this.$cookies.get('userID')).then((res) => {
       if (res.data.code === -1) {
         this.$notify({
           title: '获取帖子失败',

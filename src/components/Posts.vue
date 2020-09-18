@@ -6,7 +6,7 @@
         <el-tag v-if="post.isElite==0" class="post-tags">讨论</el-tag>
         <el-tag v-if="post.isElite==1" class="post-tags">精华</el-tag>
         <router-link class="post-title"
-                     :to="{path: '/community/comments', query: {postId: post.id}, }">
+                     :to="{path: '/community/comments', query: {postId: post.id, circleId: $route.query.circleId}, }">
           <span >{{post.title}}</span>
         </router-link>
         <span class="post-name">{{post.user.userName}}</span>
@@ -57,9 +57,6 @@
 
 <script>
 export default {
-  props:[
-      'circleId',
-  ],
 
   data() {
     return {
@@ -105,7 +102,7 @@ export default {
   },
   mounted() {
     console.log(this.circleId);
-    this.$axios.get('/api/posts/getAllPosts?circleId='+this.circleId+'&userId='+this.$cookies.get('userID')).then((res) => {
+    this.$axios.get('/api/posts/getAllPosts?circleId='+this.$route.query.circleId+'&userId='+this.$cookies.get('userID')).then((res) => {
       if (res.data.code === -1) {
         this.$notify({
           title: '获取帖子失败',

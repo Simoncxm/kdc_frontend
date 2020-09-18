@@ -18,21 +18,6 @@
         <span style="margin-left: 10px">{{ scope.row.studentName }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="总学习时长" width="100">
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.totalTime }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="学习次数" width="100">
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.count }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="上次学习时间" width="150">
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.lastLearningTime }}</span>
-      </template>
-    </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button
@@ -100,17 +85,6 @@ export default {
             this.matchAssistants();
           }
         });
-        this.$axios.get('/api/video/getAllProgress?courseId='+this.$route.query.courseId).then((res4) => {
-          if (res4.data.code === -1) {
-            this.$notify({
-              title: '获取学生学习详情失败',
-              message: '',
-              type: 'warning',
-            });
-          } else {
-            this.studyData = res4.data;
-          }
-        });
       }
     });
 
@@ -124,18 +98,6 @@ export default {
           if (x.userId === value.userId) {
             // eslint-disable-next-line no-param-reassign
             value.tag = '助教';
-          }
-        }
-      });
-    },
-    addStudyData() {
-      const that = this;
-      this.tableData.forEach((value) => {
-        for (const x of that.studyData) {
-          if (x.userId === value.userId) {
-            value.totalTime = x.totalTime;
-            value.lastLearningTime = x.lastLearningTime;
-            value.count = x.count;
           }
         }
       });

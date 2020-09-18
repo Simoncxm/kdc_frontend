@@ -190,9 +190,6 @@ export default {
   components: {
     Editor,
   },
-  props: [
-      'circleId',
-  ],
   data() {
     return {
       isClear1: false,
@@ -221,7 +218,7 @@ export default {
     };
   },
   mounted() {
-    this.$axios.get(`/api/posts/getPost?circleId=${this.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
+    this.$axios.get(`/api/posts/getPost?circleId=${this.$route.query.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
       if (res.data.code === -1) {
         this.$notify({
           title: '获取帖子详情失败',
@@ -233,7 +230,7 @@ export default {
         this.post = res.data.post;
       }
     });
-    this.$axios.get(`/api/posts/getAllComments?circleId=${this.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
+    this.$axios.get(`/api/posts/getAllComments?circleId=${this.$route.query.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
       if (res.data.code === -1) {
         this.$notify({
           title: '获取帖子评论失败',
@@ -356,7 +353,7 @@ export default {
       this.replyForm.content = '';
     },
     switchToInelite() {
-      this.$axios.get(`/api/posts/inelite?circleId=${this.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
+      this.$axios.get(`/api/posts/inelite?circleId=${this.$route.query.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
         if (res.data.code === -1) {
           this.$notify({
             title: '取消精华帖失败',
@@ -369,7 +366,7 @@ export default {
       });
     },
     switchToElite() {
-      this.$axios.get(`/api/posts/elite?circleId=${this.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
+      this.$axios.get(`/api/posts/elite?circleId=${this.$route.query.circleId}&postId=${this.$route.query.postId}&userId=${this.$cookies.get('userID')}`).then((res) => {
         if (res.data.code === -1) {
           this.$notify({
             title: '设置精华帖失败',

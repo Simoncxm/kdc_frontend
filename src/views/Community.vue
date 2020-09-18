@@ -13,13 +13,13 @@
         <el-container>
           <el-main>
             <el-row>
-              <el-tabs type="border-card" shadow="never" @change="handleTabChange"
+              <el-tabs type="border-card" shadow="never"
                        v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane label="看帖" name="Posts">
-                  <router-view :circleId="circleId" v-if="isRouterAlive"></router-view>
+                  <router-view v-if="isRouterAlive"></router-view>
                 </el-tab-pane>
                 <el-tab-pane label="精华" name="Elites">
-                  <router-view :circleId="circleId"></router-view>
+                  <router-view></router-view>
                 </el-tab-pane>
                 <el-tab-pane v-if="isTeacher==1" label="助教管理" name="CommunityManage">
                   <CommunityManage :circle-id="circleId"></CommunityManage>
@@ -46,7 +46,7 @@
                   </div>
                   <div>
                     <span>{{ rules }}</span>
-                    <AlterRule :circle-id="circleId"></AlterRule>
+                    <AlterRule v-if="isTeacher==1" :circle-id="circleId"></AlterRule>
 <!--                    v-if=助教-->
                   </div>
                 </el-card>
@@ -131,20 +131,7 @@ export default {
     };
   },
   created() {
-    const courseId = this.$route.query.courseId;
-    this.$axios.get('/api/circle/courseToCircle?courseId='+ courseId).then((res) =>{
-      if (res.data.code === -1) {
-        this.$notify({
-          title: '获取circleId失败',
-          message: '',
-          type: 'warning',
-        });
-      } else {
-        this.circleId = res.data.circleId;
-      }
-    });
-  },
-  mounted() {
+    this.circleId = this.$route.query.circleId;
     this.$axios.get('/api/circle/getRules?circleId='+this.circleId+'&userId='+this.$cookies.get('userID')).then((res) => {
       if (res.data.code === -1) {
         this.$notify({
@@ -209,11 +196,8 @@ export default {
     },
     handleTabClick(val) {
       if(val.name !== 'CommunityManage') {
-        this.$router.push({ name: val.name });
+        this.$router.push({ name: val.name, query:{ circleId: this.$route.query.circleId } });
       }
-    },
-    handleTabChange(val) {
-      this.$router.push({ name: val.name });
     },
   },
 };

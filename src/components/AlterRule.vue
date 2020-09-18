@@ -64,6 +64,7 @@ export default {
           this.resetForm();
           this.alterRuleVisible = false;
           this.reloadAll();
+          this.$router.go(0);
         }
       });
     },

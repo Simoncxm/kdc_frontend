@@ -78,6 +78,12 @@
                   prop="userName"
                   label="用户名">
                 </el-table-column>
+                <el-table-column label="总学习时长" prop="totalTime" width="100">
+                </el-table-column>
+                <el-table-column label="学习次数" prop="count" width="100">
+                </el-table-column>
+                <el-table-column label="上次学习时间" prop="lastLearningTime" width="150">
+                </el-table-column>
               </el-table>
             </el-tab-pane>
           </el-tabs>
@@ -142,8 +148,10 @@ export default {
       userType: 1,
       userId: null,
       courseId: null,
+      circleId: null,
       course: null,
       studentList: [],
+      studyData: [],
       showUpload: false,
       showImport: false,
       showCover: false,
@@ -185,9 +193,33 @@ export default {
                 });
               } else {
                 this.studentList = res.data.list;
+                this.$axios.get('/api/video/getAllProgress?courseId='+this.courseId).then((res4) => {
+                  if (res4.data.code === -1) {
+                    this.$notify({
+                      title: '获取学生学习详情失败',
+                      message: '',
+                      type: 'warning',
+                    });
+                  } else {
+                    this.studyData = res4.data;
+                    this.addStudyData();
+                  }
+                });
               }
             });
+          
         }
+      }
+    });
+    this.$axios.get('/api/circle/courseToCircle?courseId='+ this.courseId).then((res) =>{
+      if (res.data.code === -1) {
+        this.$notify({
+          title: '获取circleId失败',
+          message: '',
+          type: 'warning',
+        });
+      } else {
+        this.circleId = res.data;
       }
     });
   },
@@ -361,8 +393,20 @@ export default {
       return isPIC && isLt2M;
     },
     community() {
-      this.$router.push(`/community/?courseId=${this.courseId}`);
-    }
+      this.$router.push(`/community/?circleId=${this.circleId}`);
+    },
+    addStudyData() {
+      const that = this;
+      this.studentList.forEach((value) => {
+        for (const x of that.studyData) {
+          if (x.userId === value.id) {
+            value.totalTime = x.totalTime;
+            value.lastLearningTime = x.lastLearningTime;
+            value.count = x.count;
+          }
+        }
+      });
+    },
   },
 };
 </script>
