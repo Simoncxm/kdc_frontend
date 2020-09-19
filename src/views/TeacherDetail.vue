@@ -5,7 +5,7 @@
       <div class="main">
         <el-row :gutter="20" class="el-row" type="flex">
           <el-col :span="10" class="el-col">
-            <img class="avatar" :src="teacher.url" alt="..." />
+            <img :style="width: 400px" :src="teacher.url" alt="..." />
           </el-col>
           <el-col :span="14" class="el-col">
             <div class="info">
@@ -131,9 +131,5 @@ export default {
   text-align: left;
   color: #333;
   font-size: 20px;
-}
-
-.avatar {
-  border-radius: 50%;
 }
 </style>

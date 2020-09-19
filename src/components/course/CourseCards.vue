@@ -10,7 +10,6 @@
             <p style="font-size: large">{{course.name}}</p>
             <p>指导老师：{{course.teacherName}}</p>
             <p>课程时间：{{course.term}}</p>
-            <p>已有{{course.studentList.length}}人参加</p>
             <el-divider></el-divider>
             <p style="color: #2c3e50">{{course.synopsis}}</p>
           </el-col>
